@@ -1,0 +1,25 @@
+Fichiers nécessaires:
+=====================
+
+→ entities.c    :   récupère les champions, armes, ...
+→ combat.c      :   gère les rounds du jeu (choix d'actions, ...)
+→ console.c     :   gère l'affichage console
+→ commandes.c   :   gère l'interpréteur de commande
+
+
+Etapes :
+========
+
+1. attente commande "fight v versus f"
+    Pour chaque concurent :
+    1. attend une action (move, use, end, show)
+    move :
+        - 
+    use :
+        -
+    end :
+        - 
+    show :
+        -
+
+    2. idem pour le 2e joueur
