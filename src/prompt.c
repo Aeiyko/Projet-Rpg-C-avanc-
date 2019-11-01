@@ -11,25 +11,29 @@ void prompt_show(){
   }
   else{
     int i;
+    int bool=0;
     char *arg1[NB_ARGS]={"vegetables","fruits","weapons","protections","cares"};
     char *arg2[NB_ARGS]={"vegetable","fruit","weapon","protection","care"};
       for(i=0;i<NB_ARGS;i++){
         if(strcmp(ma_commande[1],arg1[i])==0){
           if(ma_commande[2] == NULL)printf("%s %s\n",ma_commande[0],ma_commande[1]);
           else printf("ERROR : invalid command\n");
+          bool=1;
         }
       }
       for(i=0;i<NB_ARGS;i++)
         if(strcmp(ma_commande[1],arg2[i])==0){
+          bool=1;
           if(ma_commande[2] == NULL)printf("%s %s 0\n",ma_commande[0],ma_commande[1]);
-          else if((!atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)||atoi(ma_commande[2])<0)printf("ERROR : invalid command\n");
+          else if((!atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)||atoi(ma_commande[2])<0 || ma_commande[3]!=NULL)printf("ERROR : invalid command\n");
           else printf("%s %s %s\n",ma_commande[0],ma_commande[1],ma_commande[2]);
         }
+      if(!bool)printf("ERROR : invalid command\n");
     }
   }
 
 void prompt_fight(){
-  if(ma_commande[1]!=NULL && strcmp(ma_commande[2],"versus")==0 && ma_commande[3]!=NULL) {
+  if(ma_commande[1]!=NULL && strcmp(ma_commande[2],"versus")==0 && ma_commande[3]!=NULL && ma_commande[4]==NULL) {
     printf("Combat lancé entre %s et %s\n",ma_commande[1],ma_commande[3]);
   }
   else printf("ERROR : invalid command\n");
@@ -39,14 +43,15 @@ void prompt_move(){
   if(ma_commande[1]==NULL) printf("Error : invalid command\n");
   else if((strcmp(ma_commande[1],"forward")==0 ||strcmp(ma_commande[1],"backward")==0)){
       if(ma_commande[2] == NULL) printf("%s %s %d\n",ma_commande[0],ma_commande[1],1);
-      else if(ma_commande[2]==NULL ||(!atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)||(ma_commande[2]!=NULL && atoi(ma_commande[2])<0)) printf("Error : invalid command\n");
+      else if(ma_commande[2]==NULL ||(!atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)||(ma_commande[2]!=NULL && atoi(ma_commande[2])<0)||ma_commande[3]!=NULL) printf("Error : invalid command\n");
       else printf("%s %s %s\n",ma_commande[0],ma_commande[1],ma_commande[2]);
     }
+  else printf("ERROR : invalid command\n");
 }
 
 void prompt_use(){
   if(ma_commande[1]!=NULL &&(strcmp(ma_commande[1],"weapon")==0||strcmp(ma_commande[1],"care")==0)){
-      if((ma_commande[2] !=NULL && !atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)||(ma_commande[2]!=NULL&&atoi(ma_commande[2])<0)){
+      if((ma_commande[2] !=NULL && !atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)||(ma_commande[2]!=NULL&&atoi(ma_commande[2])<0)||ma_commande[3]!=NULL){
         printf("ERROR : invalid command\n");
       }
       else if(ma_commande[2] == NULL){
@@ -62,7 +67,8 @@ void prompt_use(){
 }
 
 void prompt_end(){
-  printf("End of your turn\n");
+  if(ma_commande[1]!=NULL)printf("ERROR : invalid command\n");
+  else printf("End of your turn\n");
 }
 
 
