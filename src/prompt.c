@@ -15,14 +15,14 @@ void prompt_show(){
     char *arg2[NB_ARGS]={"vegetable","fruit","weapon","protection","care"};
       for(i=0;i<NB_ARGS;i++){
         if(strcmp(ma_commande[1],arg1[i])==0){
-          if(ma_commande[2] == NULL)printf("%s %s\n","show",ma_commande[1]);
+          if(ma_commande[2] == NULL)printf("%s %s\n",ma_commande[0],ma_commande[1]);
           else printf("ERROR : invalid command\n");
         }
       }
       for(i=0;i<NB_ARGS;i++)
         if(strcmp(ma_commande[1],arg2[i])==0){
           if(ma_commande[2] == NULL)printf("%s %s 0\n",ma_commande[0],ma_commande[1]);
-          else if(!atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)printf("ERROR : invalid command\n");
+          else if((!atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)||atoi(ma_commande[2])<0)printf("ERROR : invalid command\n");
           else printf("%s %s %s\n",ma_commande[0],ma_commande[1],ma_commande[2]);
         }
     }
@@ -38,15 +38,15 @@ void prompt_fight(){
 void prompt_move(){
   if(ma_commande[1]==NULL) printf("Error : invalid command\n");
   else if((strcmp(ma_commande[1],"forward")==0 ||strcmp(ma_commande[1],"backward")==0)){
-      if(ma_commande[2]==NULL ||(!atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)) printf("Error : invalid command\n");
-      else if(ma_commande[2] == NULL) printf("%s %s %d\n",ma_commande[0],ma_commande[1],1);
+      if(ma_commande[2] == NULL) printf("%s %s %d\n",ma_commande[0],ma_commande[1],1);
+      else if(ma_commande[2]==NULL ||(!atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)||(ma_commande[2]!=NULL && atoi(ma_commande[2])<0)) printf("Error : invalid command\n");
       else printf("%s %s %s\n",ma_commande[0],ma_commande[1],ma_commande[2]);
     }
 }
 
 void prompt_use(){
   if(ma_commande[1]!=NULL &&(strcmp(ma_commande[1],"weapon")==0||strcmp(ma_commande[1],"care")==0)){
-      if(ma_commande[2] !=NULL && !atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0){
+      if((ma_commande[2] !=NULL && !atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)||(ma_commande[2]!=NULL&&atoi(ma_commande[2])<0)){
         printf("ERROR : invalid command\n");
       }
       else if(ma_commande[2] == NULL){
@@ -107,6 +107,7 @@ void prompt(Commande cmd){
 int rangecommand(char *cmd){
   int i=1,fin=0;
   ma_commande[0]=strtok(cmd," \n");
+  if(ma_commande[0] == NULL)return 0;
   while(!fin){
     ma_commande[i]=strtok(NULL," \n");
     if(ma_commande[i] == NULL)fin=1;
