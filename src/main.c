@@ -13,12 +13,8 @@ int main(int argc, char **argv)
     int fini = 0;
 
     while (!fini) {
-<<<<<<< HEAD
-        affichePrompt(jeu);
-=======
-        maj_affichage(jeu);
-        affichePrompt(&fini);
->>>>>>> 5157fe395d80cb85a28adced85c1a332bb8242a2
+        /*maj_affichage(jeu);*/
+        affichePrompt(jeu, &fini);
     }
 
     freeJeu(&jeu);
