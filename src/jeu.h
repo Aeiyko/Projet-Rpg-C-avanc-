@@ -39,6 +39,8 @@ typedef struct {
     Joueur* fruit;
     Joueur* legume;
 
+    Joueur* courant;
+
     Champion** champs;
     Arme** armes;
     Protection** protects;

@@ -1,12 +1,12 @@
 #include "jeu.h"
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
 Equipement* initEquipement(Arme* arme, Protection* protect, Soin* soin)
 {
     Equipement* equip = (Equipement*)malloc(sizeof(Equipement));
-    
+
     equip->arme = arme;
     equip->protect = protect;
     equip->soin = soin;
@@ -47,6 +47,7 @@ Jeu* initJeu(int ce_start, int c_max)
 {
     Jeu* jeu = (Jeu*)malloc(sizeof(Jeu));
     jeu->fruit = initJoueur(ce_start, c_max);
+    jeu->courant = jeu->fruit;
     jeu->legume = initJoueur(ce_start, c_max);
     jeu->champs = initChamps();
     jeu->armes = initArmes();

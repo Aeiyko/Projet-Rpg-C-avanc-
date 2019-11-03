@@ -12,7 +12,7 @@ int main(int argc, char **argv)
     int fini = 0;
 
     while (!fini) {
-        affichePrompt();
+        affichePrompt(jeu);
     }
 
     freeJeu(&jeu);

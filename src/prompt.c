@@ -1,13 +1,15 @@
 #include "prompt.h"
+#include "jeu.h"
+#include "commandes.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 char *ma_commande[L_CMD];
 
-void prompt_show(){
+void prompt_show(Jeu *jeu){
   if(ma_commande[1] == NULL){
-    printf("%s\n",ma_commande[0]);
+    show(jeu);
   }
   else{
     int i;
@@ -16,7 +18,7 @@ void prompt_show(){
     char *arg2[NB_ARGS]={"vegetable","fruit","weapon","protection","care"};
       for(i=0;i<NB_ARGS;i++){
         if(strcmp(ma_commande[1],arg1[i])==0){
-          if(ma_commande[2] == NULL)printf("%s %s\n",ma_commande[0],ma_commande[1]);
+          if(ma_commande[2] == NULL)show_vars(jeu,ma_commande[1]);
           else printf("ERROR : invalid command\n");
           bool=1;
         }
@@ -81,11 +83,11 @@ Commande strToCmd(){
   return i;
 }
 
-void prompt(Commande cmd){
+void prompt(Commande cmd,Jeu *jeu){
   char *tmp;
   switch (cmd) {
     case SHOW:
-      prompt_show();
+      prompt_show(jeu);
       break;
     case FIGHT:
       prompt_fight();
@@ -100,7 +102,7 @@ void prompt(Commande cmd){
       prompt_end();
       break;
     case EXIT:
-      exit(0);
+      printf("je sors");
       break;
     case ERROR:
     default:
@@ -123,12 +125,12 @@ int rangecommand(char *cmd){
   return 1;
 }
 
-void affichePrompt(){
+void affichePrompt(Jeu *jeu){
   char *commande = (char *)malloc(sizeof(char)*L_CMD);
   printf("> ");
   size_t entier=10;
   getline(&commande,&entier,stdin);
   if(!rangecommand(commande))printf("ERROR : invalid command\n");
-  else prompt(strToCmd());
+  else prompt(strToCmd(),jeu);
   free(commande);
 }
