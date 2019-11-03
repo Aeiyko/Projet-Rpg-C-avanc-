@@ -1,5 +1,6 @@
 #include "jeu.h"
 #include "prompt.h"
+#include "affichage.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -12,7 +13,8 @@ int main(int argc, char **argv)
     int fini = 0;
 
     while (!fini) {
-        affichePrompt();
+        maj_affichage(jeu);
+        affichePrompt(&fini);
     }
 
     freeJeu(&jeu);
