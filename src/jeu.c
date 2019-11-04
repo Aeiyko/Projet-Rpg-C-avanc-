@@ -30,7 +30,7 @@ Champion* initChamp(char* variete, Type type, int force, int resist, int pv_max,
     return champ;
 }
 
-Joueur* initJoueur(int ce_start, int c_max,int pos)
+Joueur* initJoueur(int ce_start, int c_max, int pos)
 {
     Joueur* joueur = (Joueur*)malloc(sizeof(Joueur));
     joueur->ce_max = c_max;
@@ -59,7 +59,7 @@ Jeu* initJeu(int ce_start, int c_max)
     return jeu;
 }
 
-// Initialisation en brut.
+/* Initialisation en brut */
 
 Champion** initChamps()
 {
@@ -82,7 +82,7 @@ Champion** initChamps()
     return champs;
 }
 
-// Free de la mémoire
+/* Free de la mémoire */
 
 void freeChamps(Champion*** champs)
 {

@@ -91,29 +91,29 @@ void show_var_i(Jeu *jeu,char *arg,int i){
     }
 }
 
-void fight(Jeu *jeu){
-}
+/*void fight(Jeu *jeu){*/
+/*}*/
 
 void move(Jeu *jeu,char *dir,int n){
   if(jeu->fruit == jeu->courant){
-    if(strcmp(dir,"forward")==0 && jeu->courant->ca-n >=0){
-      jeu->ca-=n;
-      jeu->courant->pos+=n;
+    if(strcmp(dir,"forward") == 0 && jeu->courant->ca - n >= 0){
+      jeu->courant->ca -= n;
+      jeu->courant->pos += n;
     }
-    else if(strcmp(dir,"backward" && jeu->courant->ca-n >=0)==0){
-      jeu->ca-=n;
+    else if(strcmp(dir,"backward") == 0 && jeu->courant->ca - n >= 0){
+      jeu->courant->ca-=n;
       jeu->courant->pos-=n;
     }
     else printf("Error : invalid command\n");
   }
   else{
     if(strcmp(dir,"forward")==0 && jeu->courant->ca-n >=0){
-      jeu->ca-=n;
+      jeu->courant->ca-=n;
       jeu->courant->pos-=n;
     }
     else if(strcmp(dir,"backward")==0 && jeu->courant->ca-n >=0){
-      jeu->ca-=n;
-      jeu->courant->pos+n;
+      jeu->courant->ca -= n;
+      jeu->courant->pos += n;
     }
     else printf("Error : invalid command\n");
   }
