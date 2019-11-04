@@ -13,10 +13,12 @@ int main(int argc, char **argv)
     int fini = 0;
 
     while (!fini) {
-        /*maj_affichage(jeu);*/
+        maj_affichage(jeu);
         affichePrompt(jeu, &fini);
     }
 
+    clear();
+    /* TODO : print message de fin */
     freeJeu(&jeu);
     return (0);
 }
