@@ -30,7 +30,7 @@ Champion* initChamp(char* variete, Type type, int force, int resist, int pv_max,
     return champ;
 }
 
-Joueur* initJoueur(int ce_start, int c_max)
+Joueur* initJoueur(int ce_start, int c_max,int pos)
 {
     Joueur* joueur = (Joueur*)malloc(sizeof(Joueur));
     joueur->ce_max = c_max;
@@ -39,6 +39,7 @@ Joueur* initJoueur(int ce_start, int c_max)
     joueur->ca = c_max;
     joueur->champ = NULL;
     joueur->equip = NULL;
+    joueur->pos=pos;
 
     return joueur;
 }
@@ -46,9 +47,10 @@ Joueur* initJoueur(int ce_start, int c_max)
 Jeu* initJeu(int ce_start, int c_max)
 {
     Jeu* jeu = (Jeu*)malloc(sizeof(Jeu));
-    jeu->fruit = initJoueur(ce_start, c_max);
+    jeu->fruit = initJoueur(ce_start, c_max,0);
     jeu->courant = jeu->fruit;
-    jeu->legume = initJoueur(ce_start, c_max);
+    jeu->combat=0;
+    jeu->legume = initJoueur(ce_start, c_max,42);
     jeu->champs = initChamps();
     jeu->armes = initArmes();
     jeu->protects = initProtections();

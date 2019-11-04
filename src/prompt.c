@@ -23,9 +23,9 @@ void prompt_show(Jeu *jeu){
         }
         for(i=0;i<NB_ARGS;i++)
             if(strcmp(ma_commande[1],arg2[i])==0){
-                if(ma_commande[2] == NULL)printf("%s %s 0\n",ma_commande[0],ma_commande[1]);
+                if(ma_commande[2] == NULL)show_var_i(jeu,ma_commande[1],0);
                 else if((!atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)||atoi(ma_commande[2])<0 || ma_commande[3]!=NULL)printf("ERROR : invalid command\n");
-                else printf("%s %s %s\n",ma_commande[0],ma_commande[1],ma_commande[2]);
+                else show_var_i(jeu,ma_commande[1],atoi(ma_commande[2]));
             }
     }
 }

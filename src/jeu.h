@@ -33,6 +33,7 @@ typedef struct {
     int ca;
     Champion *champ;
     Equipement* equip;
+    int pos;
 } Joueur;
 
 typedef struct {
@@ -40,6 +41,7 @@ typedef struct {
     Joueur* legume;
 
     Joueur* courant;
+    int combat;
 
     Champion** champs;
     Arme** armes;
