@@ -1,12 +1,16 @@
 #include "commandes.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <math.h>
 
 void show(Jeu *jeu){
   printf("\t--- %s ---\n",jeu->courant->champ->variete);
-  printf("%s\n",jeu->courant->equip->arme->nom);
-  printf("%s\n",jeu->courant->equip->protect->nom);
-  printf("%s\n",jeu->courant->equip->soin->nom);
+  printf("Arme : %s\n",jeu->courant->equip->arme->nom);
+  printf("Protection : %s\n",jeu->courant->equip->protect->nom);
+  printf("Soin : %s\n",jeu->courant->equip->soin->nom);
+  printf("Position : %d\n",jeu->courant->pos);
   printf("\t-------------\n");
 }
 
@@ -96,25 +100,62 @@ void show_var_i(Jeu *jeu,char *arg,int i){
 
 void move(Jeu *jeu,char *dir,int n){
   if(jeu->fruit == jeu->courant){
-    if(strcmp(dir,"forward") == 0 && jeu->courant->ca - n >= 0){
+    if(strcmp(dir,"forward") == 0 && jeu->courant->ca - n >= 0 && jeu->courant->pos+n <= jeu->legume->pos){
       jeu->courant->ca -= n;
       jeu->courant->pos += n;
     }
-    else if(strcmp(dir,"backward") == 0 && jeu->courant->ca - n >= 0){
-      jeu->courant->ca-=n;
+    else if(strcmp(dir,"backward") == 0 && jeu->courant->ca - n >= 0 && jeu->courant->pos-n>0){
+      jeu->courant->ca = jeu->courant->ca-(n*2);
       jeu->courant->pos-=n;
     }
     else printf("Error : invalid command\n");
   }
   else{
-    if(strcmp(dir,"forward")==0 && jeu->courant->ca-n >=0){
+    if(strcmp(dir,"forward")==0 && jeu->courant->ca-n >=0  && jeu->courant->pos-n >= jeu->fruit->pos){
       jeu->courant->ca-=n;
       jeu->courant->pos-=n;
     }
-    else if(strcmp(dir,"backward")==0 && jeu->courant->ca-n >=0){
-      jeu->courant->ca -= n;
+    else if(strcmp(dir,"backward")==0 && jeu->courant->ca-n >=0  && jeu->courant->pos+n>42){
+      jeu->courant->ca = jeu->courant->ca-(n*2);
       jeu->courant->pos += n;
     }
     else printf("Error : invalid command\n");
+  }
+}
+
+void use_weapon(Jeu *jeu,int n){
+  srand(time(NULL));
+  int cout=n*jeu->courant->equip->arme->ca;
+  int somme=0,random;
+  if(cout>jeu->courant->ca)sprintf(jeu->message,"ERROR : invalid command\n");
+  else{
+    jeu->courant->ca-=cout;
+    Joueur *adversaire;
+    if(jeu->courant == jeu->fruit)adversaire = jeu->legume;
+    else adversaire = jeu->fruit;
+    if(jeu->courant->equip->arme->portee <= fabs(adversaire->pos - jeu->courant->pos)){
+      while(n>0){
+        if((adversaire->bouclier==1 && (rand()%100)+1>adversaire->equip->protect->prob)||adversaire->bouclier==0){
+          random=rand()%(jeu->courant->equip->arme->d_max+1-jeu->courant->equip->arme->d_min)+jeu->courant->equip->arme->d_min;
+          somme+= random;
+          somme+=jeu->courant->champ->force;
+          somme-=adversaire->champ->resist;
+        }
+        n--;
+      }
+    }
+  }
+}
+
+void end(Jeu *jeu){
+  if(jeu->courant == jeu->fruit){
+    sprintf(jeu->message,"Fin du tour du fruit\n");
+    jeu->courant = jeu->legume;
+    jeu->legume->bouclier = 0;
+  }
+  else{
+    sprintf(jeu->message,"Fin du tour du légume\n");
+    jeu->courant = jeu->fruit;
+    jeu->fruit->bouclier = 0;
   }
 }
