@@ -35,6 +35,7 @@ typedef struct {
     Champion *champ;
     Equipement* equip;
     int pos;
+    int bouclier;
 } Joueur;
 
 typedef struct {

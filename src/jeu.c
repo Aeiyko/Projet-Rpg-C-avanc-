@@ -40,6 +40,7 @@ Joueur* initJoueur(int ce_start, int c_max, int pos)
     joueur->champ = NULL;
     joueur->equip = NULL;
     joueur->pos=pos;
+    joueur->bouclier=0;
 
     return joueur;
 }
