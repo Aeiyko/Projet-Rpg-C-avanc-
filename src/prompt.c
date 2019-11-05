@@ -68,7 +68,7 @@ void prompt_use(Jeu* jeu){
 void prompt_end(Jeu* jeu){
     if(ma_commande[1]!=NULL) sprintf(jeu->message, MERROR "invalid command");
     else end(jeu);
-    //sprintf(jeu->message, "End of your turn");
+    /*sprintf(jeu->message, "End of your turn");*/
 }
 
 Commande strToCmd(){
@@ -125,9 +125,9 @@ int rangecommand(char *cmd){
 
 void affichePrompt(Jeu *jeu){
   char *commande = (char *)malloc(sizeof(char)*L_CMD);
+  size_t entier = 10;
   printf("> ");
-  size_t entier=10;
-  getline(&commande,&entier,stdin);
+  getline(&commande, &entier, stdin);
   if(!rangecommand(commande)) sprintf(jeu->message, MERROR "invalid command");
   else prompt(strToCmd(), jeu);
   free(commande);

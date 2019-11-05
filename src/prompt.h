@@ -3,6 +3,8 @@
 
 #include "jeu.h"
 
+#define _GNU_SOURCE
+
 #define L_CMD 5
 #define NB_CMD 7
 #define NB_ARGS 5

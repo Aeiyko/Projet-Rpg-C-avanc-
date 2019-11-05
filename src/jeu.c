@@ -89,7 +89,8 @@ Champion** initChamps()
 
 void freeChamps(Champion*** champs)
 {
-    for (int i = 0; i < NB_CHAMPS; i++) {
+    int i;
+    for (i = 0; i < NB_CHAMPS; i++) {
         free((*champs)[i]->variete);
         free((*champs)[i]);
     }

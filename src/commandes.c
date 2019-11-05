@@ -125,13 +125,15 @@ void move(Jeu *jeu,char *dir,int n){
 }
 
 void use_weapon(Jeu *jeu,int n){
-  srand(time(NULL));
-  int cout=n*jeu->courant->equip->arme->ca;
+  int cout = n * jeu->courant->equip->arme->ca;
   int somme=0,random;
-  if(cout>jeu->courant->ca)sprintf(jeu->message,"ERROR : invalid command\n");
+
+  srand(time(NULL));
+
+  if (cout > jeu->courant->ca) sprintf(jeu->message, MERROR "invalid command");
   else{
-    jeu->courant->ca-=cout;
     Joueur *adversaire;
+    jeu->courant->ca -= cout;
     if(jeu->courant == jeu->fruit)adversaire = jeu->legume;
     else adversaire = jeu->fruit;
     if(jeu->courant->equip->arme->portee <= fabs(adversaire->pos - jeu->courant->pos)){

@@ -49,7 +49,7 @@ Soin* initSoin(char *nom, int ce, int ca, int volume, int hp_min, int hp_max)
     return soin;
 }
 
-// Initialisations en brut.
+/* Initialisations en brut.*/
 
 Arme** initArmes()
 {
@@ -84,11 +84,12 @@ Soin** initSoins()
     return soins;
 }
 
-// Free de la mémoire
+/* Free de la mémoire*/
 
 void freeArmes(Arme*** armes)
 {
-    for (int i = 0; i < NB_ARMES; i++) {
+    int i;
+    for (i = 0; i < NB_ARMES; i++) {
         free((*armes)[i]->nom);
         free((*armes)[i]);
     }
@@ -97,7 +98,8 @@ void freeArmes(Arme*** armes)
 
 void freeProtections(Protection*** protects)
 {
-    for (int i = 0; i < NB_PROTECTS; i++) {
+    int i;
+    for (i = 0; i < NB_PROTECTS; i++) {
         free((*protects)[i]->nom);
         free((*protects)[i]);
     }
@@ -106,7 +108,8 @@ void freeProtections(Protection*** protects)
 
 void freeSoins(Soin*** soins)
 {
-    for (int i = 0; i < NB_SOINS; i++) {
+    int i;
+    for (i = 0; i < NB_SOINS; i++) {
         free((*soins)[i]->nom);
         free((*soins)[i]);
     }
