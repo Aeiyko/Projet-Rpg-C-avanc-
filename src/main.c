@@ -10,15 +10,15 @@
 int main(int argc, char **argv)
 {
     Jeu* jeu = initJeu(CE_START, C_MAX);
-    int fini = 0;
 
-    while (!fini) {
+    while (!(jeu->fin)) {
         maj_affichage(jeu);
-        affichePrompt(jeu, &fini);
+        affichePrompt(jeu);
     }
 
     clear();
-    /* TODO : print message de fin */
+    printf("\nCrédits : Alexis SALVETTI && Jordan HERENG\n\n");
     freeJeu(&jeu);
+
     return (0);
 }

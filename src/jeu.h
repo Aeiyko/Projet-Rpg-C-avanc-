@@ -3,7 +3,7 @@
 
 #include "equipement.h"
 
-#define L_MESS 100
+#define L_MESSAGE 100
 #define NB_CHAMPS 12
 
 typedef enum { LEGUME, FRUIT } Type;
@@ -48,6 +48,9 @@ typedef struct {
     Arme** armes;
     Protection** protects;
     Soin** soins;
+
+    char* message;
+    int fin;
 } Jeu;
 
 /*

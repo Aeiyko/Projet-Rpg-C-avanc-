@@ -9,8 +9,8 @@
 
 typedef enum{SHOW,FIGHT,MOVE,USE,END,EXIT,ERROR}Commande;
 
-void affichePrompt(Jeu* jeu, int* term);
-void prompt(Commande cmd, Jeu* jeu, int* term);
+void affichePrompt(Jeu* jeu);
+void prompt(Commande cmd, Jeu* jeu);
 
 
 #endif

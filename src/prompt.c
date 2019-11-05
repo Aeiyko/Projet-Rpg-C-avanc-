@@ -1,6 +1,7 @@
 #include "prompt.h"
 #include "jeu.h"
 #include "commandes.h"
+#include "affichage.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,55 +19,55 @@ void prompt_show(Jeu *jeu){
         for(i=0;i<NB_ARGS;i++){
             if(strcmp(ma_commande[1],arg1[i])==0){
                 if(ma_commande[2] == NULL)show_vars(jeu,ma_commande[1]);
-                else printf("ERROR : invalid command\n");
+                else sprintf(jeu->message, MERROR "invalid command");
             }
         }
         for(i=0;i<NB_ARGS;i++)
-            if(strcmp(ma_commande[1],arg2[i])==0){
-                if(ma_commande[2] == NULL)show_var_i(jeu,ma_commande[1],0);
-                else if((!atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)||atoi(ma_commande[2])<0 || ma_commande[3]!=NULL)printf("ERROR : invalid command\n");
-                else show_var_i(jeu,ma_commande[1],atoi(ma_commande[2]));
+            if(strcmp(ma_commande[1], arg2[i]) == 0) {
+                if(ma_commande[2] == NULL) show_var_i(jeu, ma_commande[1], 0);
+                else if((!atoi(ma_commande[2]) && strcmp(ma_commande[2],"0") != 0) || atoi(ma_commande[2]) < 0 || ma_commande[3] != NULL) sprintf(jeu->message, MERROR "invalid command");
+                else show_var_i(jeu, ma_commande[1], atoi(ma_commande[2]));
             }
     }
 }
 
-void prompt_fight(){
+void prompt_fight(Jeu* jeu){
     if(ma_commande[1]!=NULL && strcmp(ma_commande[2],"versus")==0 && ma_commande[3]!=NULL && ma_commande[4]==NULL) {
-        printf("Combat lancé entre %s et %s\n",ma_commande[1],ma_commande[3]);
+        sprintf(jeu->message, "Combat lancé entre %s et %s", ma_commande[1], ma_commande[3]);
     }
-    else printf("ERROR : invalid command\n");
+    else sprintf(jeu->message, MERROR "invalid command");
 }
 
-void prompt_move(){
-    if(ma_commande[1]==NULL) printf("Error : invalid command\n");
+void prompt_move(Jeu* jeu){
+    if(ma_commande[1]==NULL) sprintf(jeu->message, MERROR "invalid command");
     else if((strcmp(ma_commande[1],"forward")==0 ||strcmp(ma_commande[1],"backward")==0)){
-        if(ma_commande[2] == NULL) printf("%s %s %d\n",ma_commande[0],ma_commande[1],1);
-        else if(ma_commande[2]==NULL ||(!atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)||(ma_commande[2]!=NULL && atoi(ma_commande[2])<0)||ma_commande[3]!=NULL) printf("Error : invalid command\n");
-        else printf("%s %s %s\n",ma_commande[0],ma_commande[1],ma_commande[2]);
+        if(ma_commande[2] == NULL) sprintf(jeu->message, "%s %s %d",ma_commande[0],ma_commande[1],1);
+        else if(ma_commande[2]==NULL ||(!atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)||(ma_commande[2]!=NULL && atoi(ma_commande[2])<0)||ma_commande[3]!=NULL) printf(jeu->message, MERROR "invalid command");
+        else sprintf(jeu->message, "%s %s %s", ma_commande[0], ma_commande[1], ma_commande[2]);
     }
-    else printf("ERROR : invalid command\n");
+    else sprintf(jeu->message, MERROR "invalid command");
 }
 
-void prompt_use(){
+void prompt_use(Jeu* jeu){
     if(ma_commande[1]!=NULL &&(strcmp(ma_commande[1],"weapon")==0||strcmp(ma_commande[1],"care")==0)){
         if((ma_commande[2] !=NULL && !atoi(ma_commande[2]) && strcmp(ma_commande[2],"0")!=0)||(ma_commande[2]!=NULL&&atoi(ma_commande[2])<0)||ma_commande[3]!=NULL){
-            printf("ERROR : invalid command\n");
+            sprintf(jeu->message, MERROR "invalid command");
         }
         else if(ma_commande[2] == NULL){
-            printf("%s %s 0\n",ma_commande[0],ma_commande[1]);
+            sprintf(jeu->message, "%s %s 0", ma_commande[0], ma_commande[1]);
         }
-        else printf("%s %s %s\n",ma_commande[0],ma_commande[1],ma_commande[2]);
+        else sprintf(jeu->message, "%s %s %s", ma_commande[0], ma_commande[1], ma_commande[2]);
     }
     else if(ma_commande[1]!=NULL &&(strcmp(ma_commande[1],"protection")==0)){
-        if(ma_commande[2]!=NULL)printf("ERROR : invalid command\n");
+        if(ma_commande[2]!=NULL) sprintf(jeu->message, MERROR "invalid command");
         else printf("%s %s\n",ma_commande[0],ma_commande[1]);
     }
-    else printf("ERROR : invalid command\n");
+    else sprintf(jeu->message, MERROR "invalid command\n");
 }
 
-void prompt_end(){
-    if(ma_commande[1]!=NULL)printf("ERROR : invalid command\n");
-    else printf("End of your turn\n");
+void prompt_end(Jeu* jeu){
+    if(ma_commande[1]!=NULL) sprintf(jeu->message, MERROR "invalid command");
+    else sprintf(jeu->message, "End of your turn");
 }
 
 Commande strToCmd(){
@@ -78,52 +79,54 @@ Commande strToCmd(){
     return i;
 }
 
-void prompt(Commande cmd, Jeu* jeu, int* term){
+void prompt(Commande cmd, Jeu* jeu){
+    /*void (*funcs[])(Jeu*) = {prompt_show, prompt_fight, prompt_move, prompt_use, prompt_end};*/
+
     switch (cmd) {
         case SHOW:
             prompt_show(jeu);
             break;
         case FIGHT:
-            prompt_fight();
+            prompt_fight(jeu);
             break;
         case MOVE:
-            prompt_move();
+            prompt_move(jeu);
             break;
         case USE:
-            prompt_use();
+            prompt_use(jeu);
             break;
         case END:
-            prompt_end();
+            prompt_end(jeu);
             break;
         case EXIT:
-            *term = 1;
+            jeu->fin = 1;
             break;
         case ERROR:
         default:
-            printf("Error : invalid command\n");
+            sprintf(jeu->message, MERROR "invalid command");
             break;
     }
 }
 
 int rangecommand(char *cmd){
-    int i=1,fin=0;
-    ma_commande[0]=strtok(cmd," \n");
-    if(ma_commande[0] == NULL)return 0;
-    while(!fin){
+    int i = 1,fin = 0;
+    ma_commande[0] = strtok(cmd," \n");
+    if (ma_commande[0] == NULL) return 0;
+    while(!fin) {
         ma_commande[i]=strtok(NULL," \n");
-        if(ma_commande[i] == NULL)fin=1;
-        if(i >= L_CMD && ma_commande[i] != NULL)return 0;
+        if(ma_commande[i] == NULL) fin=1;
+        if(i >= L_CMD && ma_commande[i] != NULL) return 0;
         i++;
     }
     return 1;
 }
 
-void affichePrompt(Jeu *jeu, int* term){
+void affichePrompt(Jeu *jeu){
   char *commande = (char *)malloc(sizeof(char)*L_CMD);
   printf("> ");
   size_t entier=10;
   getline(&commande,&entier,stdin);
-  if(!rangecommand(commande))printf("ERROR : invalid command\n");
-  else prompt(strToCmd(), jeu, term);
+  if(!rangecommand(commande)) printf(jeu->message, MERROR "invalid command");
+  else prompt(strToCmd(), jeu);
   free(commande);
 }

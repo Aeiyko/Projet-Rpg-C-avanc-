@@ -49,12 +49,14 @@ Jeu* initJeu(int ce_start, int c_max)
     Jeu* jeu = (Jeu*)malloc(sizeof(Jeu));
     jeu->fruit = initJoueur(ce_start, c_max,0);
     jeu->courant = jeu->fruit;
-    jeu->combat=0;
+    jeu->combat = 0;
+    jeu->message = (char*)malloc(sizeof(char) * L_MESSAGE);
     jeu->legume = initJoueur(ce_start, c_max,42);
     jeu->champs = initChamps();
     jeu->armes = initArmes();
     jeu->protects = initProtections();
     jeu->soins = initSoins();
+    jeu->fin = 0;
 
     return jeu;
 }
@@ -97,6 +99,7 @@ void freeJeu(Jeu** jeu)
 {
     free((*jeu)->fruit);
     free((*jeu)->legume);
+    free((*jeu)->message);
     freeChamps(&((*jeu)->champs));
     freeArmes(&((*jeu)->armes));
     freeProtections(&((*jeu)->protects));
