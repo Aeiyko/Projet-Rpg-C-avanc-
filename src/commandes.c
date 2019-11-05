@@ -1,4 +1,5 @@
 #include "commandes.h"
+#include "affichage.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -87,7 +88,7 @@ void show_var_i(Jeu *jeu,char *arg,int i){
       printf("\t-----\n");
     }
     else{
-      printf("Error : invalid command\n");
+      sprintf(jeu->message, MERROR "Cet identifiant n'existe pas.");
     }
 }
 
@@ -104,7 +105,7 @@ void move(Jeu *jeu,char *dir,int n){
       jeu->courant->ca-=n;
       jeu->courant->pos-=n;
     }
-    else printf("Error : invalid command\n");
+    else sprintf(jeu->message, MERROR "Déplacement impossible.");
   }
   else{
     if(strcmp(dir,"forward")==0 && jeu->courant->ca-n >=0){
@@ -115,6 +116,6 @@ void move(Jeu *jeu,char *dir,int n){
       jeu->courant->ca -= n;
       jeu->courant->pos += n;
     }
-    else printf("Error : invalid command\n");
+    else sprintf(jeu->message, MERROR "Déplacement impossible.");
   }
 }

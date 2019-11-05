@@ -40,7 +40,8 @@ void maj_affichage(Jeu* jeu)
 {
     clear();
     print_support();
-    gotoxy(SEP_CMD_MESS * 2 + 2, S_HEIGHT - 1);
+    /*print des commandes*/
+    gotoxy((SEP_CMD_MESS + 1)* 2, S_HEIGHT - 1);
     printf("%s", jeu->message);
-    gotoxy(3, S_HEIGHT - 1);
+    gotoxy(3, SEP_INPUT_FIELD + 2);
 }

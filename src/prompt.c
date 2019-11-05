@@ -16,9 +16,9 @@ void prompt_show(Jeu *jeu){
         int i;
         char *arg1[NB_ARGS]={"vegetables","fruits","weapons","protections","cares"};
         char *arg2[NB_ARGS]={"vegetable","fruit","weapon","protection","care"};
-        for(i=0;i<NB_ARGS;i++){
-            if(strcmp(ma_commande[1],arg1[i])==0){
-                if(ma_commande[2] == NULL)show_vars(jeu,ma_commande[1]);
+        for (i=0;i<NB_ARGS;i++) {
+            if (strcmp(ma_commande[1], arg1[i]) == 0) {
+                if(ma_commande[2] == NULL) show_vars(jeu,ma_commande[1]);
                 else sprintf(jeu->message, MERROR "invalid command");
             }
         }
@@ -82,6 +82,7 @@ Commande strToCmd(){
 void prompt(Commande cmd, Jeu* jeu){
     /*void (*funcs[])(Jeu*) = {prompt_show, prompt_fight, prompt_move, prompt_use, prompt_end};*/
 
+    (jeu->message)[0] = '\0';
     switch (cmd) {
         case SHOW:
             prompt_show(jeu);
