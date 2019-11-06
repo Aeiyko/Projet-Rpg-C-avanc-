@@ -163,6 +163,13 @@ void use_weapon(Jeu *jeu, int n) {
     }
 }
 
+void use_protection(Jeu *jeu){jeu->courant->bouclier=1;}
+
+void use_care(Jeu *jeu,int n){
+  int cout = n * jeu->courant->equip->soin->ca;
+
+}
+
 void end(Jeu *jeu) {
     if (jeu->courant == jeu->fruit) {
         sprintf(jeu->message, "Fin du tour du " BOLD "Fruit" NORMAL);
