@@ -136,7 +136,7 @@ void use_weapon(Jeu *jeu, int n) {
     srand(time(NULL));
 
     if (cout > jeu->courant->ca)
-        sprintf(jeu->message, MERROR "Vous n'avez pas assez de" BOLD "crédit d'action");
+        sprintf(jeu->message, MERROR "Vous n'avez pas assez de" BOLD " crédit d'action" NORMAL);
     else {
         Joueur *adversaire;
         jeu->courant->ca -= cout;
@@ -165,11 +165,11 @@ void use_weapon(Jeu *jeu, int n) {
 
 void end(Jeu *jeu) {
     if (jeu->courant == jeu->fruit) {
-        sprintf(jeu->message, "Fin du tour du fruit");
+        sprintf(jeu->message, "Fin du tour du " BOLD "Fruit" NORMAL);
         jeu->courant = jeu->legume;
         jeu->legume->bouclier = 0;
     } else {
-        sprintf(jeu->message, "Fin du tour du légume");
+        sprintf(jeu->message, "Fin du tour du " BOLD "Légume" NORMAL);
         jeu->courant = jeu->fruit;
         jeu->fruit->bouclier = 0;
     }

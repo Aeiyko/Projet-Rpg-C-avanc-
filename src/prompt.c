@@ -21,10 +21,10 @@ void prompt_show(Jeu *jeu) {
                 if (ma_commande[2] == NULL)
                     show_vars(jeu, ma_commande[1]);
                 else
-                    sprintf(jeu->message, MERROR "Trop de paramètres.");
+                    sprintf(jeu->message, TOO_MUCH_ARGS);
                 fin = 1;
             } else
-                sprintf(jeu->message, MERROR "Premier paramètre invalide.");
+                sprintf(jeu->message, WRONG_FIRST_ARG);
         }
 
         for (i = 0; !fin && i < NB_ARGS; i++)
@@ -33,12 +33,12 @@ void prompt_show(Jeu *jeu) {
                     show_var_i(jeu, ma_commande[1], 0);
                 else if (( !atoi(ma_commande[2]) && strcmp(ma_commande[2], "0") != 0) || 
                             atoi(ma_commande[2]) < 0 || ma_commande[3] != NULL)
-                    sprintf(jeu->message, MERROR "commande invalide.");
+                    sprintf(jeu->message, INVALID_CMD);
                 else
                     show_var_i(jeu, ma_commande[1], atoi(ma_commande[2]));
                 fin = 1;
             } else
-                sprintf(jeu->message, MERROR "Premier paramètre invalide.");
+                sprintf(jeu->message, WRONG_FIRST_ARG);
     }
 }
 
@@ -52,21 +52,21 @@ void prompt_fight(Jeu* jeu) {
                     } else
                         sprintf(jeu->message, MERROR "Deuxième combattant manquant.");
                 } else
-                    sprintf(jeu->message, MERROR "Trop de paramètres.");
+                    sprintf(jeu->message, TOO_MUCH_ARGS);
             } else
                 sprintf(jeu->message, MERROR "Le deuxième paramètre doit être \"versus\"");
         } else
             sprintf(jeu->message, MERROR "Paramètre \"versus\" manquant.");
     } else
-        sprintf(jeu->message, MERROR "Paramètres manquants.");
+        sprintf(jeu->message, ARGS_MISSING);
 }
 
 void prompt_move(Jeu* jeu) {
     if (ma_commande[1] == NULL)
-        sprintf(jeu->message, MERROR "Paramètres manquants");
+        sprintf(jeu->message, ARGS_MISSING);
     else if (strcmp(ma_commande[1], "forward") == 0 || strcmp(ma_commande[1], "backward") == 0) {
         if (ma_commande[3] != NULL)
-            sprintf(jeu->message, MERROR "Trop d'arguments.");
+            sprintf(jeu->message, TOO_MUCH_ARGS);
         else if (ma_commande[2] == NULL)
             sprintf(jeu->message, "%s %s %d", ma_commande[0], ma_commande[1], 1);
         else if ((!atoi(ma_commande[2]) && strcmp(ma_commande[2], "0") != 0) || atoi(ma_commande[2]) < 0)
@@ -74,7 +74,7 @@ void prompt_move(Jeu* jeu) {
         else
             sprintf(jeu->message, "%s %s %s", ma_commande[0], ma_commande[1], ma_commande[2]);
     } else
-        sprintf(jeu->message, MERROR "Premier paramètre invalide.");
+        sprintf(jeu->message, WRONG_FIRST_ARG);
 }
 
 void prompt_use(Jeu* jeu) {
@@ -82,7 +82,7 @@ void prompt_use(Jeu* jeu) {
         if (strcmp(ma_commande[1], "weapon") == 0 || strcmp(ma_commande[1], "care") == 0) {
             if ((ma_commande[2] != NULL && !atoi(ma_commande[2]) && strcmp(ma_commande[2], "0") != 0) ||
                 (ma_commande[2] != NULL &&  atoi(ma_commande[2]) < 0) || ma_commande[3] != NULL) {
-                sprintf(jeu->message, MERROR "commande invalide.");
+                sprintf(jeu->message, INVALID_CMD);
             }
             else if (ma_commande[2] == NULL)
                 sprintf(jeu->message, "%s %s 0", ma_commande[0], ma_commande[1]);
@@ -91,13 +91,13 @@ void prompt_use(Jeu* jeu) {
         }
         else if (strcmp(ma_commande[1], "protection") == 0) {
             if (ma_commande[2]!=NULL)
-                sprintf(jeu->message, MERROR "commande invalide.");
+                sprintf(jeu->message, INVALID_CMD);
             else
                 sprintf(jeu->message, "%s %s", ma_commande[0], ma_commande[1]);
         } else
-            sprintf(jeu->message, MERROR "commande invalide.");
+            sprintf(jeu->message, INVALID_CMD);
     } else
-        sprintf(jeu->message, MERROR "Paramètres manquants.");
+        sprintf(jeu->message, ARGS_MISSING);
 }
 
 void prompt_end(Jeu* jeu) {
@@ -105,7 +105,6 @@ void prompt_end(Jeu* jeu) {
         sprintf(jeu->message, MERROR "Cette commande ne prend pas de paramètre.");
     else
         end(jeu);
-    /*sprintf(jeu->message, "End of your turn");*/
 }
 
 Commande strToCmd() {
@@ -144,7 +143,7 @@ void prompt(Commande cmd, Jeu* jeu) {
             break;
         case ERROR:
         default:
-            sprintf(jeu->message, MERROR "commande invalide.");
+            sprintf(jeu->message, INVALID_CMD);
             break;
     }
 }
@@ -176,7 +175,7 @@ void affichePrompt(Jeu *jeu) {
   getline(&commande, &entier, stdin);
 
   if (!rangecommand(commande))
-      sprintf(jeu->message, MERROR "commande invalide.");
+      sprintf(jeu->message, INVALID_CMD);
   else
       prompt(strToCmd(), jeu);
 
