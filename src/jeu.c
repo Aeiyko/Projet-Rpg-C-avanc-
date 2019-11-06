@@ -25,6 +25,7 @@ Champion* initChamp(char* variete, Type type, int force, int resist, int pv_max,
     champ->force = force;
     champ->resist = resist;
     champ->pv_max = pv_max;
+    champ->pv = pv_max;
     champ->ce = ce;
 
     return champ;

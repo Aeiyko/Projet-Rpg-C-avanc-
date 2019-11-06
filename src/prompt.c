@@ -31,7 +31,7 @@ void prompt_show(Jeu *jeu) {
             if (strcmp(ma_commande[1], arg2[i]) == 0) {
                 if (ma_commande[2] == NULL)
                     show_var_i(jeu, ma_commande[1], 0);
-                else if (( !atoi(ma_commande[2]) && strcmp(ma_commande[2], "0") != 0) || 
+                else if (( !atoi(ma_commande[2]) && strcmp(ma_commande[2], "0") != 0) ||
                             atoi(ma_commande[2]) < 0 || ma_commande[3] != NULL)
                     sprintf(jeu->message, INVALID_CMD);
                 else
@@ -68,11 +68,11 @@ void prompt_move(Jeu* jeu) {
         if (ma_commande[3] != NULL)
             sprintf(jeu->message, TOO_MUCH_ARGS);
         else if (ma_commande[2] == NULL)
-            sprintf(jeu->message, "%s %s %d", ma_commande[0], ma_commande[1], 1);
+            move(jeu,ma_commande[1],1);
         else if ((!atoi(ma_commande[2]) && strcmp(ma_commande[2], "0") != 0) || atoi(ma_commande[2]) < 0)
             sprintf(jeu->message, MERROR "Nombre positif requis.");
         else
-            sprintf(jeu->message, "%s %s %s", ma_commande[0], ma_commande[1], ma_commande[2]);
+            move(jeu,ma_commande[1],atoi(ma_commande[2]));
     } else
         sprintf(jeu->message, WRONG_FIRST_ARG);
 }
@@ -84,16 +84,24 @@ void prompt_use(Jeu* jeu) {
                 (ma_commande[2] != NULL &&  atoi(ma_commande[2]) < 0) || ma_commande[3] != NULL) {
                 sprintf(jeu->message, INVALID_CMD);
             }
-            else if (ma_commande[2] == NULL)
-                sprintf(jeu->message, "%s %s 0", ma_commande[0], ma_commande[1]);
-            else
-                sprintf(jeu->message, "%s %s %s", ma_commande[0], ma_commande[1], ma_commande[2]);
+            else if (ma_commande[2] == NULL){
+              if(strcmp(ma_commande[1], "weapon") == 0)
+                use_weapon(jeu,1);
+              else
+                use_care(jeu,1);
+            }
+            else{
+              if(strcmp(ma_commande[1], "weapon") == 0)
+                use_weapon(jeu,atoi(ma_commande[2]));
+              else
+                use_care(jeu,atoi(ma_commande[2]));
+            }
         }
         else if (strcmp(ma_commande[1], "protection") == 0) {
             if (ma_commande[2]!=NULL)
-                sprintf(jeu->message, INVALID_CMD);
+              sprintf(jeu->message, INVALID_CMD);
             else
-                sprintf(jeu->message, "%s %s", ma_commande[0], ma_commande[1]);
+              use_protection(jeu);
         } else
             sprintf(jeu->message, INVALID_CMD);
     } else

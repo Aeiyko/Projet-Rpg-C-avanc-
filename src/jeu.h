@@ -23,6 +23,7 @@ typedef struct {
     Type type;
     int force;
     int resist;
+    int pv;
     int pv_max;
     int ce;
 } Champion;

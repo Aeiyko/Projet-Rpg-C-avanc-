@@ -159,7 +159,9 @@ void use_weapon(Jeu *jeu, int n) {
                 }
                 n--;
             }
+            sprintf(jeu->message,"Vous infligez %d !",somme);
         }
+        else sprintf(jeu->message,"Oh non ! L'ennemi était trop loin !");
     }
 }
 
@@ -167,11 +169,23 @@ void use_protection(Jeu *jeu){jeu->courant->bouclier=1;}
 
 void use_care(Jeu *jeu,int n){
   int cout = n * jeu->courant->equip->soin->ca;
+  int somme=0,random;
   if (cout > jeu->courant->ca)
       sprintf(jeu->message, MERROR "Vous n'avez pas assez de" BOLD " crédit d'action" NORMAL);
   else{
     jeu->courant->ca -= cout;
+    while(n>0){
+      int a = jeu->courant->equip->soin->hp_max + 1 - jeu->courant->equip->soin->hp_min;
+      int b = jeu->courant->equip->soin->hp_min;
+      random = rand() % a + b;
+      somme += random;
+      n--;
+    }
+    jeu->courant->champ->pv += somme;
+    if(jeu->courant->champ->pv > jeu->courant->champ->pv_max)
+      jeu->courant->champ->pv = jeu->courant->champ->pv_max;
 
+    sprintf(jeu->message, "Vous vous êtes soigné ! Vos pv sont maintenant a %d",jeu->courant->champ->pv);
   }
 }
 
