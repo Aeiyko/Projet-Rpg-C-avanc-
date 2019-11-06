@@ -6,7 +6,10 @@
 
 #define clear() printf("\033[H\033[J")
 #define gotoxy(x,y) printf("\033[%d;%dH", (y), (x))
-#define MERROR "\033[1;31mERROR : \033[0m"
+
+#define BOLD "\033[1m"
+#define RED "\033[31m"
+#define MERROR BOLD RED "ERROR : \033[0m"
 
 #define S_MULT 2
 #define S_WIDTH (28 * S_MULT)
