@@ -167,7 +167,12 @@ void use_protection(Jeu *jeu){jeu->courant->bouclier=1;}
 
 void use_care(Jeu *jeu,int n){
   int cout = n * jeu->courant->equip->soin->ca;
+  if (cout > jeu->courant->ca)
+      sprintf(jeu->message, MERROR "Vous n'avez pas assez de" BOLD " crédit d'action" NORMAL);
+  else{
+    jeu->courant->ca -= cout;
 
+  }
 }
 
 void end(Jeu *jeu) {
