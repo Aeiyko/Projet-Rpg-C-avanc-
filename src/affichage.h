@@ -7,6 +7,10 @@
 #define clear() printf("\033[H\033[J")
 #define gotoxy(x,y) printf("\033[%d;%dH", (y), (x))
 
+/*
+ *  Caractères d'échappement.
+ */
+
 #define NORMAL "\033[0m"
 #define BOLD "\033[1m"
 #define RED "\033[31m"
@@ -24,12 +28,30 @@
 #define POS_NUMBER_NEEDED MERROR "Nombre positif requis."
 #define NOT_FIGHTING MERROR "Vous n'êtes pas en combat."
 
+/*
+ *  Constantes de positionnement.
+ */
+
 #define S_MULT 2
 #define S_WIDTH (28 * S_MULT)
 #define S_HEIGHT (16 * S_MULT)
 
 #define SEP_INPUT_FIELD ((S_HEIGHT) - 3)
 #define SEP_CMD_MESS ((S_WIDTH) / 2 - 1)
+
+/*
+ *  Textes.
+ */
+
+#define INSTRUCTION \
+    "INSTRUCTION DE DEBUT DE PARTIE"\
+    "=============================="\
+    "Ici sera afficher les premières commande qu'il sera possible de faire avant le combat."\
+    "Donc pour l'instant, ce texte est temporaire"
+
+/*
+ *  Headers
+ */
 
 void maj_affichage(Jeu* jeu);
 

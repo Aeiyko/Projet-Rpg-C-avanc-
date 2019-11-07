@@ -61,6 +61,8 @@ Joueur* initJoueur(int ce_start, int c_max, int pos);
 Jeu* initJeu();
 Champion** initChamps();
 
+void boucle_combat(Jeu* jeu);
+
 void freeJoueur(Joueur** joueur);
 void freeChamps(Champion*** champs);
 void freeJeu(Jeu** jeu);

@@ -1,4 +1,5 @@
 #include "jeu.h"
+#include "prompt.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -96,7 +97,10 @@ Champion** initChamps()
 /**************************************************/
 /*                                                */
 
-
+void boucle_combat(Jeu* jeu)
+{
+    affichePrompt(jeu);
+}
 
 /*                                                */
 /**************************************************/
