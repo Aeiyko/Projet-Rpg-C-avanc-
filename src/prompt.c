@@ -9,8 +9,10 @@
 char *ma_commande[L_CMD];
 
 void prompt_show(Jeu *jeu) {
-    if(ma_commande[1] == NULL)
+    if(ma_commande[1] == NULL && jeu->equiped)
         show(jeu);
+    else if(ma_commande[1] == NULL)
+      sprintf(jeu->message,NOT_FIGHTING);  
     else {
         int i, fin = 0;
         char *arg1[NB_ARGS] = {"vegetables", "fruits", "weapons", "protections", "cares"};
@@ -170,19 +172,24 @@ void prompt(Commande cmd, Jeu* jeu) {
             prompt_show(jeu);
             break;
         case FIGHT:
-            prompt_fight(jeu);
+            if(!jeu->combat) prompt_fight(jeu);
+            else sprintf(jeu->message, NOT_FIGHTING);
             break;
         case EQUIP:
-            prompt_equip(jeu);
+            if(jeu->equiping) prompt_equip(jeu);
+            else sprintf(jeu->message, NOT_FIGHTING);
             break;
         case MOVE:
-            prompt_move(jeu);
+            if(jeu->equiped) prompt_move(jeu);
+            else sprintf(jeu->message, NOT_FIGHTING);
             break;
         case USE:
-            prompt_use(jeu);
+            if(jeu->equiped) prompt_use(jeu);
+            else sprintf(jeu->message, NOT_FIGHTING);
             break;
         case END:
-            prompt_end(jeu);
+            if(jeu->equiped) prompt_end(jeu);
+            else sprintf(jeu->message, NOT_FIGHTING);
             break;
         case EXIT:
             jeu->fin = 1;
