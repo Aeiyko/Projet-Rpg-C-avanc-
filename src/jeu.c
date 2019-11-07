@@ -40,8 +40,8 @@ Joueur* initJoueur(int ce_start, int c_max, int pos)
     joueur->ca = c_max;
     joueur->champ = NULL;
     joueur->equip = NULL;
-    joueur->pos=pos;
-    joueur->bouclier=0;
+    joueur->pos = pos;
+    joueur->bouclier = 0;
 
     return joueur;
 }
@@ -49,15 +49,21 @@ Joueur* initJoueur(int ce_start, int c_max, int pos)
 Jeu* initJeu(int ce_start, int c_max)
 {
     Jeu* jeu = (Jeu*)malloc(sizeof(Jeu));
+
     jeu->fruit = initJoueur(ce_start, c_max,0);
-    jeu->courant = jeu->fruit;
-    jeu->combat = 0;
-    jeu->message = (char*)malloc(sizeof(char) * L_MESSAGE);
     jeu->legume = initJoueur(ce_start, c_max,42);
+    jeu->courant = jeu->legume;
+
+    jeu->message = (char*)malloc(sizeof(char) * L_MESSAGE);
+
     jeu->champs = initChamps();
     jeu->armes = initArmes();
     jeu->protects = initProtections();
     jeu->soins = initSoins();
+
+    jeu->combat = 0;
+    jeu->equiping = 0;
+    jeu->equiped = 0;
     jeu->fin = 0;
 
     return jeu;
@@ -85,6 +91,16 @@ Champion** initChamps()
 
     return champs;
 }
+
+/*                                                */
+/**************************************************/
+/*                                                */
+
+
+
+/*                                                */
+/**************************************************/
+/*                                                */
 
 /* Free de la mémoire */
 

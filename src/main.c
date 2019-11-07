@@ -11,14 +11,17 @@ int main(int argc, char **argv)
 {
     Jeu* jeu = initJeu(CE_START, C_MAX);
 
+    clear();
     while (!(jeu->fin)) {
         maj_affichage(jeu);
         affichePrompt(jeu);
     }
 
     clear();
-    printf("\nCrédits : Alexis SALVETTI && Jordan HERENG\n\n");
     freeJeu(&jeu);
+
+    printf("\nCrédits : Alexis SALVETTI && Jordan HERENG\n\n");
+    /*printf("\033[33m▟\n" NORMAL);*/
 
     return (0);
 }

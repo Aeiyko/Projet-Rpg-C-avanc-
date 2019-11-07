@@ -10,6 +10,7 @@
 #define NORMAL "\033[0m"
 #define BOLD "\033[1m"
 #define RED "\033[31m"
+#define GREEN "\033[32m"
 #define MERROR BOLD RED "ERROR :\033[0m "
 
 /*
@@ -20,6 +21,8 @@
 #define TOO_MUCH_ARGS MERROR "Trop de paramètres."
 #define WRONG_FIRST_ARG MERROR "Premier paramètre invalide."
 #define ARGS_MISSING MERROR "Paramètres manquants."
+#define POS_NUMBER_NEEDED MERROR "Nombre positif requis."
+#define NOT_FIGHTING MERROR "Vous n'êtes pas en combat."
 
 #define S_MULT 2
 #define S_WIDTH (28 * S_MULT)

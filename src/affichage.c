@@ -8,6 +8,7 @@ void print_support()
 {
     /*printf("\033[7m\033[]");*/
     int x, y;
+    gotoxy(0, 0);
     for (y = 0; y < S_HEIGHT; y++) {
         for (x = 0; x < S_WIDTH; x++) {
             if (x == 0) {
@@ -38,7 +39,7 @@ void print_support()
 
 void maj_affichage(Jeu* jeu)
 {
-    clear();
+    /*clear();*/
     print_support();
     /*print des commandes*/
     gotoxy((SEP_CMD_MESS + 1)* 2, S_HEIGHT - 1);

@@ -60,10 +60,9 @@ void prompt_equip(Jeu* jeu)
             sprintf(jeu->message, MERROR "Le troisième identifiant est incorrect.");
         else {
             sprintf(jeu->message, GREEN "GOOD" NORMAL);
-            jeu->courant->equip = initEquipement(jeu->armes[atoi(a)],
-                    jeu->protects[atoi(p)], jeu->soins[atoi(s)]);
+            jeu->courant->champ->equip = initEquipement(jeu->armes[a], jeu->protects[p], jeu->soins[s]);
 
-            if (jeu->equiping && jeu->courant == jeu->legume)
+            if (jeu->equiping)
                 jeu->courant = jeu->fruit;
             else {
                 jeu->courant = jeu->legume;

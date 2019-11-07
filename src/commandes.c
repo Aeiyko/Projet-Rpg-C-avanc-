@@ -7,13 +7,18 @@
 #include <math.h>
 
 void show(Jeu *jeu) {
-    Joueur *j = jeu->courant;
-    printf("\t--- %s ---\n", j->champ->variete);
-    printf("Arme : %s\n", j->equip->arme->nom);
-    printf("Protection : %s\n", j->equip->protect->nom);
-    printf("Soin : %s\n", j->equip->soin->nom);
-    printf("Position : %d\n", j->pos);
-    printf("\t-------------\n");
+    if (jeu->combat) {
+        Joueur *j = jeu->courant;
+        gotoxy(0, S_HEIGHT + 5);
+
+        printf("\t--- %s ---\n", j->champ->variete);
+        printf("Arme : %s\n", j->equip->arme->nom);
+        printf("Protection : %s\n", j->equip->protect->nom);
+        printf("Soin : %s\n", j->equip->soin->nom);
+        printf("Position : %d\n", j->pos);
+        printf("\t-------------\n");
+    } else
+        sprintf(jeu->message, NOT_FIGHTING);
 }
 
 void show_vars(Jeu *jeu,char *arg){
@@ -97,13 +102,37 @@ void show_var_i(Jeu *jeu,char *arg,int i) {
         sprintf(jeu->message, MERROR "Cet identifiant n'existe pas.");
 }
 
-/*void fight(Jeu *jeu){*/
-/*}*/
+void fight(Jeu *jeu, int v, int f)
+{
+    if (!jeu->combat) {
+        if (v >= 0 && v < NB_CHAMPS / 2) {
+            if (f >= NB_CHAMPS / 2 && f < NB_CHAMPS) {
+                jeu->combat = 1;
+                jeu->legume->champ = jeu->champs[v];
+                jeu->fruit->champ = jeu->champs[f];
+                jeu->equiping = 1;
+
+                sprintf(jeu->message, BOLD "%s " NORMAL RED "< VERSUS >" NORMAL BOLD " %s" NORMAL,
+                        jeu->champs[v]->variete, jeu->champs[f]->variete);
+            } else
+                sprintf(jeu->message, MERROR "L'identifiant" BOLD " %d"
+                        NORMAL " n'appartient à aucun " BOLD "Fruit." NORMAL, f);
+        } else
+            sprintf(jeu->message, MERROR "L'identifiant" BOLD " %d"
+                    NORMAL " n'appartient à aucun " BOLD "Légume." NORMAL, v);
+    } else
+        sprintf(jeu->message, MERROR "Vous êtes déjà en combat.");
+}
+
+void equip(Jeu* jeu, int arme, int protect, int soin)
+{
+    
+}
 
 void move(Jeu *jeu, char *dir, int n) {
     if (jeu->fruit == jeu->courant){
         if (strcmp(dir, "forward") == 0 && jeu->courant->ca - n >= 0 &&
-            jeu->courant->pos + n <= jeu->legume->pos) {
+                jeu->courant->pos + n <= jeu->legume->pos) {
             jeu->courant->ca -= n;
             jeu->courant->pos += n;
         }
@@ -116,7 +145,7 @@ void move(Jeu *jeu, char *dir, int n) {
     }
     else {
         if (strcmp(dir, "forward") == 0 && jeu->courant->ca - n >= 0 &&
-            jeu->courant->pos - n >= jeu->fruit->pos) {
+                jeu->courant->pos - n >= jeu->fruit->pos) {
             jeu->courant->ca -= n;
             jeu->courant->pos -= n;
         }
@@ -129,7 +158,8 @@ void move(Jeu *jeu, char *dir, int n) {
     }
 }
 
-void use_weapon(Jeu *jeu, int n) {
+void use_weapon(Jeu *jeu, int n)
+{
     int cout = n * jeu->courant->equip->arme->ca;
     int somme = 0, random;
 
@@ -159,44 +189,60 @@ void use_weapon(Jeu *jeu, int n) {
                 }
                 n--;
             }
-            sprintf(jeu->message,"Vous infligez %d !",somme);
+            sprintf(jeu->message, "Vous infligez %d !", somme);
         }
-        else sprintf(jeu->message,"Oh non ! L'ennemi était trop loin !");
+        else sprintf(jeu->message, "Oh non ! L'ennemi était trop loin !");
     }
 }
 
-void use_protection(Jeu *jeu){jeu->courant->bouclier=1;}
+void use_protection(Jeu *jeu)
+{
+    if (jeu->combat) {
+        jeu->courant->bouclier = 1;
+    } else
+        sprintf(jeu->message, NOT_FIGHTING);
+}
 
-void use_care(Jeu *jeu,int n){
-  int cout = n * jeu->courant->equip->soin->ca;
-  int somme=0,random;
-  if (cout > jeu->courant->ca)
-      sprintf(jeu->message, MERROR "Vous n'avez pas assez de" BOLD " crédit d'action" NORMAL);
-  else{
-    jeu->courant->ca -= cout;
-    while(n>0){
-      int a = jeu->courant->equip->soin->hp_max + 1 - jeu->courant->equip->soin->hp_min;
-      int b = jeu->courant->equip->soin->hp_min;
-      random = rand() % a + b;
-      somme += random;
-      n--;
-    }
-    jeu->courant->champ->pv += somme;
-    if(jeu->courant->champ->pv > jeu->courant->champ->pv_max)
-      jeu->courant->champ->pv = jeu->courant->champ->pv_max;
+void use_care(Jeu *jeu, int n)
+{
+    if (jeu->combat) {
+        int cout = n * jeu->courant->equip->soin->ca;
+        int somme = 0, random;
 
-    sprintf(jeu->message, "Vous vous êtes soigné ! Vos pv sont maintenant a %d",jeu->courant->champ->pv);
-  }
+        if (cout > jeu->courant->ca)
+            sprintf(jeu->message, MERROR "Vous n'avez pas assez de" BOLD " crédit d'action" NORMAL);
+        else{
+            jeu->courant->ca -= cout;
+            while (n > 0) {
+                int a = jeu->courant->equip->soin->hp_max + 1 - jeu->courant->equip->soin->hp_min;
+                int b = jeu->courant->equip->soin->hp_min;
+                random = rand() % a + b;
+                somme += random;
+                n--;
+            }
+            jeu->courant->champ->pv += somme;
+
+            if(jeu->courant->champ->pv > jeu->courant->champ->pv_max)
+                jeu->courant->champ->pv = jeu->courant->champ->pv_max;
+
+            sprintf(jeu->message, GREEN "Vous vous êtes soigné ! Vos PV sont maintenant a "
+                    BOLD "%d", jeu->courant->champ->pv);
+        }
+    } else
+        sprintf(jeu->message, NOT_FIGHTING);
 }
 
 void end(Jeu *jeu) {
-    if (jeu->courant == jeu->fruit) {
-        sprintf(jeu->message, "Fin du tour du " BOLD "Fruit" NORMAL);
-        jeu->courant = jeu->legume;
-        jeu->legume->bouclier = 0;
-    } else {
-        sprintf(jeu->message, "Fin du tour du " BOLD "Légume" NORMAL);
-        jeu->courant = jeu->fruit;
-        jeu->fruit->bouclier = 0;
-    }
+    if (jeu->combat == 1) {
+        if (jeu->courant == jeu->fruit) {
+            sprintf(jeu->message, "Fin du tour du " BOLD "Fruit" NORMAL);
+            jeu->courant = jeu->legume;
+            jeu->legume->bouclier = 0;
+        } else {
+            sprintf(jeu->message, "Fin du tour du " BOLD "Légume" NORMAL);
+            jeu->courant = jeu->fruit;
+            jeu->fruit->bouclier = 0;
+        }
+    } else
+        sprintf(jeu->message, NOT_FIGHTING);
 }

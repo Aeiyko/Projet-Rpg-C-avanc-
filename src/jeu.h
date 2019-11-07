@@ -44,7 +44,6 @@ typedef struct {
     Joueur* legume;
 
     Joueur* courant;
-    int combat;
 
     Champion** champs;
     Arme** armes;
@@ -52,6 +51,9 @@ typedef struct {
     Soin** soins;
 
     char* message;
+    int combat;
+    int equiping;
+    int equiped;
     int fin;
 } Jeu;
 
