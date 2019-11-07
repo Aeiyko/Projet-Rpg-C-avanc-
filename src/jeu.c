@@ -104,6 +104,12 @@ Champion** initChamps()
 
 /* Free de la mémoire */
 
+void freeJoueur(Joueur** joueur)
+{
+    free((*joueur)->equip);
+    free(*joueur);
+}
+
 void freeChamps(Champion*** champs)
 {
     int i;
@@ -116,12 +122,15 @@ void freeChamps(Champion*** champs)
 
 void freeJeu(Jeu** jeu)
 {
-    free((*jeu)->fruit);
-    free((*jeu)->legume);
+    freeJoueur(&((*jeu)->legume));
+    freeJoueur(&((*jeu)->fruit));
+
     free((*jeu)->message);
+
     freeChamps(&((*jeu)->champs));
     freeArmes(&((*jeu)->armes));
     freeProtections(&((*jeu)->protects));
     freeSoins(&((*jeu)->soins));
+
     free(*jeu);
 }

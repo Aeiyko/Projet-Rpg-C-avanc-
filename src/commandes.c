@@ -9,7 +9,7 @@
 void show(Jeu *jeu) {
     if (jeu->combat) {
         Joueur *j = jeu->courant;
-        gotoxy(0, S_HEIGHT + 5);
+        gotoxy(0, S_HEIGHT + 1);
 
         printf("\t--- %s ---\n", j->champ->variete);
         printf("Arme : %s\n", j->equip->arme->nom);
@@ -23,7 +23,7 @@ void show(Jeu *jeu) {
 
 void show_vars(Jeu *jeu,char *arg){
     int i;
-    gotoxy(0, S_HEIGHT + 5);
+    gotoxy(0, S_HEIGHT + 1);
 
     if(strcmp(arg, "vegetables") == 0) {
         printf("\t--- Légumes ---\n");
@@ -58,7 +58,7 @@ void show_vars(Jeu *jeu,char *arg){
 }
 
 void show_var_i(Jeu *jeu,char *arg,int i) {
-    gotoxy(0, S_HEIGHT + 5);
+    gotoxy(0, S_HEIGHT + 1);
 
     if (strcmp(arg, "vegetable") == 0 && i >= 0 && i < NB_CHAMPS / 2) {
         printf("\t%d -- %s\n", i, jeu->champs[i]->variete);
@@ -68,8 +68,7 @@ void show_var_i(Jeu *jeu,char *arg,int i) {
         printf("ce : %d\n", jeu->champs[i]->ce);
         printf("\t-----\n");
     }
-    else if (strcmp(arg, "fruit") == 0 && i >= 0 && i < NB_CHAMPS / 2) {
-        i += NB_CHAMPS / 2;
+    else if (strcmp(arg, "fruit") == 0 && i >= NB_CHAMPS / 2 && i < NB_CHAMPS) {
         printf("\t%d -- %s\n", i, jeu->champs[i]->variete);
         printf("Force : %d\n", jeu->champs[i]->force);
         printf("Resistance : %d\n", jeu->champs[i]->resist);
@@ -116,8 +115,7 @@ void fight(Jeu *jeu, int v, int f)
                 jeu->fruit->champ = jeu->champs[f];
                 jeu->equiping = 1;
 
-                sprintf(jeu->message, BOLD "%s " NORMAL RED "< VERSUS >" NORMAL BOLD " %s" NORMAL,
-                        jeu->champs[v]->variete, jeu->champs[f]->variete);
+                sprintf(jeu->message, GREEN "Equipez vos champions ! Le légume d'abord." NORMAL);
             } else
                 sprintf(jeu->message, MERROR "L'identifiant" BOLD " %d"
                         NORMAL " n'appartient à aucun " BOLD "Fruit." NORMAL, f);
@@ -130,16 +128,26 @@ void fight(Jeu *jeu, int v, int f)
 
 void equip(Jeu* jeu, int arme, int protect, int soin)
 {
-    jeu->courant->equip = initEquipement(jeu->armes[arme], jeu->protects[protect], jeu->soins[soin]);
+    if (arme >= NB_ARMES)
+        sprintf(jeu->message, "L'identifiant " BOLD "%d" NORMAL " n'appartient à aucune Arme.", arme);
+    else if (protect >= NB_PROTECTS)
+        sprintf(jeu->message, "L'identifiant " BOLD "%d" NORMAL " n'appartient à aucune Protection.", protect);
+    else if (soin >= NB_SOINS)
+        sprintf(jeu->message, "L'identifiant " BOLD "%d" NORMAL " n'appartient à aucun Soin.", soin);
+    else {
+        jeu->courant->equip = initEquipement(jeu->armes[arme], jeu->protects[protect], jeu->soins[soin]);
 
-    if (jeu->equiping && jeu->courant == jeu->legume) {
-        jeu->courant = jeu->fruit;
-        sprintf(jeu->message, GREEN "GOOD" NORMAL);
-    } else {
-        jeu->courant = jeu->legume;
-        jeu->equiping = 0;
-        jeu->equiped = 1;
-        sprintf(jeu->message, RED BOLD "FIIIIIIIIIIIIIIGHT !!!");
+        if (jeu->equiping && jeu->courant == jeu->legume) {
+            jeu->courant = jeu->fruit;
+            sprintf(jeu->message, GREEN "Bien ! Au tour du fruit." NORMAL);
+        } else {
+            jeu->courant = jeu->legume;
+            jeu->equiping = 0;
+            jeu->equiped = 1;
+
+            sprintf(jeu->message, BOLD "%s " NORMAL RED "< VERSUS >" NORMAL BOLD " %s" NORMAL,
+                    jeu->legume->champ->variete, jeu->fruit->champ->variete);
+        }
     }
 }
 

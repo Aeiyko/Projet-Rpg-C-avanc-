@@ -34,6 +34,12 @@ typedef struct {
     int hp_max;
 } Soin;
 
+typedef struct {
+    Arme *arme;
+    Protection *protect;
+    Soin *soin;
+} Equipement;
+
 /*
  * Headers
  */
