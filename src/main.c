@@ -1,5 +1,4 @@
 #include "jeu.h"
-#include "prompt.h"
 #include "affichage.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,7 +13,7 @@ int main(int argc, char **argv)
     clear();
     while (!(jeu->fin)) {
         maj_affichage(jeu);
-        affichePrompt(jeu);
+        boucle_combat(jeu);
     }
 
     clear();
