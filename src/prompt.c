@@ -48,50 +48,44 @@ void prompt_equip(Jeu* jeu)
     if (ma_commande[1] == NULL || ma_commande[2] == NULL || ma_commande[3] == NULL || ma_commande[4] != NULL)
         sprintf(jeu->message, MERROR "Vous devez entrer " BOLD "3" NORMAL " identifiants.");
     else {
-        char* a = ma_commande[1];
-        char* p = ma_commande[2];
-        char* s = ma_commande[3];
+        int a = atoi(ma_commande[1]);
+        int p = atoi(ma_commande[2]);
+        int s = atoi(ma_commande[3]);
 
-        if ((atoi(a) == 0 && strcmp(a, "0") != 0) || atoi(a) < 0)
+        if ((a == 0 && strcmp(ma_commande[1], "0") != 0) || a < 0)
             sprintf(jeu->message, MERROR "Le premier identifiant est incorrect.");
-        else if ((atoi(p) == 0 && strcmp(p, "0") != 0) || atoi(p) < 0)
+        else if ((p == 0 && strcmp(ma_commande[2], "0") != 0) || p < 0)
             sprintf(jeu->message, MERROR "Le deuxième identifiant est incorrect.");
-        else if ((atoi(s) == 0 && strcmp(s, "0") != 0) || atoi(s) < -1)
+        else if ((s == 0 && strcmp(ma_commande[3], "0") != 0) || s < -1)
             sprintf(jeu->message, MERROR "Le troisième identifiant est incorrect.");
-        else {
-            sprintf(jeu->message, GREEN "GOOD" NORMAL);
-            jeu->courant->equip = initEquipement(jeu->armes[atoi(a)],
-                    jeu->protects[atoi(p)], jeu->soins[atoi(s)]);
-
-            if (jeu->equiping && jeu->courant == jeu->legume)
-                jeu->courant = jeu->fruit;
-            else {
-                jeu->courant = jeu->legume;
-                jeu->equiping = 0;
-                jeu->equiped = 1;
-            }
-        }
+        else
+            equip(jeu, a, p, s);
     }
 }
 
 void prompt_fight(Jeu* jeu)
 {
-    if (ma_commande[1] != NULL) {
-        if (ma_commande[2] != NULL) {
-            if (strcmp(ma_commande[2],"versus") == 0) {
-                if (ma_commande[4] == NULL) {
-                    if (ma_commande[3] != NULL) {
-                        fight(jeu, 0, 6);
-                    } else
-                        sprintf(jeu->message, MERROR "Deuxième combattant manquant.");
-                } else
-                    sprintf(jeu->message, TOO_MUCH_ARGS);
-            } else
-                sprintf(jeu->message, MERROR "Le deuxième paramètre doit être \"versus\"");
-        } else
-            sprintf(jeu->message, MERROR "Paramètre \"versus\" manquant.");
-    } else
+    if (ma_commande[1] == NULL)
         sprintf(jeu->message, ARGS_MISSING);
+    else if (ma_commande[2] == NULL)
+        sprintf(jeu->message, MERROR "Paramètre \"versus\" manquant.");
+    else if (strcmp(ma_commande[2],"versus") != 0)
+        sprintf(jeu->message, MERROR "Le deuxième paramètre doit être \"versus\"");
+    else if (ma_commande[4] != NULL)
+        sprintf(jeu->message, TOO_MUCH_ARGS);
+    else if (ma_commande[3] == NULL)
+        sprintf(jeu->message, MERROR "Deuxième combattant manquant.");
+    else {
+        int v = atoi(ma_commande[1]);
+        int f = atoi(ma_commande[3]);
+
+        if ((v == 0 && strcmp(ma_commande[1], "0") != 0) || v < 0)
+            sprintf(jeu->message, MERROR "Le premier identifiant est incorrect.");
+        else if ((f == 0 && strcmp(ma_commande[3], "0") != 0) || f < 0)
+            sprintf(jeu->message, MERROR "Le deuxième identifiant est incorrect.");
+        else
+            fight(jeu, v, f);
+    }
 }
 
 void prompt_move(Jeu* jeu) {

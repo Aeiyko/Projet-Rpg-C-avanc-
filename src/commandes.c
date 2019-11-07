@@ -23,6 +23,8 @@ void show(Jeu *jeu) {
 
 void show_vars(Jeu *jeu,char *arg){
     int i;
+    gotoxy(0, S_HEIGHT + 5);
+
     if(strcmp(arg, "vegetables") == 0) {
         printf("\t--- Légumes ---\n");
         for (i = 0; i < NB_CHAMPS / 2; i++)
@@ -56,6 +58,8 @@ void show_vars(Jeu *jeu,char *arg){
 }
 
 void show_var_i(Jeu *jeu,char *arg,int i) {
+    gotoxy(0, S_HEIGHT + 5);
+
     if (strcmp(arg, "vegetable") == 0 && i >= 0 && i < NB_CHAMPS / 2) {
         printf("\t%d -- %s\n", i, jeu->champs[i]->variete);
         printf("Force : %d\n", jeu->champs[i]->force);
@@ -126,7 +130,17 @@ void fight(Jeu *jeu, int v, int f)
 
 void equip(Jeu* jeu, int arme, int protect, int soin)
 {
-    
+    jeu->courant->equip = initEquipement(jeu->armes[arme], jeu->protects[protect], jeu->soins[soin]);
+
+    if (jeu->equiping && jeu->courant == jeu->legume) {
+        jeu->courant = jeu->fruit;
+        sprintf(jeu->message, GREEN "GOOD" NORMAL);
+    } else {
+        jeu->courant = jeu->legume;
+        jeu->equiping = 0;
+        jeu->equiped = 1;
+        sprintf(jeu->message, RED BOLD "FIIIIIIIIIIIIIIGHT !!!");
+    }
 }
 
 void move(Jeu *jeu, char *dir, int n) {
