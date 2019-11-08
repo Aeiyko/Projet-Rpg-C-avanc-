@@ -4,27 +4,28 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <math.h>
 
 void show(Jeu *jeu) {
     if (jeu->combat) {
         Joueur *j = jeu->courant;
-        gotoxy(0, S_HEIGHT + 1);
-
-        printf("\t--- %s ---\n", j->champ->variete);
-        printf("Arme : %s\n", j->equip->arme->nom);
-        printf("Protection : %s\n", j->equip->protect->nom);
-        printf("Soin : %s\n", j->equip->soin->nom);
-        printf("Position : %d\n", j->pos);
-        printf("\t-------------\n");
+        sprintf(jeu->texte,
+                        "\t--- %s ---\n"
+                        "Arme : %s\n"
+                        "Protection : %s\n"
+                        "Soin : %s\n"
+                        "Position : %d\n"
+                        "\t-------------\n",
+                        j->champ->variete,
+                        j->equip->arme->nom,
+                        j->equip->protect->nom,
+                        j->equip->soin->nom,
+                        j->pos);
     } else
         sprintf(jeu->message, NOT_FIGHTING);
 }
 
 void show_vars(Jeu *jeu,char *arg){
     int i;
-    gotoxy(0, S_HEIGHT + 1);
-
     if(strcmp(arg, "vegetables") == 0) {
         printf("\t--- Légumes ---\n");
         for (i = 0; i < NB_CHAMPS / 2; i++)
@@ -58,8 +59,6 @@ void show_vars(Jeu *jeu,char *arg){
 }
 
 void show_var_i(Jeu *jeu,char *arg,int i) {
-    gotoxy(0, S_HEIGHT + 1);
-
     if (strcmp(arg, "vegetable") == 0 && i >= 0 && i < NB_CHAMPS / 2) {
         printf("\t%d -- %s\n", i, jeu->champs[i]->variete);
         printf("Force : %d\n", jeu->champs[i]->force);
@@ -97,7 +96,6 @@ void show_var_i(Jeu *jeu,char *arg,int i) {
         printf("Ce : %d\n", jeu->soins[i]->ce);
         printf("Ca : %d\n", jeu->soins[i]->ca);
         printf("Volume : %d\n", jeu->soins[i]->volume);
-        printf("HP_min : %d\n", jeu->soins[i]->hp_min);
         printf("HP_max : %d\n", jeu->soins[i]->hp_max);
         printf("\t-----\n");
     }
@@ -115,7 +113,8 @@ void fight(Jeu *jeu, int v, int f)
                 jeu->fruit->champ = jeu->champs[f];
                 jeu->equiping = 1;
 
-                sprintf(jeu->message, GREEN "Equipez vos champions ! Le légume d'abord." NORMAL);
+                sprintf(jeu->message, BOLD "%s " NORMAL RED "< VERSUS >" NORMAL BOLD " %s" NORMAL,
+                        jeu->champs[v]->variete, jeu->champs[f]->variete);
             } else
                 sprintf(jeu->message, MERROR "L'identifiant" BOLD " %d"
                         NORMAL " n'appartient à aucun " BOLD "Fruit." NORMAL, f);
@@ -145,7 +144,8 @@ void equip(Jeu* jeu, int arme, int protect, int soin)
             jeu->equiping = 0;
             jeu->equiped = 1;
 
-            sprintf(jeu->message, BOLD "%s " NORMAL RED "< VERSUS >" NORMAL BOLD " %s" NORMAL,
+            sprintf(jeu->message, RED "Combat lancé ! " NORMAL BOLD "%s "
+                    NORMAL RED "< VERSUS >" NORMAL BOLD " %s" NORMAL,
                     jeu->legume->champ->variete, jeu->fruit->champ->variete);
         }
     }
@@ -198,7 +198,7 @@ void use_weapon(Jeu *jeu, int n)
         else
             adversaire = jeu->fruit;
 
-        if (jeu->courant->equip->arme->portee <= fabs(adversaire->pos - jeu->courant->pos)) {
+        if (jeu->courant->equip->arme->portee <= jeu->legume->pos - jeu->fruit->pos) {
             while (n > 0) {
                 int blocked = (rand() % 100) + 1 <= adversaire->equip->protect->prob;
                 if (adversaire->bouclier == 0 || (adversaire->bouclier == 1 && !blocked)) {

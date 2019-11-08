@@ -177,6 +177,7 @@ void prompt(Commande cmd, Jeu* jeu) {
             break;
         case EQUIP:
             if(jeu->equiping) prompt_equip(jeu);
+            else if (jeu->equiped) sprintf(jeu->message, MERROR "Votre champion est déjà équipé.");
             else sprintf(jeu->message, NOT_FIGHTING);
             break;
         case MOVE:

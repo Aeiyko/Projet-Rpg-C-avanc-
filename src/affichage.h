@@ -39,20 +39,36 @@
 #define SEP_INPUT_FIELD ((S_HEIGHT) - 3)
 #define SEP_CMD_MESS ((S_WIDTH) / 2 - 1)
 
+#define SHOW_START_X (15 * S_MULT)
+#define SHOW_END_X (28 * S_MULT)
+#define SHOW_END_Y (8 * S_MULT)
+
+#define INSTRUCT_X (2 * S_MULT)
+#define INSTRUCT_Y (11 * S_MULT)
+
 /*
  *  Textes.
  */
 
-#define INSTRUCTION \
-    "INSTRUCTION DE DEBUT DE PARTIE"\
-    "=============================="\
-    "Ici sera afficher les premières commande qu'il sera possible de faire avant le combat."\
-    "Donc pour l'instant, ce texte est temporaire"
+#define L_TEXT 500
+#define INSTRUCTIONS \
+    "INSTRUCTION DE DEBUT DE PARTIE\n"\
+    "==============================\n"\
+    " \n"\
+    "Ici sera afficher les premières commandes qu'il sera possible de faire avant le combat.\n"\
+    "Donc pour le moment, ce texte est temporaire.\n"
+#define SHOW_START \
+    "     ▏CARACTERISTIQUES DES CHAMPIONS▕\n"\
+    "     ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔\n"\
+    "\n"\
+    "▷ AIEFJAIFJ\n"\
+    "▷ AIJFOI AIJEFIO AIEFJ\n"
 
 /*
  *  Headers
  */
 
 void maj_affichage(Jeu* jeu);
+void print_texte(char* str, int x, int y);
 
 #endif

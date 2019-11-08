@@ -45,6 +45,7 @@ typedef struct {
     Soin** soins;
 
     char* message;
+    char* texte;
     int combat;
     int equiping;
     int equiped;

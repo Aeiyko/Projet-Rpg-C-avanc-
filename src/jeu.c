@@ -1,5 +1,6 @@
 #include "jeu.h"
 #include "prompt.h"
+#include "affichage.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -56,6 +57,8 @@ Jeu* initJeu(int ce_start, int c_max)
     jeu->courant = jeu->legume;
 
     jeu->message = (char*)malloc(sizeof(char) * L_MESSAGE);
+    jeu->texte = (char*)malloc(sizeof(char) * L_TEXT);
+    sprintf(jeu->texte, SHOW_START);
 
     jeu->champs = initChamps();
     jeu->armes = initArmes();
@@ -130,6 +133,7 @@ void freeJeu(Jeu** jeu)
     freeJoueur(&((*jeu)->fruit));
 
     free((*jeu)->message);
+    free((*jeu)->texte);
 
     freeChamps(&((*jeu)->champs));
     freeArmes(&((*jeu)->armes));

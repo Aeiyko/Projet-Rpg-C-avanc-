@@ -3,6 +3,7 @@
 #include "prompt.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 void print_support()
 {
@@ -37,48 +38,61 @@ void print_support()
     /*printf("\033[0m");*/
 }
 
-void print_show()
+void print_texte(char* texte, int x, int y)
+{
+    char *ligne = strtok(texte, "\n");
+
+    while (ligne != NULL) {
+        gotoxy(x, y);
+        printf("%s", ligne);
+        ligne = strtok(NULL, "\n");
+        y++;
+    }
+}
+
+void print_show(Jeu* jeu)
 {
     /* print le cadre */
     int x, y;
-    gotoxy(31, 0);
-    for (y = 0; y < 16; y++) {
-        for (x = 31; x < 55; x++) {
-            if (x == 31) {
+    gotoxy(SHOW_START_X, 0);
+    for (y = 0; y < SHOW_END_Y; y++) {
+        for (x = SHOW_START_X; x < SHOW_END_X; x++) {
+            if (x == SHOW_START_X) {
                 if (y == 0) printf("╤");
-                else if (y == 16 - 1) printf("╰");
+                else if (y == SHOW_END_Y - 1) printf("╰");
                 else printf("│");
-            } else if (x == 55 - 1) {
+            } else if (x == SHOW_END_X - 1) {
                 if (y == 0) printf("╤");
-                else if (y == 16 - 1) printf("╯");
+                else if (y == SHOW_END_Y - 1) printf("╯");
                 else printf("│");
             } else {
                 if (y == 0) printf("══");
-                else if (y == 16 - 1) printf("──");
+                else if (y == SHOW_END_Y - 1) printf("──");
                 else printf("  ");
             }
         }
-        gotoxy(31, y + 2);
+        gotoxy(SHOW_START_X, y + 2);
     }
 
-    /* print le show */
-}
-
-void print_instruct()
-{
-    /*utiliser strtok et un define du texte.*/
+    print_texte(jeu->texte, SHOW_START_X + 4, 2);
 }
 
 void maj_affichage(Jeu* jeu)
 {
-    /*clear();*/
+    clear();
     print_support();
 
-    if (!jeu->combat) print_show();
-    /*print des commandes*/
-    /*print des instructions*/
+    if (!jeu->combat) {
+        char* texte = (char*)malloc(sizeof(char*) * L_TEXT);
+        strcpy(texte, INSTRUCTIONS);
+        free(texte);
 
-    gotoxy((SEP_CMD_MESS + 1)* 2, S_HEIGHT - 1);
+        print_show(jeu);
+        print_texte(texte, INSTRUCT_X, INSTRUCT_Y);
+    }
+
+
+    gotoxy((SEP_CMD_MESS + 1) * 2, S_HEIGHT - 1);
     printf("%s", jeu->message);
     gotoxy(3, SEP_INPUT_FIELD + 2);
 }
