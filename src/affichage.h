@@ -67,13 +67,15 @@
 
 
 #define INSTRUCTIONS_F \
-    "BIENVENU SUR " GREEN "LEEKWARS" NORMAL "\n"\
-    "============================\n"\
+    "                           INSTRUCTIONS DE DEBUT DE PARTIE\n"\
+    "                           ===============================\n"\
     " \n"\
-    "Ici sera afficher les premières commandes qu'il sera possible de faire avant le combat.\n"\
-    "Donc pour le moment, ce texte est temporaire.\n"
+    "           Vous vous apprêtez à lancer un combat entre un Légume et un Fruit.\n"\
+    "                        Veillez à bien choisir votre champion !\n"\
+    "                                          ---\n"
 
-#define INSTRUCTIONS_E
+
+/*#define INSTRUCTIONS_E*/
 
 #define SHOW_START \
     " ▏CARACTERISTIQUES DES CHAMPIONS▕\n"\
@@ -85,7 +87,7 @@
     "\t           les\n"\
     "\t     caractéristiques\n"\
     "\t           des\n"\
-    "\t        champions\n"
+    "\t        champions"
 
 /*
  *  Sprites.

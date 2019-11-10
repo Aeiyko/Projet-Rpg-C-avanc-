@@ -5,6 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+/** Affiche l'écran d'introduction du jeu.
+ *  Args : NONE
+ *  Return : NONE
+ */
 void print_bienvenu()
 {
     print_texte(BIENVENU, 25, 10);
@@ -12,6 +16,10 @@ void print_bienvenu()
     getchar();
 }
 
+/** Affiche le support graphique dans lequel se déroule le jeu.
+ *  Args : None.
+ *  Return : None.
+ */
 void print_support()
 {
     int x, y;
@@ -43,6 +51,14 @@ void print_support()
     }
 }
 
+/** Affiche un texte en position (x ; y)
+ *  Args :
+ *      char* texte : chaine de caractère à afficher.
+ *      int x : position x.
+ *      int y : position y.
+ *  Return :
+ *      None.
+ */
 void print_texte(char* texte, int x, int y)
 {
     char *ligne, *str = (char*)malloc(sizeof(char) * L_TEXT);
@@ -58,6 +74,12 @@ void print_texte(char* texte, int x, int y)
     free(str);
 }
 
+/** Affiche le cadre dans lequel sera afficher le résultat de la commande "show".
+ *  Args :
+ *      Jeu* jeu : instance du jeu.
+ *  Return :
+ *      None.
+ */
 void print_show(Jeu* jeu)
 {
     int x, y;
@@ -84,6 +106,12 @@ void print_show(Jeu* jeu)
     print_texte(jeu->texte, SHOW_START_X + 8, 2);
 }
 
+/** Met à jour l'affichage.
+ *  Args :
+ *      Jeu* jeu : instance du jeu.
+ *  Return :
+ *      None.
+ */
 void maj_affichage(Jeu* jeu)
 {
     clear();

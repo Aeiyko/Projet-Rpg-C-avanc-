@@ -290,8 +290,8 @@ int rangecommand(char *cmd) {
   *   NONE
   */
 void affichePrompt(Jeu *jeu) {
-    char *commande = (char*)malloc(sizeof(char) * L_CMD);
-    size_t entier = 10;
+    char *commande = NULL;
+    size_t entier = 0;
 
     gotoxy(3, S_HEIGHT - 1);
     if (jeu->combat)

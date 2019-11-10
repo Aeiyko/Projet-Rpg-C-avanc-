@@ -15,7 +15,6 @@ void show(Jeu *jeu)
 {
     if (jeu->combat) {
         Joueur *j = jeu->courant;
-        *(jeu->texte) = '\0';
         sprintf(jeu->texte,
                         "\t--- %s ---\n"
                         "Arme : %s\n"

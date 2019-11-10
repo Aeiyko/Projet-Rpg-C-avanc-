@@ -5,6 +5,17 @@
 #include <string.h>
 #include <stdlib.h>
 
+/** Initialise une instance de la structure Champion.
+ *  Args :
+ *      char* variete : nom du légume ou du fruit.
+ *      Type type : type (légume ou fruit).
+ *      int force
+ *      int resist
+ *      int pv_max
+ *      int ce : crédits d'équipement.
+ *  Return :
+ *      Champion* : instance de Champion.
+ */
 Champion* initChamp(char* variete, Type type, int force, int resist, int pv_max, int ce)
 {
     Champion* champ = (Champion*)malloc(sizeof(Champion));
@@ -22,6 +33,14 @@ Champion* initChamp(char* variete, Type type, int force, int resist, int pv_max,
     return champ;
 }
 
+/** Initialise une instance de la structure Joueur.
+ *  Args :
+ *      int ce_start : crédut d'équipement au début du jeu.
+ *      int c_max : crédit d'équipement/action maximum.
+ *      int pos : position initiale.
+ *  Return :
+ *      Joueur* : instance de Joueur.
+ */
 Joueur* initJoueur(int ce_start, int c_max, int pos)
 {
     Joueur* joueur = (Joueur*)malloc(sizeof(Joueur));
@@ -37,6 +56,13 @@ Joueur* initJoueur(int ce_start, int c_max, int pos)
     return joueur;
 }
 
+/** Initialise une instance de la structure Jeu.
+ *  Args :
+ *      int ce_start : crédut d'équipement au début du jeu.
+ *      int c_max : crédit d'équipement/action maximum.
+ *  Return :
+ *      Jeu* : instance de Jeu.
+ */
 Jeu* initJeu(int ce_start, int c_max)
 {
     Jeu* jeu = (Jeu*)malloc(sizeof(Jeu));
@@ -63,6 +89,11 @@ Jeu* initJeu(int ce_start, int c_max)
 
 /* Initialisation en brut */
 
+/** Initialise tous les champions.
+ *  Args : None.
+ *  Return :
+ *      Champion** : liste des champions.
+ */
 Champion** initChamps()
 {
     Champion **champs = (Champion**)malloc(sizeof(Champion*) * NB_CHAMPS);
@@ -86,13 +117,24 @@ Champion** initChamps()
 
 /* Free de la mémoire */
 
+/** Libère la mémoire utilisée par une instance de Joueur.
+ *  Args :
+ *      Joueur** joueur : adresse de l'instance.
+ *  Return :
+ *      None.
+ */
 void freeJoueur(Joueur** joueur)
 {
-    if ((*joueur)->equip != NULL)
-        free((*joueur)->equip);
+    free((*joueur)->equip);
     free(*joueur);
 }
 
+/** Libère la mémoire utilisée par une liste d'instances de Champion.
+ *  Args :
+ *      Champion*** champs : adresse de la liste.
+ *  Return :
+ *      None.
+ */
 void freeChamps(Champion*** champs)
 {
     int i;
@@ -103,18 +145,24 @@ void freeChamps(Champion*** champs)
     free(*champs);
 }
 
+/** Libère la mémoire utilisée par une instance de Jeu.
+ *  Args :
+ *      Jeu** jeu : adresse de l'instance.
+ *  Return :
+ *      None.
+ */
 void freeJeu(Jeu** jeu)
 {
-    freeJoueur(&((*jeu)->legume));
-    freeJoueur(&((*jeu)->fruit));
-
+    free((*jeu)->texte);
     free((*jeu)->message);
-    /*free((*jeu)->texte);*/
 
-    freeChamps(&((*jeu)->champs));
-    freeArmes(&((*jeu)->armes));
-    freeProtections(&((*jeu)->protects));
-    freeSoins(&((*jeu)->soins));
+    freeJoueur(&(*jeu)->legume);
+    freeJoueur(&(*jeu)->fruit);
+
+    freeChamps(&(*jeu)->champs);
+    freeArmes(&(*jeu)->armes);
+    freeProtections(&(*jeu)->protects);
+    freeSoins(&(*jeu)->soins);
 
     free(*jeu);
 }
