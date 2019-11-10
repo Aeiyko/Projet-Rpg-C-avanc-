@@ -5,17 +5,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-Equipement* initEquipement(Arme* arme, Protection* protect, Soin* soin)
-{
-    Equipement* equip = (Equipement*)malloc(sizeof(Equipement));
-
-    equip->arme = arme;
-    equip->protect = protect;
-    equip->soin = soin;
-
-    return equip;
-}
-
 Champion* initChamp(char* variete, Type type, int force, int resist, int pv_max, int ce)
 {
     Champion* champ = (Champion*)malloc(sizeof(Champion));
@@ -52,13 +41,13 @@ Jeu* initJeu(int ce_start, int c_max)
 {
     Jeu* jeu = (Jeu*)malloc(sizeof(Jeu));
 
-    jeu->fruit = initJoueur(ce_start, c_max,0);
-    jeu->legume = initJoueur(ce_start, c_max,42);
+    jeu->legume = initJoueur(ce_start, c_max, 0);
+    jeu->fruit = initJoueur(ce_start, c_max, TERRAIN_WIDTH);
     jeu->courant = jeu->legume;
 
     jeu->message = (char*)malloc(sizeof(char) * L_MESSAGE);
     jeu->texte = (char*)malloc(sizeof(char) * L_TEXT);
-    sprintf(jeu->texte, SHOW_START);
+    strcpy(jeu->texte, SHOW_START);
 
     jeu->champs = initChamps();
     jeu->armes = initArmes();
@@ -67,7 +56,6 @@ Jeu* initJeu(int ce_start, int c_max)
 
     jeu->combat = 0;
     jeu->equiping = 0;
-    jeu->equiped = 0;
     jeu->fin = 0;
 
     return jeu;
@@ -96,24 +84,12 @@ Champion** initChamps()
     return champs;
 }
 
-/*                                                */
-/**************************************************/
-/*                                                */
-
-void boucle_combat(Jeu* jeu)
-{
-    affichePrompt(jeu);
-}
-
-/*                                                */
-/**************************************************/
-/*                                                */
-
 /* Free de la mémoire */
 
 void freeJoueur(Joueur** joueur)
 {
-    free((*joueur)->equip);
+    if ((*joueur)->equip != NULL)
+        free((*joueur)->equip);
     free(*joueur);
 }
 
@@ -133,7 +109,7 @@ void freeJeu(Jeu** jeu)
     freeJoueur(&((*jeu)->fruit));
 
     free((*jeu)->message);
-    free((*jeu)->texte);
+    /*free((*jeu)->texte);*/
 
     freeChamps(&((*jeu)->champs));
     freeArmes(&((*jeu)->armes));

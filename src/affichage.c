@@ -7,7 +7,6 @@
 
 void print_support()
 {
-    /*printf("\033[7m\033[]");*/
     int x, y;
     gotoxy(0, 0);
     for (y = 0; y < S_HEIGHT; y++) {
@@ -35,27 +34,28 @@ void print_support()
         }
         putchar('\n');
     }
-    /*printf("\033[0m");*/
 }
 
 void print_texte(char* texte, int x, int y)
 {
-    char *ligne = strtok(texte, "\n");
+    char *ligne, *str = (char*)malloc(sizeof(char) * L_TEXT);
+    strcpy(str, texte);
 
+    ligne = strtok(str, "\n");
     while (ligne != NULL) {
         gotoxy(x, y);
         printf("%s", ligne);
         ligne = strtok(NULL, "\n");
         y++;
     }
+    free(str);
 }
 
 void print_show(Jeu* jeu)
 {
-    /* print le cadre */
     int x, y;
     gotoxy(SHOW_START_X, 0);
-    for (y = 0; y < SHOW_END_Y; y++) {
+    for (y = 0; /*!jeu->combat &&*/ y < SHOW_END_Y; y++) {
         for (x = SHOW_START_X; x < SHOW_END_X; x++) {
             if (x == SHOW_START_X) {
                 if (y == 0) printf("╤");
@@ -74,25 +74,25 @@ void print_show(Jeu* jeu)
         gotoxy(SHOW_START_X, y + 2);
     }
 
-    print_texte(jeu->texte, SHOW_START_X + 4, 2);
+    print_texte(jeu->texte, SHOW_START_X + 8, 2);
 }
 
 void maj_affichage(Jeu* jeu)
 {
     clear();
     print_support();
+    print_show(jeu);
 
-    if (!jeu->combat) {
-        char* texte = (char*)malloc(sizeof(char*) * L_TEXT);
-        strcpy(texte, INSTRUCTIONS);
-        free(texte);
-
-        print_show(jeu);
-        print_texte(texte, INSTRUCT_X, INSTRUCT_Y);
+    if (!jeu->equiping && !jeu->combat) print_texte(INSTRUCTIONS, INSTRUCT_X, INSTRUCT_Y);
+    if (jeu->combat) {
+        int x1 = (S_WIDTH - TERRAIN_WIDTH - SPRITE_WIDTH - 1) + jeu->legume->pos * S_MULT;
+        int x2 = (S_WIDTH - TERRAIN_WIDTH) + jeu->fruit->pos * S_MULT;
+        print_texte(LEG_SPRITE, x1, SPRITE_Y);
+        print_texte(FRU_SPRITE, x2, SPRITE_Y);
     }
-
 
     gotoxy((SEP_CMD_MESS + 1) * 2, S_HEIGHT - 1);
     printf("%s", jeu->message);
     gotoxy(3, SEP_INPUT_FIELD + 2);
+
 }

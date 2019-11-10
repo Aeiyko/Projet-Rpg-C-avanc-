@@ -11,6 +11,11 @@ pour supprimer le dossier build ainsi que l'éxécutable :
 affichage.c/affichage.h :
   Création de l'affichage
 
+  - print_support() : Affiche le support dans lequel est affiché le jeu.
+  - print_texte(char* texte, int x, int y) : Permet d'afficher un chaine de caractère à la position x;y.
+  - print_show(Jeu* jeu) : Affiche le cadre où sera afficher les textes de la commande "show".
+  - maj_affichage(Jeu* jeu) : Met à jour l'affichage du jeu.
+
 commande.c/commande.h :
   Toutes les commandes liés au jeu et utilisable par le joueur
 

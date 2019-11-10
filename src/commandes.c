@@ -5,9 +5,11 @@
 #include <string.h>
 #include <time.h>
 
-void show(Jeu *jeu) {
+void show(Jeu *jeu)
+{
     if (jeu->combat) {
         Joueur *j = jeu->courant;
+        *(jeu->texte) = '\0';
         sprintf(jeu->texte,
                         "\t--- %s ---\n"
                         "Arme : %s\n"
@@ -24,80 +26,110 @@ void show(Jeu *jeu) {
         sprintf(jeu->message, NOT_FIGHTING);
 }
 
-void show_vars(Jeu *jeu,char *arg){
+void show_vars(Jeu *jeu, char *arg) 
+{
     int i;
+    char* temp = (char*)malloc(sizeof(char) * 40);
+
+    *(jeu->texte) = '\0';
     if(strcmp(arg, "vegetables") == 0) {
-        printf("\t--- Légumes ---\n");
-        for (i = 0; i < NB_CHAMPS / 2; i++)
-            printf("%d -- %s\n", i, jeu->champs[i]->variete);
-        printf("\t---------------\n");
+        strcat(jeu->texte, "\t--- Légumes ---\n");
+        for (i = 0; i < NB_CHAMPS / 2; i++) {
+            sprintf(temp, "%d -- %s\n", i, jeu->champs[i]->variete);
+            strcat(jeu->texte, temp);
+        }
+        strcat(jeu->texte, "\t---------------\n");
     }
     else if (strcmp(arg, "fruits") == 0){
-        printf("\t--- Fruits ---\n");
-        for (i = NB_CHAMPS / 2; i < NB_CHAMPS ; i++)
-            printf("%d -- %s\n", i, jeu->champs[i]->variete);
-        printf("\t--------------\n");
+        strcat(jeu->texte, "\t--- Fruits ---\n");
+        for (i = NB_CHAMPS / 2; i < NB_CHAMPS ; i++) {
+            sprintf(temp, "%d -- %s\n", i, jeu->champs[i]->variete);
+            strcat(jeu->texte, temp);
+        }
+        strcat(jeu->texte, "\t--------------\n");
     }
     else if (strcmp(arg, "weapons") == 0) {
-        printf("\t--- Weapons ---\n");
-        for (i = 0; i < NB_ARMES; i++)
-            printf("%d -- %s\n", i, jeu->armes[i]->nom);
-        printf("\t----------------\n");
+        strcat(temp, "\t--- Weapons ---\n");
+        for (i = 0; i < NB_ARMES; i++) {
+            sprintf(temp, "%d -- %s\n", i, jeu->armes[i]->nom);
+            strcat(jeu->texte, temp);
+        }
+        strcat(temp, "\t----------------\n");
     }
     else if (strcmp(arg, "protections") == 0) {
-        printf("\t--- Protections ---\n");
-        for (i = 0; i < NB_PROTECTS; i++)
-            printf("%d -- %s\n", i, jeu->protects[i]->nom);
-        printf("\t-------------------\n");
+        strcat(temp, "\t--- Protections ---\n");
+        for (i = 0; i < NB_PROTECTS; i++) {
+            sprintf(temp, "%d -- %s\n", i, jeu->protects[i]->nom);
+            strcat(jeu->texte, temp);
+        }
+        strcat(temp, "\t-------------------\n");
     }
     else {
-        printf("\t--- Soins ---\n");
-        for (i = 0; i < NB_SOINS; i++)
-            printf("%d -- %s\n", i, jeu->soins[i]->nom);
-        printf("\t-------------\n");
+        strcat(temp, "\t--- Soins ---\n");
+        for (i = 0; i < NB_SOINS; i++) {
+            sprintf(temp, "%d -- %s\n", i, jeu->soins[i]->nom);
+            strcat(jeu->texte, temp);
+        }
+        strcat(temp, "\t-------------\n");
     }
+    free(temp);
 }
 
-void show_var_i(Jeu *jeu,char *arg,int i) {
+void show_var_i(Jeu *jeu, char *arg, int i)
+{
     if (strcmp(arg, "vegetable") == 0 && i >= 0 && i < NB_CHAMPS / 2) {
-        printf("\t%d -- %s\n", i, jeu->champs[i]->variete);
-        printf("Force : %d\n", jeu->champs[i]->force);
-        printf("Resistance : %d\n", jeu->champs[i]->resist);
-        printf("PV_max : %d\n", jeu->champs[i]->pv_max);
-        printf("ce : %d\n", jeu->champs[i]->ce);
-        printf("\t-----\n");
+        Champion* c = jeu->champs[i];
+        sprintf(jeu->texte,
+                        "\t%d -- %s\n"
+                        "Force : %d\n"
+                        "Resistance : %d\n"
+                        "PV : %d\n"
+                        "Crédit d'équip. : %d\n"
+                        "\t-----\n",
+                        i, c->variete, c->force, c->resist, c->pv_max, c->ce);
     }
     else if (strcmp(arg, "fruit") == 0 && i >= NB_CHAMPS / 2 && i < NB_CHAMPS) {
-        printf("\t%d -- %s\n", i, jeu->champs[i]->variete);
-        printf("Force : %d\n", jeu->champs[i]->force);
-        printf("Resistance : %d\n", jeu->champs[i]->resist);
-        printf("Pv_max : %d\n", jeu->champs[i]->pv_max);
-        printf("ce : %d\n", jeu->champs[i]->ce);
-        printf("\t-----\n");
+        Champion* c = jeu->champs[i];
+        sprintf(jeu->texte,
+                        "\t%d -- %s\n"
+                        "Force : %d\n"
+                        "Resistance : %d\n"
+                        "PV : %d\n"
+                        "Crédit d'équip. : %d\n"
+                        "\t-----\n",
+                        i, c->variete, c->force, c->resist, c->pv_max, c->ce);
     }
     else if (strcmp(arg, "weapon") == 0 && i >= 0 && i < NB_ARMES) {
-        printf("\t%d -- %s\n", i, jeu->armes[i]->nom);
-        printf("Ce : %d\n", jeu->armes[i]->ce);
-        printf("Ca : %d\n", jeu->armes[i]->ca);
-        printf("D_min : %d\n", jeu->armes[i]->d_min);
-        printf("D_max : %d\n", jeu->armes[i]->d_max);
-        printf("Portée : %d\n", jeu->armes[i]->portee);
-        printf("\t-----\n");
+        Arme* a = jeu->armes[i];
+        sprintf(jeu->texte,
+                        "\t%d -- %s\n"
+                        "Crédit d'équip. : %d\n"
+                        "Crédit d'action : %d\n"
+                        "Dégâts : %d - %d\n"
+                        "Portée : %d\n"
+                        "\t-----\n",
+                        i, a->nom, a->ce, a->ca, a->d_min, a->d_max, a->portee);
     }
     else if (strcmp(arg, "protection") == 0 && i >= 0 && i < NB_PROTECTS) {
-        printf("\t%d -- %s\n", i, jeu->protects[i]->nom);
-        printf("Ce : %d\n", jeu->protects[i]->ce);
-        printf("Ca : %d\n", jeu->protects[i]->ca);
-        printf("Prob : %d\n", jeu->protects[i]->prob);
-        printf("\t-----\n");
+        Protection* p = jeu->protects[i];
+        sprintf(jeu->texte,
+                        "\t%d -- %s\n"
+                        "Crédit d'équip. : %d\n"
+                        "Crédit d'action : %d\n"
+                        "Probabilité : %d\n"
+                        "\t-----\n",
+                        i, p->nom, p->ce, p->ca, p->prob);
     }
     else if (strcmp(arg, "care") == 0 && i >= 0 && i < NB_SOINS) {
-        printf("\t%d -- %s\n", i, jeu->soins[i]->nom);
-        printf("Ce : %d\n", jeu->soins[i]->ce);
-        printf("Ca : %d\n", jeu->soins[i]->ca);
-        printf("Volume : %d\n", jeu->soins[i]->volume);
-        printf("HP_max : %d\n", jeu->soins[i]->hp_max);
-        printf("\t-----\n");
+        Soin* s = jeu->soins[i];
+        sprintf(jeu->texte,
+                        "\t%d -- %s\n"
+                        "Crédit d'équip. : %d\n"
+                        "Crédit d'action : %d\n"
+                        "Volume : %d\n"
+                        "PV rendus : %d - %d\n"
+                        "\t-----\n",
+                        i, s->nom, s->ce, s->ca, s->volume, s->hp_min, s->hp_max);
     }
     else
         sprintf(jeu->message, MERROR "Cet identifiant n'existe pas.");
@@ -108,7 +140,6 @@ void fight(Jeu *jeu, int v, int f)
     if (!jeu->combat) {
         if (v >= 0 && v < NB_CHAMPS / 2) {
             if (f >= NB_CHAMPS / 2 && f < NB_CHAMPS) {
-                jeu->combat = 1;
                 jeu->legume->champ = jeu->champs[v];
                 jeu->fruit->champ = jeu->champs[f];
                 jeu->equiping = 1;
@@ -128,11 +159,11 @@ void fight(Jeu *jeu, int v, int f)
 void equip(Jeu* jeu, int arme, int protect, int soin)
 {
     if (arme >= NB_ARMES)
-        sprintf(jeu->message, "L'identifiant " BOLD "%d" NORMAL " n'appartient à aucune Arme.", arme);
+        sprintf(jeu->message, MERROR "L'identifiant " BOLD "%d" NORMAL " n'appartient à aucune Arme.", arme);
     else if (protect >= NB_PROTECTS)
-        sprintf(jeu->message, "L'identifiant " BOLD "%d" NORMAL " n'appartient à aucune Protection.", protect);
+        sprintf(jeu->message, MERROR "L'identifiant " BOLD "%d" NORMAL " n'appartient à aucune Protection.", protect);
     else if (soin >= NB_SOINS)
-        sprintf(jeu->message, "L'identifiant " BOLD "%d" NORMAL " n'appartient à aucun Soin.", soin);
+        sprintf(jeu->message, MERROR "L'identifiant " BOLD "%d" NORMAL " n'appartient à aucun Soin.", soin);
     else {
         jeu->courant->equip = initEquipement(jeu->armes[arme], jeu->protects[protect], jeu->soins[soin]);
 
@@ -142,7 +173,7 @@ void equip(Jeu* jeu, int arme, int protect, int soin)
         } else {
             jeu->courant = jeu->legume;
             jeu->equiping = 0;
-            jeu->equiped = 1;
+            jeu->combat = 1;
 
             sprintf(jeu->message, RED "Combat lancé ! " NORMAL BOLD "%s "
                     NORMAL RED "< VERSUS >" NORMAL BOLD " %s" NORMAL,
@@ -152,13 +183,13 @@ void equip(Jeu* jeu, int arme, int protect, int soin)
 }
 
 void move(Jeu *jeu, char *dir, int n) {
-    if (jeu->fruit == jeu->courant){
+    if (jeu->legume == jeu->courant){
         if (strcmp(dir, "forward") == 0 && jeu->courant->ca - n >= 0 &&
-                jeu->courant->pos + n <= jeu->legume->pos) {
+                jeu->courant->pos + n <= jeu->fruit->pos) {
             jeu->courant->ca -= n;
             jeu->courant->pos += n;
         }
-        else if (strcmp(dir, "backward") == 0 && jeu->courant->ca - n >= 0 && jeu->courant->pos - n > 0) {
+        else if (strcmp(dir, "backward") == 0 && jeu->courant->ca - (n * 2) >= 0 && jeu->courant->pos - n >= 0) {
             jeu->courant->ca = jeu->courant->ca - (n * 2);
             jeu->courant->pos -= n;
         }
@@ -167,12 +198,12 @@ void move(Jeu *jeu, char *dir, int n) {
     }
     else {
         if (strcmp(dir, "forward") == 0 && jeu->courant->ca - n >= 0 &&
-                jeu->courant->pos - n >= jeu->fruit->pos) {
+                jeu->courant->pos - n >= jeu->legume->pos) {
             jeu->courant->ca -= n;
             jeu->courant->pos -= n;
         }
-        else if (strcmp(dir, "backward") == 0 && jeu->courant->ca - n >= 0 && jeu->courant->pos + n > 42) {
-            jeu->courant->ca = jeu->courant->ca - (n*2);
+        else if (strcmp(dir, "backward") == 0 && jeu->courant->ca - (n * 2) >= 0 && jeu->courant->pos + n <= TERRAIN_WIDTH) {
+            jeu->courant->ca = jeu->courant->ca - (n * 2);
             jeu->courant->pos += n;
         }
         else

@@ -9,10 +9,10 @@
 char *ma_commande[L_CMD];
 
 void prompt_show(Jeu *jeu) {
-    if(ma_commande[1] == NULL && jeu->equiped)
+    if(ma_commande[1] == NULL && jeu->combat)
         show(jeu);
     else if(ma_commande[1] == NULL)
-      sprintf(jeu->message,NOT_FIGHTING);  
+      sprintf(jeu->message, NOT_FIGHTING);  
     else {
         int i, fin = 0;
         char *arg1[NB_ARGS] = {"vegetables", "fruits", "weapons", "protections", "cares"};
@@ -172,24 +172,24 @@ void prompt(Commande cmd, Jeu* jeu) {
             prompt_show(jeu);
             break;
         case FIGHT:
-            if(!jeu->combat) prompt_fight(jeu);
+            if(!jeu->combat && !jeu->equiping) prompt_fight(jeu);
             else sprintf(jeu->message, NOT_FIGHTING);
             break;
         case EQUIP:
             if(jeu->equiping) prompt_equip(jeu);
-            else if (jeu->equiped) sprintf(jeu->message, MERROR "Votre champion est déjà équipé.");
+            else if (jeu->combat) sprintf(jeu->message, MERROR "Votre champion est déjà équipé.");
             else sprintf(jeu->message, NOT_FIGHTING);
             break;
         case MOVE:
-            if(jeu->equiped) prompt_move(jeu);
+            if(jeu->combat) prompt_move(jeu);
             else sprintf(jeu->message, NOT_FIGHTING);
             break;
         case USE:
-            if(jeu->equiped) prompt_use(jeu);
+            if(jeu->combat) prompt_use(jeu);
             else sprintf(jeu->message, NOT_FIGHTING);
             break;
         case END:
-            if(jeu->equiped) prompt_end(jeu);
+            if(jeu->combat) prompt_end(jeu);
             else sprintf(jeu->message, NOT_FIGHTING);
             break;
         case EXIT:
@@ -227,10 +227,9 @@ void affichePrompt(Jeu *jeu) {
     size_t entier = 10;
 
     if (jeu->combat)
-        if (jeu->equiping)
-            printf("Equipez votre " BOLD "%s" NORMAL " ! > ", jeu->courant->champ->variete);
-        else
-            printf(BOLD "%s (%d)" NORMAL " > ", jeu->courant->champ->variete, jeu->courant->ca);
+        printf(BOLD "%s (%d)" NORMAL " > ", jeu->courant->champ->variete, jeu->courant->ca);
+    else if (jeu->equiping)
+        printf("Equipez votre " BOLD "%s" NORMAL " ! > ", jeu->courant->champ->variete);
     else
         printf("> ");
 

@@ -3,6 +3,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+Equipement* initEquipement(Arme* arme, Protection* protect, Soin* soin)
+{
+    Equipement* equip = (Equipement*)malloc(sizeof(Equipement));
+
+    equip->arme = arme;
+    equip->protect = protect;
+    equip->soin = soin;
+
+    return equip;
+}
+
 Arme* initArme(char *nom, int ce, int ca, int d_min, int d_max, int portee)
 {
     Arme* arme = (Arme*)malloc(sizeof(Arme));

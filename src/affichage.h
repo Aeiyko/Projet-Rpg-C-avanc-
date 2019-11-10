@@ -46,26 +46,54 @@
 #define INSTRUCT_X (2 * S_MULT)
 #define INSTRUCT_Y (11 * S_MULT)
 
+#define TERRAIN_WIDTH (15 * S_MULT)
+#define SPRITE_Y (S_HEIGHT - 10)
+#define SPRITE_WIDTH 14
+
 /*
  *  Textes.
  */
 
-#define L_TEXT 500
+#define L_TEXT 1024
 #define INSTRUCTIONS \
-    "INSTRUCTION DE DEBUT DE PARTIE\n"\
-    "==============================\n"\
+    "BIENVENU SUR " GREEN "LEEKWARS" NORMAL "\n"\
+    "============================\n"\
     " \n"\
     "Ici sera afficher les premières commandes qu'il sera possible de faire avant le combat.\n"\
     "Donc pour le moment, ce texte est temporaire.\n"
+
 #define SHOW_START \
-    "     ▏CARACTERISTIQUES DES CHAMPIONS▕\n"\
-    "     ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔\n"\
-    "\n"\
-    "▷ AIEFJAIFJ\n"\
-    "▷ AIJFOI AIJEFIO AIEFJ\n"
+    " ▏CARACTERISTIQUES DES CHAMPIONS▕\n"\
+    " ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔\n"\
+    " \n \n"\
+    "\t           Ici\n"\
+    "\t           sont\n"\
+    "\t         affichés\n"\
+    "\t           les\n"\
+    "\t     caractéristiques\n"\
+    "\t           des\n"\
+    "\t        champions\n"
 
 /*
- *  Headers
+ *  Sprites.
+ */
+
+#define LEG_SPRITE \
+    "╭ ╌ ╌ ╌ ╌ ╌ ╌ ╮\n"\
+    "╎ L E G U M E ╎\n"\
+    "╎ L E G U M E ╎\n"\
+    "╎ L E G U M E ╎\n"\
+    "╰ ╌ ╌ ╌ ╌ ╌ ╌ ╯"
+                            /* TEMPORAIRE */
+#define FRU_SPRITE \
+    "╭ ╌ ╌ ╌ ╌ ╌ ╌ ╮\n"\
+    "╎  F R U I T  ╎\n"\
+    "╎  F R U I T  ╎\n"\
+    "╎  F R U I T  ╎\n"\
+    "╰ ╌ ╌ ╌ ╌ ╌ ╌ ╯"
+
+/*
+ *  Headers.
  */
 
 void maj_affichage(Jeu* jeu);

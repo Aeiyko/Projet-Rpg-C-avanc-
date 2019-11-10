@@ -13,7 +13,7 @@ int main(int argc, char **argv)
     clear();
     while (!(jeu->fin)) {
         maj_affichage(jeu);
-        boucle_combat(jeu);
+        affichePrompt(jeu);
     }
 
     clear();

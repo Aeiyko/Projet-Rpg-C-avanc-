@@ -48,7 +48,6 @@ typedef struct {
     char* texte;
     int combat;
     int equiping;
-    int equiped;
     int fin;
 } Jeu;
 
@@ -61,8 +60,6 @@ Champion* initChamp(char* variete, Type type, int force, int resist, int pv_max,
 Joueur* initJoueur(int ce_start, int c_max, int pos);
 Jeu* initJeu();
 Champion** initChamps();
-
-void boucle_combat(Jeu* jeu);
 
 void freeJoueur(Joueur** joueur);
 void freeChamps(Champion*** champs);
