@@ -66,3 +66,18 @@ prompt.c/prompt.h :
  - prompt(Commande,Jeu*) : Prompt général
  - rangecommand(char*) : range la commande dans la chaine de caractère buffer
  - affichePrompt(Jeu*) : affiche le prompt et demande une commande
+
+ ===========================
+
+ FONCTIONNALITES NON PREVU :
+
+ Pour équiper le champion, écrire la commande suivante :
+        equip [id_arme] [id_protection] [id_soin]
+
+ ===========================
+
+ PROBLEME "CONNU" :
+
+ jeu.c: ligne 157 - Le free provoque une erreur, dont nous n'avons pas réussi à trouver la source.
+                    La ligne est donc commenté. Il manque donc un free pour Valgrind.
+
