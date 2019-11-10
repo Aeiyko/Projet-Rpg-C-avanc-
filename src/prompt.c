@@ -8,11 +8,17 @@
 
 char *ma_commande[L_CMD];
 
+/** Permet de lancer tous les cas de la commande show
+  * Args :
+  *   Jeu *jeu : instance du Jeu
+  * Return:
+  *   NONE
+  */
 void prompt_show(Jeu *jeu) {
     if(ma_commande[1] == NULL && jeu->combat)
         show(jeu);
     else if(ma_commande[1] == NULL)
-      sprintf(jeu->message, NOT_FIGHTING);  
+      sprintf(jeu->message, NOT_FIGHTING);
     else {
         int i, fin = 0;
         char *arg1[NB_ARGS] = {"vegetables", "fruits", "weapons", "protections", "cares"};
@@ -45,6 +51,12 @@ void prompt_show(Jeu *jeu) {
     }
 }
 
+/** Permet de lancer tous les cas de la commande equip
+  * Args :
+  *   Jeu *jeu : instance du Jeu
+  * Return:
+  *   NONE
+  */
 void prompt_equip(Jeu* jeu)
 {
     if (ma_commande[1] == NULL || ma_commande[2] == NULL || ma_commande[3] == NULL || ma_commande[4] != NULL)
@@ -65,6 +77,12 @@ void prompt_equip(Jeu* jeu)
     }
 }
 
+/** Permet de lancer tous les cas de la commande fight
+  * Args :
+  *   Jeu *jeu : instance du Jeu
+  * Return:
+  *   NONE
+  */
 void prompt_fight(Jeu* jeu)
 {
     if (ma_commande[1] == NULL)
@@ -90,6 +108,12 @@ void prompt_fight(Jeu* jeu)
     }
 }
 
+/** Permet de lancer tous les cas de la commande move
+  * Args :
+  *   Jeu *jeu : instance du Jeu
+  * Return:
+  *   NONE
+  */
 void prompt_move(Jeu* jeu) {
     if (ma_commande[1] == NULL)
         sprintf(jeu->message, ARGS_MISSING);
@@ -106,6 +130,12 @@ void prompt_move(Jeu* jeu) {
         sprintf(jeu->message, WRONG_FIRST_ARG);
 }
 
+/** Permet de lancer tous les cas de la commande use
+  * Args :
+  *   Jeu *jeu : instance du Jeu
+  * Return:
+  *   NONE
+  */
 void prompt_use(Jeu* jeu) {
     if (ma_commande[1] != NULL) {
         if (strcmp(ma_commande[1], "weapon") == 0 || strcmp(ma_commande[1], "care") == 0) {
@@ -137,6 +167,12 @@ void prompt_use(Jeu* jeu) {
         sprintf(jeu->message, ARGS_MISSING);
 }
 
+/** Permet de lancer tous les cas de la commande end
+  * Args :
+  *   Jeu *jeu : instance du Jeu
+  * Return:
+  *   NONE
+  */
 void prompt_end(Jeu* jeu) {
     if (ma_commande[1] != NULL)
         sprintf(jeu->message, MERROR "Cette commande ne prend pas de paramètre.");
@@ -144,6 +180,12 @@ void prompt_end(Jeu* jeu) {
         end(jeu);
 }
 
+/** Permet de transformer une chaine en commande
+  * Args :
+  *   NONE
+  * Return:
+  *   NONE
+  */
 Commande strToCmd() {
     int i;
     char *listecmd[NB_CMD] = {"show", "fight", "equip", "move", "use", "end", "exit", "error"};
@@ -156,6 +198,12 @@ Commande strToCmd() {
     return i;
 }
 
+/** Permet de vider le buffer de la chaine de carac qui reçoit la commande
+  * Args :
+  *   NONE
+  * Return:
+  *   NONE
+  */
 void vider_ma_commande()
 {
     int i;
@@ -163,6 +211,13 @@ void vider_ma_commande()
         ma_commande[i] = NULL;
 }
 
+/** Permet de choisir quelle fonction lancer selon l'entrée de l'utilisateur
+  * Args :
+  *   Commande cmd : Commande de l'utilisateur
+  *   Jeu *jeu : instance du Jeu
+  * Return:
+  *   NONE
+  */
 void prompt(Commande cmd, Jeu* jeu) {
     /*void (*funcs[])(Jeu*) = {prompt_show, prompt_fight, prompt_move, prompt_use, prompt_end};*/
 
@@ -194,15 +249,21 @@ void prompt(Commande cmd, Jeu* jeu) {
             break;
         case EXIT:
             jeu->fin = 1;
+            vider_ma_commande();
             break;
         case ERROR:
         default:
             sprintf(jeu->message, INVALID_CMD);
             break;
     }
-    vider_ma_commande();
 }
 
+/** Place dans le buffer l'entrée de l'utilisateur
+  * Args :
+  *   char *cmd : l'entrée de l'utilisateur
+  * Return:
+  *   bool
+  */
 int rangecommand(char *cmd) {
     int i = 1, fin = 0;
     ma_commande[0] = strtok(cmd, " \n");
@@ -222,6 +283,12 @@ int rangecommand(char *cmd) {
     return 1;
 }
 
+/** Permet de récuperer ce qu'a écrit l'utilisateur et de lancer l'analyse
+  * Args :
+  *   Jeu *jeu : instance du Jeu
+  * Return:
+  *   NONE
+  */
 void affichePrompt(Jeu *jeu) {
     char *commande = (char*)malloc(sizeof(char) * L_CMD);
     size_t entier = 10;

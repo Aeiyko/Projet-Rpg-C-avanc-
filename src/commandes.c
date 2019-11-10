@@ -5,6 +5,12 @@
 #include <string.h>
 #include <time.h>
 
+/** Permet d'afficher les détails du joueur courant
+  * Args :
+  *   Jeu *jeu : instance du Jeu
+  * Return:
+  *   NONE
+  */
 void show(Jeu *jeu)
 {
     if (jeu->combat) {
@@ -26,7 +32,14 @@ void show(Jeu *jeu)
         sprintf(jeu->message, NOT_FIGHTING);
 }
 
-void show_vars(Jeu *jeu, char *arg) 
+/** Permet d'afficher les détails d'un certain camp
+  * Args :
+  *   Jeu *jeu : instance du Jeu
+  *   char *arg : nom du camp
+  * Return:
+  *   NONE
+  */
+void show_vars(Jeu *jeu, char *arg)
 {
     int i;
     char* temp = (char*)malloc(sizeof(char) * 40);
@@ -75,6 +88,14 @@ void show_vars(Jeu *jeu, char *arg)
     free(temp);
 }
 
+/** Permet d'afficher les détails d'un champion i
+  * Args :
+  *   Jeu *jeu : intance du Jeu
+  *   char *arg : nom du camp
+  *   int i : numéro du champion
+  * Return:
+  *   NONE
+  */
 void show_var_i(Jeu *jeu, char *arg, int i)
 {
     if (strcmp(arg, "vegetable") == 0 && i >= 0 && i < NB_CHAMPS / 2) {
@@ -135,6 +156,14 @@ void show_var_i(Jeu *jeu, char *arg, int i)
         sprintf(jeu->message, MERROR "Cet identifiant n'existe pas.");
 }
 
+/** Permet de lancer le combat
+  * Args :
+  *   Jeu *jeu : intance du Jeu
+  *   int v : numéro du champion légume
+  *   int f : numéro du champion fruit
+  * Return:
+  *   NONE
+  */
 void fight(Jeu *jeu, int v, int f)
 {
     if (!jeu->combat) {
@@ -156,6 +185,15 @@ void fight(Jeu *jeu, int v, int f)
         sprintf(jeu->message, MERROR "Vous êtes déjà en combat.");
 }
 
+/** Permet d'équiper un champion
+  * Args :
+  *   Jeu *jeu : intance du Jeu
+  *   int arme : numéro de l'arme
+  *   int protect : numéro de la protection
+  *   int soin : numéro du soin
+  * Return:
+  *   NONE
+  */
 void equip(Jeu* jeu, int arme, int protect, int soin)
 {
     if (arme >= NB_ARMES)
@@ -182,6 +220,14 @@ void equip(Jeu* jeu, int arme, int protect, int soin)
     }
 }
 
+/** Permet de déplacer son champion
+  * Args :
+  *   Jeu *jeu : intance du Jeu
+  *   char *dir : direction du déplacement
+  *   int n : nombre de case
+  * Return:
+  *   NONE
+  */
 void move(Jeu *jeu, char *dir, int n) {
     if (jeu->legume == jeu->courant){
         if (strcmp(dir, "forward") == 0 && jeu->courant->ca - n >= 0 &&
@@ -211,6 +257,13 @@ void move(Jeu *jeu, char *dir, int n) {
     }
 }
 
+/** Permet d'utiliser son arme
+  * Args :
+  *   Jeu *jeu : intance du Jeu
+  *   int n : nombre de tirs
+  * Return:
+  *   NONE
+  */
 void use_weapon(Jeu *jeu, int n)
 {
     int cout = n * jeu->courant->equip->arme->ca;
@@ -248,6 +301,12 @@ void use_weapon(Jeu *jeu, int n)
     }
 }
 
+/** Permet d'utiliser sa protection
+  * Args :
+  *   Jeu *jeu : intance du Jeu
+  * Return:
+  *   NONE
+  */
 void use_protection(Jeu *jeu)
 {
     if (jeu->combat) {
@@ -256,6 +315,13 @@ void use_protection(Jeu *jeu)
         sprintf(jeu->message, NOT_FIGHTING);
 }
 
+/** Permet d'utiliser son soin
+  * Args :
+  *   Jeu *jeu : intance du Jeu
+  *   int n : nombre d'utilisation
+  * Return:
+  *   NONE
+  */
 void use_care(Jeu *jeu, int n)
 {
     if (jeu->combat) {
@@ -285,6 +351,12 @@ void use_care(Jeu *jeu, int n)
         sprintf(jeu->message, NOT_FIGHTING);
 }
 
+/** Permet de finir son tour
+  * Args :
+  *   Jeu *jeu : intance du Jeu
+  * Return:
+  *   NONE
+  */
 void end(Jeu *jeu) {
     if (jeu->combat == 1) {
         if (jeu->courant == jeu->fruit) {
