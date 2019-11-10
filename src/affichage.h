@@ -15,6 +15,7 @@
 #define BOLD "\033[1m"
 #define RED "\033[31m"
 #define GREEN "\033[32m"
+#define BLINK "\033[5m"
 #define MERROR BOLD RED "ERROR :\033[0m "
 
 /*
@@ -54,13 +55,25 @@
  *  Textes.
  */
 
-#define L_TEXT 1024
-#define INSTRUCTIONS \
+#define L_TEXT 512
+#define BIENVENU \
+    " _     _____ _____ _  ____        ___    ____  ____\n"\
+    "| |   | ____| ____| |/ /\\ \\      / / \\  |  _ \\/ ___|\n"\
+    "| |   |  _| |  _| | ' /  \\ \\ /\\ / / _ \\ | |_) \\___ \\\n"\
+    "| |___| |___| |___| . \\   \\ V  V / ___ \\|  _ < ___) |\n"\
+    "|_____|_____|_____|_|\\_\\   \\_/\\_/_/   \\_\\_| \\_\\____/\n"\
+    " \n \n \n"\
+    "\t\t  " BLINK ">" NORMAL " Press [ENTER] " BLINK "<" NORMAL
+
+
+#define INSTRUCTIONS_F \
     "BIENVENU SUR " GREEN "LEEKWARS" NORMAL "\n"\
     "============================\n"\
     " \n"\
     "Ici sera afficher les premières commandes qu'il sera possible de faire avant le combat.\n"\
     "Donc pour le moment, ce texte est temporaire.\n"
+
+#define INSTRUCTIONS_E
 
 #define SHOW_START \
     " ▏CARACTERISTIQUES DES CHAMPIONS▕\n"\
@@ -96,6 +109,7 @@
  *  Headers.
  */
 
+void print_bienvenu();
 void maj_affichage(Jeu* jeu);
 void print_texte(char* str, int x, int y);
 

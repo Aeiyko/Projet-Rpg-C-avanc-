@@ -293,6 +293,7 @@ void affichePrompt(Jeu *jeu) {
     char *commande = (char*)malloc(sizeof(char) * L_CMD);
     size_t entier = 10;
 
+    gotoxy(3, S_HEIGHT - 1);
     if (jeu->combat)
         printf(BOLD "%s (%d)" NORMAL " > ", jeu->courant->champ->variete, jeu->courant->ca);
     else if (jeu->equiping)

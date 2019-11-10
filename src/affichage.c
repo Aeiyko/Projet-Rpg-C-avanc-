@@ -5,6 +5,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+void print_bienvenu()
+{
+    print_texte(BIENVENU, 25, 10);
+    gotoxy(0, 0);
+    getchar();
+}
+
 void print_support()
 {
     int x, y;
@@ -83,7 +90,7 @@ void maj_affichage(Jeu* jeu)
     print_support();
     print_show(jeu);
 
-    if (!jeu->equiping && !jeu->combat) print_texte(INSTRUCTIONS, INSTRUCT_X, INSTRUCT_Y);
+    if (!jeu->equiping && !jeu->combat) print_texte(INSTRUCTIONS_F, INSTRUCT_X, INSTRUCT_Y);
     if (jeu->combat) {
         int x1 = (S_WIDTH - TERRAIN_WIDTH - SPRITE_WIDTH - 1) + jeu->legume->pos * S_MULT;
         int x2 = (S_WIDTH - TERRAIN_WIDTH) + jeu->fruit->pos * S_MULT;
@@ -93,6 +100,4 @@ void maj_affichage(Jeu* jeu)
 
     gotoxy((SEP_CMD_MESS + 1) * 2, S_HEIGHT - 1);
     printf("%s", jeu->message);
-    gotoxy(3, SEP_INPUT_FIELD + 2);
-
 }
