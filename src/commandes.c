@@ -230,7 +230,7 @@ void equip(Jeu* jeu, int arme, int protect, int soin)
 void move(Jeu *jeu, char *dir, int n) {
     if (jeu->legume == jeu->courant){
         if (strcmp(dir, "forward") == 0 && jeu->courant->ca - n >= 0 &&
-                jeu->courant->pos + n <= jeu->fruit->pos) {
+                jeu->courant->pos + n < jeu->fruit->pos) {
             jeu->courant->ca -= n;
             jeu->courant->pos += n;
         }
@@ -243,7 +243,7 @@ void move(Jeu *jeu, char *dir, int n) {
     }
     else {
         if (strcmp(dir, "forward") == 0 && jeu->courant->ca - n >= 0 &&
-                jeu->courant->pos - n >= jeu->legume->pos) {
+                jeu->courant->pos - n > jeu->legume->pos) {
             jeu->courant->ca -= n;
             jeu->courant->pos -= n;
         }
@@ -281,7 +281,7 @@ void use_weapon(Jeu *jeu, int n)
         else
             adversaire = jeu->fruit;
 
-        if (jeu->courant->equip->arme->portee <= jeu->legume->pos - jeu->fruit->pos) {
+        if (jeu->courant->equip->arme->portee >= jeu->fruit->pos - jeu->legume->pos) {
             while (n > 0) {
                 int blocked = (rand() % 100) + 1 <= adversaire->equip->protect->prob;
                 if (adversaire->bouclier == 0 || (adversaire->bouclier == 1 && !blocked)) {

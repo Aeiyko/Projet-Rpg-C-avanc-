@@ -248,8 +248,11 @@ void prompt(Commande cmd, Jeu* jeu) {
             else sprintf(jeu->message, NOT_FIGHTING);
             break;
         case EXIT:
-            jeu->fin = 1;
-            vider_ma_commande();
+            if(!jeu->equiping && !jeu->combat){
+              jeu->fin = 1;
+              vider_ma_commande();
+            }
+            else sprintf(jeu->message,"Un guerrier ne quitte pas le champ de bataille!");
             break;
         case ERROR:
         default:
