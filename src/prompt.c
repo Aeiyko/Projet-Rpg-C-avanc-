@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 char *ma_commande[L_CMD];
 
@@ -248,17 +249,16 @@ void prompt(Commande cmd, Jeu* jeu) {
             else sprintf(jeu->message, NOT_FIGHTING);
             break;
         case EXIT:
-            if(!jeu->equiping && !jeu->combat){
+            if(!jeu->equiping && !jeu->combat)
               jeu->fin = 1;
-              vider_ma_commande();
-            }
-            else sprintf(jeu->message,"Un guerrier ne quitte pas le champ de bataille!");
+            else sprintf(jeu->message, MERROR "Un guerrier ne quitte pas le champ de bataille!");
             break;
         case ERROR:
         default:
             sprintf(jeu->message, INVALID_CMD);
             break;
     }
+    vider_ma_commande();
 }
 
 /** Place dans le buffer l'entrée de l'utilisateur
@@ -308,8 +308,11 @@ void affichePrompt(Jeu *jeu) {
 
     if (!rangecommand(commande))
         sprintf(jeu->message, INVALID_CMD);
-    else
+    else {
         prompt(strToCmd(), jeu);
+        if (jeu->courant->ca <= 0)
+            prompt_end(jeu);
+    }
 
     free(commande);
 }

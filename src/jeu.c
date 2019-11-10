@@ -44,12 +44,13 @@ Champion* initChamp(char* variete, Type type, int force, int resist, int pv_max,
 Joueur* initJoueur(int ce_start, int c_max, int pos)
 {
     Joueur* joueur = (Joueur*)malloc(sizeof(Joueur));
-    joueur->ce_max = c_max;
     joueur->ce = ce_start;
+    joueur->ce_used = 0;
     joueur->ca_max = c_max;
     joueur->ca = c_max;
     joueur->champ = NULL;
     joueur->equip = NULL;
+    joueur->pos_init = pos;
     joueur->pos = pos;
     joueur->bouclier = 0;
 
@@ -153,7 +154,7 @@ void freeChamps(Champion*** champs)
  */
 void freeJeu(Jeu** jeu)
 {
-    free((*jeu)->texte);
+    /*free((*jeu)->texte);*/
     free((*jeu)->message);
 
     freeJoueur(&(*jeu)->legume);

@@ -23,12 +23,13 @@ typedef struct {
 } Champion;
 
 typedef struct {
-    int ce_max;
     int ce;
+    int ce_used;
     int ca_max;
     int ca;
     Champion *champ;
     Equipement* equip;
+    int pos_init;
     int pos;
     int bouclier;
 } Joueur;

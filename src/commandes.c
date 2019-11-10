@@ -202,7 +202,12 @@ void equip(Jeu* jeu, int arme, int protect, int soin)
     else if (soin >= NB_SOINS)
         sprintf(jeu->message, MERROR "L'identifiant " BOLD "%d" NORMAL " n'appartient à aucun Soin.", soin);
     else {
-        jeu->courant->equip = initEquipement(jeu->armes[arme], jeu->protects[protect], jeu->soins[soin]);
+        Arme* a = jeu->armes[arme];
+        Protection* p = jeu->protects[protect];
+        Soin* s = jeu->soins[soin];
+
+        jeu->courant->equip = initEquipement(a, p, s);
+        jeu->courant->ce_used = a->ce + p->ce + s->ce;
 
         if (jeu->equiping && jeu->courant == jeu->legume) {
             jeu->courant = jeu->fruit;
@@ -294,6 +299,27 @@ void use_weapon(Jeu *jeu, int n)
                 }
                 n--;
             }
+            
+            adversaire->champ->pv -= somme;
+
+            /* si adversaire dead 
+             * TODO : faire une fonction 'termine_combat()'
+             */
+            if (adversaire->champ->pv <= 0) {
+                int diff = adversaire->ce_used - jeu->courant->ce_used;
+                jeu->combat = 0;
+                jeu->courant->ce += 5 * (diff > 1 ? diff : 1);
+                jeu->courant->ce_used = 0;
+                adversaire->ce_used = 0;
+                jeu->courant->champ->pv = jeu->courant->champ->pv_max;
+                adversaire->champ->pv = adversaire->champ->pv_max;
+                jeu->courant->pos = jeu->courant->pos_init;
+                adversaire->pos = adversaire->pos_init;
+                jeu->courant = jeu->legume;
+                free(jeu->courant->equip);
+                free(adversaire->equip);
+            }
+
             sprintf(jeu->message, "Vous infligez %d !", somme);
         }
         else sprintf(jeu->message, "Oh non ! L'ennemi était trop loin !");
@@ -367,6 +393,7 @@ void end(Jeu *jeu) {
             jeu->courant = jeu->fruit;
             jeu->fruit->bouclier = 0;
         }
+        jeu->courant->ca = jeu->courant->ca_max;
     } else
         sprintf(jeu->message, NOT_FIGHTING);
 }
