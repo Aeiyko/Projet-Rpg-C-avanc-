@@ -5,7 +5,7 @@ O_FILES = $(C_FILES:src/%.c=build/%.o)
 CC = gcc
 
 #Options du compilateur
-CFLAGS = -Wall -pedantic -ansi
+CFLAGS = -Wall -pedantic -ansi -g
 LDFLAGS = -lm
 
 .PHONY: all clean
@@ -18,6 +18,7 @@ $(NAME): $(C_FILES) | build
 
 build:
 	@mkdir -p build
+	@cp -r src/Strats build
 
 clean:
 	@rm -f $(NAME)*

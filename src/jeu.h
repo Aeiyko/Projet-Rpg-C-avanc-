@@ -59,7 +59,7 @@ typedef struct {
 Equipement* initEquipement(Arme* arme, Protection* protect, Soin* soin);
 Champion* initChamp(char* variete, Type type, int force, int resist, int pv_max, int ce);
 Joueur* initJoueur(int ce_start, int c_max, int pos);
-Jeu* initJeu();
+Jeu* initJeu(int ce_start, int c_max);
 Champion** initChamps();
 
 void freeJoueur(Joueur** joueur);

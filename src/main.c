@@ -1,5 +1,6 @@
 #include "jeu.h"
 #include "affichage.h"
+#include "strats.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -14,9 +15,10 @@ int main(int argc, char **argv)
     if (!BETA_TESTING) {
         clear();
         print_bienvenu();
-    } else
+    } else {
         printf(BETA_TEXT);
-
+        initStrats(jeu);
+      }
     while (!(jeu->fin)) {
         maj_affichage(jeu);
         affichePrompt(jeu);
