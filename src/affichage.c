@@ -114,24 +114,26 @@ void print_show(Jeu* jeu)
  */
 void maj_affichage(Jeu* jeu)
 {
-    /*clear();
-    print_support();
-    print_show(jeu);
+    if (!BETA_TESTING) {
+        clear();
+        print_support();
+        print_show(jeu);
 
-    if (!jeu->equiping && !jeu->combat) {
-        print_texte(LEG_SPRITE, 8, 3);
-        print_texte(FRU_SPRITE, (S_WIDTH - 12) * 2, 3);
-        print_texte(INSTRUCTIONS_F, INSTRUCT_X, INSTRUCT_Y);
+        if (!jeu->equiping && !jeu->combat) {
+            print_texte(LEG_SPRITE, 8, 3);
+            print_texte(FRU_SPRITE, (S_WIDTH - 12) * 2, 3);
+            print_texte(INSTRUCTIONS_F, INSTRUCT_X, INSTRUCT_Y);
+        }
+
+        if (jeu->combat) {
+            int x1 = (S_WIDTH - TERRAIN_WIDTH - SPRITE_WIDTH - 1) + jeu->legume->pos * S_MULT;
+            int x2 = (S_WIDTH - TERRAIN_WIDTH) + jeu->fruit->pos * S_MULT;
+            print_texte(LEG_SPRITE, x1, SPRITE_Y);
+            print_texte(FRU_SPRITE, x2, SPRITE_Y);
+        }
+
+        gotoxy((SEP_CMD_MESS + 1) * 2, S_HEIGHT - 1);
     }
 
-    if (jeu->combat) {
-        int x1 = (S_WIDTH - TERRAIN_WIDTH - SPRITE_WIDTH - 1) + jeu->legume->pos * S_MULT;
-        int x2 = (S_WIDTH - TERRAIN_WIDTH) + jeu->fruit->pos * S_MULT;
-        print_texte(LEG_SPRITE, x1, SPRITE_Y);
-        print_texte(FRU_SPRITE, x2, SPRITE_Y);
-    }
-
-    gotoxy((SEP_CMD_MESS + 1) * 2, S_HEIGHT - 1);
-    printf("%s", jeu->message);
-    */
+    printf("%s\n", jeu->message);
 }

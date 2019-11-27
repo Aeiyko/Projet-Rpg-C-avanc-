@@ -294,7 +294,8 @@ void affichePrompt(Jeu *jeu) {
     char *commande = NULL;
     size_t entier = 0;
 
-    /*gotoxy(3, S_HEIGHT - 1);*/
+    if (!BETA_TESTING) gotoxy(3, S_HEIGHT - 1);
+
     if (jeu->combat)
         printf(BOLD "%s (%d)" NORMAL " > ", jeu->courant->champ->variete, jeu->courant->ca);
     else if (jeu->equiping)

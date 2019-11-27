@@ -84,6 +84,10 @@ void show_vars(Jeu *jeu, char *arg)
         }
         strcat(temp, "\t-------------\n");
     }
+
+    if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
+    sprintf(jeu->message, "Voici en haut tous les %s", arg);
+
     free(temp);
 }
 
@@ -107,6 +111,8 @@ void show_var_i(Jeu *jeu, char *arg, int i)
                         "Crédit d'équip. : %d\n"
                         "\t-----\n",
                         i, c->variete, c->force, c->resist, c->pv_max, c->ce);
+        if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
+        sprintf(jeu->message, "Voici en haut ses caractéristiques.");
     }
     else if (strcmp(arg, "fruit") == 0 && i >= NB_CHAMPS / 2 && i < NB_CHAMPS) {
         Champion* c = jeu->champs[i];
@@ -118,6 +124,8 @@ void show_var_i(Jeu *jeu, char *arg, int i)
                         "Crédit d'équip. : %d\n"
                         "\t-----\n",
                         i, c->variete, c->force, c->resist, c->pv_max, c->ce);
+        if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
+        sprintf(jeu->message, "Voici en haut ses caractéristiques.");
     }
     else if (strcmp(arg, "weapon") == 0 && i >= 0 && i < NB_ARMES) {
         Arme* a = jeu->armes[i];
@@ -129,6 +137,8 @@ void show_var_i(Jeu *jeu, char *arg, int i)
                         "Portée : %d\n"
                         "\t-----\n",
                         i, a->nom, a->ce, a->ca, a->d_min, a->d_max, a->portee);
+        if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
+        sprintf(jeu->message, "Voici en haut ses caractéristiques.");
     }
     else if (strcmp(arg, "protection") == 0 && i >= 0 && i < NB_PROTECTS) {
         Protection* p = jeu->protects[i];
@@ -139,6 +149,8 @@ void show_var_i(Jeu *jeu, char *arg, int i)
                         "Probabilité : %d\n"
                         "\t-----\n",
                         i, p->nom, p->ce, p->ca, p->prob);
+        if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
+        sprintf(jeu->message, "Voici en haut ses caractéristiques.");
     }
     else if (strcmp(arg, "care") == 0 && i >= 0 && i < NB_SOINS) {
         Soin* s = jeu->soins[i];
@@ -150,6 +162,8 @@ void show_var_i(Jeu *jeu, char *arg, int i)
                         "PV rendus : %d - %d\n"
                         "\t-----\n",
                         i, s->nom, s->ce, s->ca, s->volume, s->hp_min, s->hp_max);
+        if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
+        sprintf(jeu->message, "Voici en haut ses caractéristiques.");
     }
     else
         sprintf(jeu->message, MERROR "Cet identifiant n'existe pas.");

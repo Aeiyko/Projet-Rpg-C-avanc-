@@ -10,16 +10,19 @@
 int main(int argc, char **argv)
 {
     Jeu* jeu = initJeu(CE_START, C_MAX);
-    clear();
 
-    print_bienvenu();
+    if (!BETA_TESTING) {
+        clear();
+        print_bienvenu();
+    } else
+        printf(BETA_TEXT);
 
     while (!(jeu->fin)) {
         maj_affichage(jeu);
         affichePrompt(jeu);
     }
 
-    /*clear();*/
+    if (!BETA_TESTING) clear();
     freeJeu(&jeu);
 
     printf("\nCrédits : Alexis SALVETTI && Jordan HERENG\n\n");

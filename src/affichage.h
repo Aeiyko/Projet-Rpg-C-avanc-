@@ -7,6 +7,8 @@
 #define clear() printf("\033[H\033[J")
 #define gotoxy(x,y) printf("\033[%d;%dH", (y), (x))
 
+#define BETA_TESTING 0
+
 /*
  *  Caractères d'échappement.
  */
@@ -56,6 +58,13 @@
  */
 
 #define L_TEXT 512
+
+#define BETA_TEXT RED BOLD\
+    BLINK "****************************\n"\
+    " " NORMAL RED BOLD " BETA-TEST MODE ACTIVATED " BLINK " \n"\
+    BLINK "****************************\n"\
+    NORMAL
+
 #define BIENVENU \
     " _     _____ _____ _  ____        ___    ____  ____\n"\
     "| |   | ____| ____| |/ /\\ \\      / / \\  |  _ \\/ ___|\n"\
