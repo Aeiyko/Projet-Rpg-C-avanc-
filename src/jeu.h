@@ -3,7 +3,7 @@
 
 #include "equipement.h"
 
-#define L_MESSAGE 60
+#define L_MESSAGE 100
 #define NB_CHAMPS 12
 
 typedef enum { LEGUME, FRUIT } Type;

@@ -249,9 +249,7 @@ void prompt(Commande cmd, Jeu* jeu) {
             else sprintf(jeu->message, NOT_FIGHTING);
             break;
         case EXIT:
-            if(!jeu->equiping && !jeu->combat)
-              jeu->fin = 1;
-            else sprintf(jeu->message, MERROR "Un guerrier ne quitte pas le champ de bataille!");
+            jeu->fin = 1;
             break;
         case ERROR:
         default:
@@ -296,7 +294,7 @@ void affichePrompt(Jeu *jeu) {
     char *commande = NULL;
     size_t entier = 0;
 
-    gotoxy(3, S_HEIGHT - 1);
+    /*gotoxy(3, S_HEIGHT - 1);*/
     if (jeu->combat)
         printf(BOLD "%s (%d)" NORMAL " > ", jeu->courant->champ->variete, jeu->courant->ca);
     else if (jeu->equiping)

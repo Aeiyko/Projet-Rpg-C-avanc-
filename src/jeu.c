@@ -20,7 +20,7 @@ Champion* initChamp(char* variete, Type type, int force, int resist, int pv_max,
 {
     Champion* champ = (Champion*)malloc(sizeof(Champion));
 
-    champ->variete = (char*)malloc(sizeof(char) * (strlen(variete) + 1));
+    champ->variete = (char*)calloc(strlen(variete) + 1, sizeof(char));
     strcpy(champ->variete, variete);
 
     champ->type = type;
@@ -72,8 +72,8 @@ Jeu* initJeu(int ce_start, int c_max)
     jeu->fruit = initJoueur(ce_start, c_max, TERRAIN_WIDTH);
     jeu->courant = jeu->legume;
 
-    jeu->message = (char*)malloc(sizeof(char) * L_MESSAGE);
-    jeu->texte = (char*)malloc(sizeof(char) * L_TEXT);
+    jeu->message = (char*)calloc(L_MESSAGE, sizeof(char));
+    jeu->texte = (char*)calloc(L_TEXT, sizeof(char));
     strcpy(jeu->texte, SHOW_START);
 
     jeu->champs = initChamps();
@@ -154,7 +154,7 @@ void freeChamps(Champion*** champs)
  */
 void freeJeu(Jeu** jeu)
 {
-    /*free((*jeu)->texte);*/
+    free((*jeu)->texte);
     free((*jeu)->message);
 
     freeJoueur(&(*jeu)->legume);

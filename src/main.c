@@ -19,7 +19,7 @@ int main(int argc, char **argv)
         affichePrompt(jeu);
     }
 
-    clear();
+    /*clear();*/
     freeJeu(&jeu);
 
     printf("\nCrédits : Alexis SALVETTI && Jordan HERENG\n\n");

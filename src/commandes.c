@@ -41,7 +41,7 @@ void show(Jeu *jeu)
 void show_vars(Jeu *jeu, char *arg)
 {
     int i;
-    char* temp = (char*)malloc(sizeof(char) * 40);
+    char* temp = (char*)calloc(100, sizeof(char));
 
     *(jeu->texte) = '\0';
     if(strcmp(arg, "vegetables") == 0) {
@@ -261,6 +261,39 @@ void move(Jeu *jeu, char *dir, int n) {
     }
 }
 
+/** Termine le combat et affecte les gains.
+  * Args :
+  *     Jeu* jeu : instance du Jeu
+  * Return :
+  *     NONE
+  */
+void termine_combat(Jeu* jeu)
+{
+    int diff = jeu->legume->ce_used - (jeu->courant == jeu->fruit ? jeu->fruit->ce_used : jeu->legume->ce_used);
+    jeu->combat = 0;
+
+    jeu->courant->ce += 5 * (diff > 1 ? diff : 1);
+
+    jeu->legume->ce_used = 0;
+    jeu->fruit->ce_used = 0;
+
+    jeu->legume->champ->pv = jeu->legume->champ->pv_max;
+    jeu->legume->pos = jeu->legume->pos_init;
+    jeu->legume->ca = jeu->legume->ca_max;
+
+    jeu->fruit->champ->pv = jeu->fruit->champ->pv_max;
+    jeu->fruit->pos = jeu->fruit->pos_init;
+    jeu->fruit->ca = jeu->fruit->ca_max;
+
+    jeu->courant = jeu->legume;
+
+    jeu->legume->champ = NULL;
+    jeu->fruit->champ = NULL;
+
+    free(jeu->legume->equip);
+    free(jeu->fruit->equip);
+}
+
 /** Permet d'utiliser son arme
   * Args :
   *   Jeu *jeu : intance du Jeu
@@ -302,23 +335,8 @@ void use_weapon(Jeu *jeu, int n)
             
             adversaire->champ->pv -= somme;
 
-            /* si adversaire dead 
-             * TODO : faire une fonction 'termine_combat()'
-             */
-            if (adversaire->champ->pv <= 0) {
-                int diff = adversaire->ce_used - jeu->courant->ce_used;
-                jeu->combat = 0;
-                jeu->courant->ce += 5 * (diff > 1 ? diff : 1);
-                jeu->courant->ce_used = 0;
-                adversaire->ce_used = 0;
-                jeu->courant->champ->pv = jeu->courant->champ->pv_max;
-                adversaire->champ->pv = adversaire->champ->pv_max;
-                jeu->courant->pos = jeu->courant->pos_init;
-                adversaire->pos = adversaire->pos_init;
-                jeu->courant = jeu->legume;
-                free(jeu->courant->equip);
-                free(adversaire->equip);
-            }
+            if (adversaire->champ->pv <= 0)
+                termine_combat(jeu);
 
             sprintf(jeu->message, "Vous infligez %d !", somme);
         }
