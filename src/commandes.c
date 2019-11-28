@@ -315,6 +315,12 @@ void termine_combat(Jeu* jeu)
     jeu->fruit->equip = NULL;
 }
 
+int arrondi(float f)
+{
+    float tmp = f + 0.5f;
+    return ((int)f == (int)tmp ? f : f + 1);
+}
+
 /** Permet d'utiliser son arme
   * Args :
   *   Jeu *jeu : intance du Jeu
@@ -325,7 +331,8 @@ void termine_combat(Jeu* jeu)
 void use_weapon(Jeu *jeu, int n)
 {
     int cout = n * jeu->courant->equip->arme->ca;
-    int somme = 0, bloquages = 0, random;
+    int somme = 0, bloquages = 0;
+    float random;
 
     srand(time(NULL));
 
@@ -349,10 +356,9 @@ void use_weapon(Jeu *jeu, int n)
                     int a = arme->d_max + 1 - b;
 
                     random = rand() % a + b;
-                    /*  TODO : réparer ça.
-                     * random *= (100 + jeu->courant->champ->force) / 100;
-                     * random *= (100 - adversaire->champ->resist) / 100;*/
-                    somme += random;
+                    random *= (float)(100 + jeu->courant->champ->force) / 100;
+                    random *= (float)(100 - adversaire->champ->resist) / 100;
+                    somme += arrondi(random);
                 } else
                     bloquages++;
                 n--;
@@ -381,7 +387,16 @@ void use_weapon(Jeu *jeu, int n)
 void use_protection(Jeu *jeu)
 {
     if (jeu->combat) {
-        jeu->courant->bouclier = 1;
+        if (!jeu->courant->bouclier) {
+            int cout = jeu->courant->equip->protect->ca;
+            if (cout <= jeu->courant->ca) {
+                jeu->courant->bouclier = 1;
+                jeu->courant->ca -= cout;
+                sprintf(jeu->message, CYAN "Vous venez d'enfiler votre Protection !" NORMAL);
+            } else
+                sprintf(jeu->message, NOT_ENOUGH_CA);
+        } else
+            sprintf(jeu->message, MERROR "Vous avez déjà enfilé votre Protection.");
     } else
         sprintf(jeu->message, NOT_FIGHTING);
 }
@@ -400,7 +415,7 @@ void use_care(Jeu *jeu, int n)
         int somme = 0, random;
 
         if (cout > jeu->courant->ca)
-            sprintf(jeu->message, MERROR "Vous n'avez pas assez de" BOLD " crédit d'action" NORMAL);
+            sprintf(jeu->message, NOT_ENOUGH_CA);
         else{
             jeu->courant->ca -= cout;
             while (n > 0) {

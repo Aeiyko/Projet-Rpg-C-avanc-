@@ -7,7 +7,7 @@
 #define clear() printf("\033[H\033[J")
 #define gotoxy(x,y) printf("\033[%d;%dH", (y), (x))
 
-#define BETA_TESTING 1
+#define BETA_TESTING 0
 
 /*
  *  Caractères d'échappement.
@@ -18,10 +18,11 @@
 #define RED "\033[31m"
 #define GREEN "\033[32m"
 #define YELLOW "\033[33m"
+#define CYAN "\033[34m"
 #define GRAY "\033[37m"
 #define BLINK "\033[5m"
 #define OVER "\033[7m"
-#define MERROR BOLD RED "ERROR :\033[0m "
+#define MERROR BOLD RED "ERROR :" NORMAL
 
 /*
  *  Messages d'erreur.
@@ -33,6 +34,7 @@
 #define ARGS_MISSING MERROR "Paramètres manquants."
 #define POS_NUMBER_NEEDED MERROR "Nombre positif requis."
 #define NOT_FIGHTING MERROR "Vous n'êtes pas en combat."
+#define NOT_ENOUGH_CA MERROR "Vous n'avez pas assez de " BOLD "crédit d'action." NORMAL
 
 /*
  *  Constantes de positionnement.
