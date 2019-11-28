@@ -27,6 +27,8 @@ void show(Jeu *jeu)
                         j->equip->protect->nom,
                         j->equip->soin->nom,
                         j->pos);
+        if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
+        sprintf(jeu->message, "Voici en haut les détails du %s.", j->champ->variete);
     } else
         sprintf(jeu->message, NOT_FIGHTING);
 }
@@ -86,7 +88,7 @@ void show_vars(Jeu *jeu, char *arg)
     }
 
     if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
-    sprintf(jeu->message, "Voici en haut tous les %s", arg);
+    sprintf(jeu->message, "Voici en haut tous les %s.", arg);
 
     free(temp);
 }
@@ -112,7 +114,7 @@ void show_var_i(Jeu *jeu, char *arg, int i)
                         "\t-----\n",
                         i, c->variete, c->force, c->resist, c->pv_max, c->ce);
         if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
-        sprintf(jeu->message, "Voici en haut ses caractéristiques.");
+        sprintf(jeu->message, "Voici en haut les caractéristique du Champion n°%d.", i);
     }
     else if (strcmp(arg, "fruit") == 0 && i >= NB_CHAMPS / 2 && i < NB_CHAMPS) {
         Champion* c = jeu->champs[i];
@@ -125,7 +127,7 @@ void show_var_i(Jeu *jeu, char *arg, int i)
                         "\t-----\n",
                         i, c->variete, c->force, c->resist, c->pv_max, c->ce);
         if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
-        sprintf(jeu->message, "Voici en haut ses caractéristiques.");
+        sprintf(jeu->message, "Voici en haut les caractéristique du Champion n°%d.", i);
     }
     else if (strcmp(arg, "weapon") == 0 && i >= 0 && i < NB_ARMES) {
         Arme* a = jeu->armes[i];
@@ -138,7 +140,7 @@ void show_var_i(Jeu *jeu, char *arg, int i)
                         "\t-----\n",
                         i, a->nom, a->ce, a->ca, a->d_min, a->d_max, a->portee);
         if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
-        sprintf(jeu->message, "Voici en haut ses caractéristiques.");
+        sprintf(jeu->message, "Voici en haut les caractéristique de l'Arme n°%d.", i);
     }
     else if (strcmp(arg, "protection") == 0 && i >= 0 && i < NB_PROTECTS) {
         Protection* p = jeu->protects[i];
@@ -150,7 +152,7 @@ void show_var_i(Jeu *jeu, char *arg, int i)
                         "\t-----\n",
                         i, p->nom, p->ce, p->ca, p->prob);
         if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
-        sprintf(jeu->message, "Voici en haut ses caractéristiques.");
+        sprintf(jeu->message, "Voici en haut les caractéristique de la Protection n°%d.", i);
     }
     else if (strcmp(arg, "care") == 0 && i >= 0 && i < NB_SOINS) {
         Soin* s = jeu->soins[i];
@@ -163,7 +165,7 @@ void show_var_i(Jeu *jeu, char *arg, int i)
                         "\t-----\n",
                         i, s->nom, s->ce, s->ca, s->volume, s->hp_min, s->hp_max);
         if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
-        sprintf(jeu->message, "Voici en haut ses caractéristiques.");
+        sprintf(jeu->message, "Voici en haut les caractéristique du Soin n°%d.", i);
     }
     else
         sprintf(jeu->message, MERROR "Cet identifiant n'existe pas.");
@@ -304,8 +306,13 @@ void termine_combat(Jeu* jeu)
     jeu->legume->champ = NULL;
     jeu->fruit->champ = NULL;
 
+    *(jeu->texte) = '\0';
+    strcpy(jeu->texte, SHOW_START);
+
     free(jeu->legume->equip);
     free(jeu->fruit->equip);
+    jeu->legume->equip = NULL;
+    jeu->fruit->equip = NULL;
 }
 
 /** Permet d'utiliser son arme
@@ -318,7 +325,7 @@ void termine_combat(Jeu* jeu)
 void use_weapon(Jeu *jeu, int n)
 {
     int cout = n * jeu->courant->equip->arme->ca;
-    int somme = 0, random;
+    int somme = 0, bloquages = 0, random;
 
     srand(time(NULL));
 
@@ -337,22 +344,29 @@ void use_weapon(Jeu *jeu, int n)
             while (n > 0) {
                 int blocked = (rand() % 100) + 1 <= adversaire->equip->protect->prob;
                 if (adversaire->bouclier == 0 || (adversaire->bouclier == 1 && !blocked)) {
-                    int a = jeu->courant->equip->arme->d_max + 1 - jeu->courant->equip->arme->d_min;
-                    int b = jeu->courant->equip->arme->d_min;
+                    Arme* arme = jeu->courant->equip->arme;
+                    int b = arme->d_min;
+                    int a = arme->d_max + 1 - b;
+
                     random = rand() % a + b;
+                    /*  TODO : réparer ça.
+                     * random *= (100 + jeu->courant->champ->force) / 100;
+                     * random *= (100 - adversaire->champ->resist) / 100;*/
                     somme += random;
-                    somme += jeu->courant->champ->force;
-                    somme -= adversaire->champ->resist;
-                }
+                } else
+                    bloquages++;
                 n--;
             }
             
             adversaire->champ->pv -= somme;
+            sprintf(jeu->message, "Vous infligez %d ! Il a bloqué %d de vos attaques.", somme, bloquages);
 
-            if (adversaire->champ->pv <= 0)
+            if (adversaire->champ->pv <= 0) {
+                /*sprintf(jeu->message, YELLOW "Le %s a remporté le combat contre le %s!" NORMAL,
+                        jeu->courant->champ->variete, adversaire->champ->variete);*/
                 termine_combat(jeu);
+            }
 
-            sprintf(jeu->message, "Vous infligez %d !", somme);
         }
         else sprintf(jeu->message, "Oh non ! L'ennemi était trop loin !");
     }

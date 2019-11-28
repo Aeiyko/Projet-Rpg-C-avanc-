@@ -119,15 +119,16 @@ void maj_affichage(Jeu* jeu)
         print_support();
         print_show(jeu);
 
-        if (!jeu->equiping && !jeu->combat) {
+        if (!jeu->combat) {
             print_texte(LEG_SPRITE, 8, 3);
             print_texte(FRU_SPRITE, (S_WIDTH - 12) * 2, 3);
-            print_texte(INSTRUCTIONS_F, INSTRUCT_X, INSTRUCT_Y);
-        }
-
-        if (jeu->combat) {
+            if (jeu->equiping)
+                print_texte(INSTRUCTIONS_E, INSTRUCT_X, INSTRUCT_Y);
+            else
+                print_texte(INSTRUCTIONS_F, INSTRUCT_X, INSTRUCT_Y);
+        } else {
             int x1 = (S_WIDTH - TERRAIN_WIDTH - SPRITE_WIDTH - 1) + jeu->legume->pos * S_MULT;
-            int x2 = (S_WIDTH - TERRAIN_WIDTH) + jeu->fruit->pos * S_MULT;
+            int x2 = (S_WIDTH - TERRAIN_WIDTH) + (jeu->fruit->pos - 1) * S_MULT;
             print_texte(LEG_SPRITE, x1, SPRITE_Y);
             print_texte(FRU_SPRITE, x2, SPRITE_Y);
         }
