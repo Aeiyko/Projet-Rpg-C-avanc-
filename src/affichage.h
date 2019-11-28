@@ -22,7 +22,7 @@
 #define GRAY "\033[37m"
 #define BLINK "\033[5m"
 #define OVER "\033[7m"
-#define MERROR BOLD RED "ERROR :" NORMAL
+#define MERROR BOLD RED "ERROR : " NORMAL
 
 /*
  *  Messages d'erreur.

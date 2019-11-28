@@ -315,6 +315,12 @@ void termine_combat(Jeu* jeu)
     jeu->fruit->equip = NULL;
 }
 
+/** Arrondi une nombre vers l'entier le plus proche.
+ *  Args :
+ *      float f : nombre à arrondir.
+ *  Return :
+ *      int : nombre arrondi.
+ */
 int arrondi(float f)
 {
     float tmp = f + 0.5f;
