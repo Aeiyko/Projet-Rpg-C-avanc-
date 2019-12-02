@@ -110,7 +110,7 @@ void print_show(Jeu* jeu)
 void get_win_value(int *col, int *win)
 {
   struct winsize w;
-  ioctl(0, TIOCGWINSZ, &w); 
+  ioctl(0, TIOCGWINSZ, &w);
   *col = w.ws_col;
   *win = w.ws_row;
 }
@@ -136,9 +136,11 @@ void maj_affichage(Jeu* jeu)
                 print_texte(LEG_SPRITE, 8, 3);
                 print_texte(FRU_SPRITE, (S_WIDTH - 12) * 2, 3);
                 if (jeu->equiping)
-                    print_texte(INSTRUCTIONS_E, INSTRUCT_X, INSTRUCT_Y);
+                    /*print_texte(INSTRUCTIONS_E, INSTRUCT_X, INSTRUCT_Y);*/
+                    printf("pouet");
                 else
-                    print_texte(INSTRUCTIONS_F, INSTRUCT_X, INSTRUCT_Y);
+                    printf("pouet");
+                    /*print_texte(INSTRUCTIONS_F, INSTRUCT_X, INSTRUCT_Y);*/
             } else {
                 int x1 = (S_WIDTH - TERRAIN_WIDTH - SPRITE_WIDTH - 1) + jeu->legume->pos * S_MULT;
                 int x2 = (S_WIDTH - TERRAIN_WIDTH) + (jeu->fruit->pos - 1) * S_MULT;
