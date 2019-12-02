@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/ioctl.h>
 
 /** Affiche l'écran d'introduction du jeu.
  *  Args : NONE
@@ -106,6 +107,14 @@ void print_show(Jeu* jeu)
     print_texte(jeu->texte, SHOW_START_X + 8, 2);
 }
 
+void get_win_value(int *col, int *win)
+{
+  struct winsize w;
+  ioctl(0, TIOCGWINSZ, &w); 
+  *col = w.ws_col;
+  *win = w.ws_row;
+}
+
 /** Met à jour l'affichage.
  *  Args :
  *      Jeu* jeu : instance du jeu.
@@ -115,24 +124,37 @@ void print_show(Jeu* jeu)
 void maj_affichage(Jeu* jeu)
 {
     if (!BETA_TESTING) {
+        int sx, sy;
         clear();
-        print_support();
-        print_show(jeu);
 
-        if (!jeu->equiping && !jeu->combat) {
-            print_texte(LEG_SPRITE, 8, 3);
-            print_texte(FRU_SPRITE, (S_WIDTH - 12) * 2, 3);
-            print_texte(INSTRUCTIONS_F, INSTRUCT_X, INSTRUCT_Y);
+        get_win_value(&sx, &sy);
+        if (sx >= S_WIDTH * 2 - 3 && sy >= S_HEIGHT + 3) {
+            print_support();
+            print_show(jeu);
+
+            if (!jeu->combat) {
+                print_texte(LEG_SPRITE, 8, 3);
+                print_texte(FRU_SPRITE, (S_WIDTH - 12) * 2, 3);
+                if (jeu->equiping)
+                    print_texte(INSTRUCTIONS_E, INSTRUCT_X, INSTRUCT_Y);
+                else
+                    print_texte(INSTRUCTIONS_F, INSTRUCT_X, INSTRUCT_Y);
+            } else {
+                int x1 = (S_WIDTH - TERRAIN_WIDTH - SPRITE_WIDTH - 1) + jeu->legume->pos * S_MULT;
+                int x2 = (S_WIDTH - TERRAIN_WIDTH) + (jeu->fruit->pos - 1) * S_MULT;
+                print_texte(LEG_SPRITE, x1, SPRITE_Y);
+                print_texte(FRU_SPRITE, x2, SPRITE_Y);
+            }
+
+            gotoxy((SEP_CMD_MESS + 1) * 2, S_HEIGHT - 1);
+        } else {
+            gotoxy(1, 1);
+            printf(RED  "- AUGMENTEZ LA TAILLE DE LA FENÊTRE -\n" NORMAL);
+            sx = S_WIDTH * 2 + 3 - sx;
+            sy = S_HEIGHT + 3 - sy;
+            if (sx > 0) printf("Longueur : +%d\n", sx);
+            if (sy > 0) printf("Hauteur : +%d\n", sy);
         }
-
-        if (jeu->combat) {
-            int x1 = (S_WIDTH - TERRAIN_WIDTH - SPRITE_WIDTH - 1) + jeu->legume->pos * S_MULT;
-            int x2 = (S_WIDTH - TERRAIN_WIDTH) + jeu->fruit->pos * S_MULT;
-            print_texte(LEG_SPRITE, x1, SPRITE_Y);
-            print_texte(FRU_SPRITE, x2, SPRITE_Y);
-        }
-
-        gotoxy((SEP_CMD_MESS + 1) * 2, S_HEIGHT - 1);
     }
 
     printf("%s\n", jeu->message);

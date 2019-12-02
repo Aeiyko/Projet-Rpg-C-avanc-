@@ -17,8 +17,9 @@ int main(int argc, char **argv)
         print_bienvenu();
     } else {
         printf(BETA_TEXT);
-        initStrats(jeu);
-      }
+        /*initStrats(jeu);*/
+    }
+
     while (!(jeu->fin)) {
         maj_affichage(jeu);
         affichePrompt(jeu);
