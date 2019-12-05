@@ -9,7 +9,7 @@
 
 #define Maj(c) (('A' <= c && 'Z' >= c)? c : (c-'a'+'A'))
 
-typedef struct{
+typedef struct {
   char *nom;
   char *filename;
   char **tab;
