@@ -15,7 +15,7 @@ typedef struct{
   char **tab;
   Equipement *equip;
   int cout;
-}Strat;
+} Strat;
 
 Strat **mes_strats;
 int nbStrats;

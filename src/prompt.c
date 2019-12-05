@@ -9,6 +9,16 @@
 
 char *ma_commande[L_CMD];
 
+int is_number(const char *str)
+{
+    while (*str != '\0') {
+        if (*str < '0' || *str > '9')
+            return 0;
+        str++;
+    }
+    return 1;
+}
+
 /** Permet de lancer tous les cas de la commande show
   * Args :
   *   Jeu *jeu : instance du Jeu
@@ -86,26 +96,57 @@ void prompt_equip(Jeu* jeu)
   */
 void prompt_fight(Jeu* jeu)
 {
-    if (ma_commande[1] == NULL)
-        sprintf(jeu->message, ARGS_MISSING);
-    else if (ma_commande[2] == NULL)
-        sprintf(jeu->message, MERROR "Paramètre \"versus\" manquant.");
-    else if (strcmp(ma_commande[2],"versus") != 0)
-        sprintf(jeu->message, MERROR "Le deuxième paramètre doit être \"versus\"");
-    else if (ma_commande[4] != NULL)
-        sprintf(jeu->message, TOO_MUCH_ARGS);
-    else if (ma_commande[3] == NULL)
-        sprintf(jeu->message, MERROR "Deuxième combattant manquant.");
-    else {
-        int v = atoi(ma_commande[1]);
-        int f = atoi(ma_commande[3]);
+    int v, f, s1, s2;
 
-        if ((v == 0 && strcmp(ma_commande[1], "0") != 0) || v < 0)
-            sprintf(jeu->message, MERROR "Le premier identifiant est incorrect.");
-        else if ((f == 0 && strcmp(ma_commande[3], "0") != 0) || f < 0)
-            sprintf(jeu->message, MERROR "Le deuxième identifiant est incorrect.");
-        else
-            fight(jeu, v, f);
+    if (ma_commande[1] == NULL || ma_commande[2] == NULL)
+        sprintf(jeu->message, ARGS_MISSING);
+    else if (!is_number(ma_commande[1]))
+        sprintf(jeu->message, POS_NUMBER_NEEDED " [v]");
+    else {
+        if (!is_number(ma_commande[2])) {
+            if (strcmp(ma_commande[2], "versus") != 0)
+                sprintf(jeu->message, MERROR "Le 2ème paramètre doit être un nombre ou \"versus\".");
+            else {
+                v = atoi(ma_commande[1]);
+
+                if (ma_commande[3] == NULL) {
+                    sprintf(jeu->message, ARGS_MISSING " [f]");
+                } else if (!is_number(ma_commande[3]))
+                    sprintf(jeu->message, POS_NUMBER_NEEDED " [f]");
+                else if (ma_commande[4] == NULL) {
+                    f = atoi(ma_commande[3]);
+                    fight(jeu, v, -1, f, -1);
+                } else if (!is_number(ma_commande[4]))
+                    sprintf(jeu->message, POS_NUMBER_NEEDED " [s2]");
+                else {
+                    f = atoi(ma_commande[3]);
+                    s2 = atoi(ma_commande[4]);
+                    fight(jeu, v, -1, f, s2);
+                }
+            }
+        } else {
+            v = atoi(ma_commande[1]);
+            s1 = atoi(ma_commande[2]);
+
+            if (ma_commande[3] == NULL)
+                sprintf(jeu->message, ARGS_MISSING);
+            else if (!is_number(ma_commande[3]) && strcmp(ma_commande[3], "versus") != 0)
+                sprintf(jeu->message, MERROR "Le 3ème paramètre doit être un nombre ou \"versus\".");
+            else if (ma_commande[4] == NULL)
+                sprintf(jeu->message, ARGS_MISSING " [v]");
+            else if (!is_number(ma_commande[4]))
+                sprintf(jeu->message, POS_NUMBER_NEEDED " [v]");
+            else if (ma_commande[5] == NULL) {
+                f = atoi(ma_commande[4]);
+                fight(jeu, v, s1, f, -1);
+            } else if (!is_number(ma_commande[5]))
+                sprintf(jeu->message, POS_NUMBER_NEEDED " [s2]");
+            else {
+                f = atoi(ma_commande[4]);
+                s2 = atoi(ma_commande[5]);
+                fight(jeu, v, s1, f, s2);
+            }
+        }
     }
 }
 
@@ -158,12 +199,32 @@ void prompt_use(Jeu* jeu) {
             }
         }
         else if (strcmp(ma_commande[1], "protection") == 0) {
-            if (ma_commande[2]!=NULL)
+            if (ma_commande[2] != NULL)
                 sprintf(jeu->message, INVALID_CMD);
             else
                 use_protection(jeu);
         } else
             sprintf(jeu->message, INVALID_CMD);
+    } else
+        sprintf(jeu->message, ARGS_MISSING);
+}
+
+void prompt_add(Jeu* jeu)
+{
+    if (ma_commande[1] != NULL) {
+        if (ma_commande[3] == NULL) {
+            if (strcmp(ma_commande[1], "action") == 0) {
+                if (ma_commande[2] != NULL) {
+                    if (is_number(ma_commande[2]))
+                        add_action(jeu, atoi(ma_commande[2]));
+                    else
+                        sprintf(jeu->message, POS_NUMBER_NEEDED);
+                } else
+                    sprintf(jeu->message, ARGS_MISSING);
+            } else
+                sprintf(jeu->message, WRONG_FIRST_ARG);
+        } else
+            sprintf(jeu->message, TOO_MUCH_ARGS);
     } else
         sprintf(jeu->message, ARGS_MISSING);
 }
@@ -189,7 +250,7 @@ void prompt_end(Jeu* jeu) {
   */
 Commande strToCmd() {
     int i;
-    char *listecmd[NB_CMD] = {"show", "fight", "equip", "move", "use", "end", "exit", "error"};
+    char *listecmd[NB_CMD] = {"show", "fight", "equip", "move", "use", "add", "end", "exit", "error"};
 
     for (i = 0; i < NB_CMD - 1; i++) {
         if (strcmp(listecmd[i], ma_commande[0]) == 0)
@@ -242,6 +303,10 @@ void prompt(Commande cmd, Jeu* jeu) {
             break;
         case USE:
             if(jeu->combat) prompt_use(jeu);
+            else sprintf(jeu->message, NOT_FIGHTING);
+            break;
+        case ADD:
+            if (jeu->combat) prompt_add(jeu);
             else sprintf(jeu->message, NOT_FIGHTING);
             break;
         case END:

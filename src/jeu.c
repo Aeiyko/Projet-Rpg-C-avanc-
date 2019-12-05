@@ -1,9 +1,10 @@
+#include "equipement.h"
 #include "jeu.h"
 #include "prompt.h"
 #include "affichage.h"
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 /** Initialise une instance de la structure Champion.
  *  Args :
@@ -46,6 +47,7 @@ Joueur* initJoueur(int ce_start, int c_max, int pos)
     Joueur* joueur = (Joueur*)malloc(sizeof(Joueur));
     joueur->ce = ce_start;
     joueur->ce_used = 0;
+    joueur->ce_max = c_max;
     joueur->ca_max = c_max;
     joueur->ca = c_max;
     joueur->champ = NULL;
@@ -53,6 +55,7 @@ Joueur* initJoueur(int ce_start, int c_max, int pos)
     joueur->pos_init = pos;
     joueur->pos = pos;
     joueur->bouclier = 0;
+    joueur->id_strat = -1;
 
     return joueur;
 }

@@ -179,17 +179,26 @@ void show_var_i(Jeu *jeu, char *arg, int i)
   * Return:
   *   NONE
   */
-void fight(Jeu *jeu, int v, int f)
+void fight(Jeu *jeu, int v, int s1, int f, int s2)
 {
     if (!jeu->combat) {
         if (v >= 0 && v < NB_CHAMPS / 2) {
             if (f >= NB_CHAMPS / 2 && f < NB_CHAMPS) {
-                jeu->legume->champ = jeu->champs[v];
-                jeu->fruit->champ = jeu->champs[f];
-                jeu->equiping = 1;
+                if (s1 >= -1 && s1 < 3) {
+                    if (s2 >= -1 && s2 < 3) {
+                        jeu->legume->champ = jeu->champs[v];
+                        jeu->fruit->champ = jeu->champs[f];
+                        jeu->equiping = 1;
 
-                sprintf(jeu->message, BOLD "%s " NORMAL RED "< VERSUS >" NORMAL BOLD " %s" NORMAL,
-                        jeu->champs[v]->variete, jeu->champs[f]->variete);
+                        if (s1 != -1) jeu->legume->id_strat = s1;
+                        if (s2 != -1) jeu->fruit->id_strat = s2;
+
+                        sprintf(jeu->message, BOLD "%s " NORMAL RED "< VERSUS >" NORMAL BOLD " %s" NORMAL,
+                                jeu->champs[v]->variete, jeu->champs[f]->variete);
+                    } else
+                        sprintf(jeu->message, MERROR "Stratégie n°%d inexistante.", s2);
+                } else
+                    sprintf(jeu->message, MERROR "Stratégie n°%d inexistante.", s1);
             } else
                 sprintf(jeu->message, MERROR "L'identifiant" BOLD " %d"
                         NORMAL " n'appartient à aucun " BOLD "Fruit." NORMAL, f);
@@ -254,10 +263,12 @@ void move(Jeu *jeu, char *dir, int n) {
                 jeu->courant->pos + n < jeu->fruit->pos) {
             jeu->courant->ca -= n;
             jeu->courant->pos += n;
+            sprintf(jeu->message, "Vous avez avancé de %d pas.", n);
         }
         else if (strcmp(dir, "backward") == 0 && jeu->courant->ca - (n * 2) >= 0 && jeu->courant->pos - n >= 0) {
             jeu->courant->ca = jeu->courant->ca - (n * 2);
             jeu->courant->pos -= n;
+            sprintf(jeu->message, "Vous avez reculé de %d pas.", n);
         }
         else
             sprintf(jeu->message, MERROR "Déplacement impossible.");
@@ -267,10 +278,12 @@ void move(Jeu *jeu, char *dir, int n) {
                 jeu->courant->pos - n > jeu->legume->pos) {
             jeu->courant->ca -= n;
             jeu->courant->pos -= n;
+            sprintf(jeu->message, "Vous avez avancé de %d pas.", n);
         }
         else if (strcmp(dir, "backward") == 0 && jeu->courant->ca - (n * 2) >= 0 && jeu->courant->pos + n <= TERRAIN_WIDTH) {
             jeu->courant->ca = jeu->courant->ca - (n * 2);
             jeu->courant->pos += n;
+            sprintf(jeu->message, "Vous avez reculé de %d pas.", n);
         }
         else
             sprintf(jeu->message, MERROR "Déplacement impossible.");
@@ -441,6 +454,25 @@ void use_care(Jeu *jeu, int n)
         }
     } else
         sprintf(jeu->message, NOT_FIGHTING);
+}
+
+void add_action(Jeu* jeu, int n)
+{
+    if (n > 0) {
+        Joueur* j = jeu->courant;
+        if (j->ce - n >= 0) {
+            if (j->ce_used + n <= j->ce_max) {
+                j->ce_used += n;
+                j->ce -= n;
+                j->ca_max += n;
+                j->ca += n;
+                sprintf(jeu->message, GREEN "Vous pouvez maintenant utiliser %dCA par tour." NORMAL, j->ca_max);
+            } else
+                sprintf(jeu->message, MERROR "Vous ne pouvez pas dépasser la limite des %d CE par duel.", j->ce_max);
+        } else
+            sprintf(jeu->message, NOT_ENOUGH_CE);
+    } else
+        sprintf(jeu->message, MERROR "Vous ne pouvez ajouter qu'un nombre de CA supérieur à 0.");
 }
 
 /** Permet de finir son tour
