@@ -414,14 +414,17 @@ void equipementStrats(Jeu *jeu){
       tmp++;
       if(!strcmp(*tmp,motcles[7]) && !arme){ /*Si une arme*/
         equip->arme = findWeapon(jeu,*(++tmp));
+        mes_strats[i]->cout += equip->arme->ce;
         arme = 1;
       }
       else if(!strcmp(*tmp,motcles[8]) && !prot){
         equip->protect = findProtec(jeu,*(++tmp));
+        mes_strats[i]->cout += equip->protect->ce;
         prot = 1;
       }
       else if(!strcmp(*tmp,motcles[9]) && !heal){
         equip->soin = findHeal(jeu,*(++tmp));
+        mes_strats[i]->cout += equip->soin->ce;
         heal = 1;
       }
       else printf("ERROR\n");
