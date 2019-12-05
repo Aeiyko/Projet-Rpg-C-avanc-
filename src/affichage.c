@@ -136,11 +136,9 @@ void maj_affichage(Jeu* jeu)
                 print_texte(LEG_SPRITE, 8, 3);
                 print_texte(FRU_SPRITE, (S_WIDTH - 12) * 2, 3);
                 if (jeu->equiping)
-                    /*print_texte(INSTRUCTIONS_E, INSTRUCT_X, INSTRUCT_Y);*/
-                    printf("pouet");
+                    print_texte(INSTRUCTIONS_E, INSTRUCT_X, INSTRUCT_Y);
                 else
-                    printf("pouet");
-                    /*print_texte(INSTRUCTIONS_F, INSTRUCT_X, INSTRUCT_Y);*/
+                    print_texte(INSTRUCTIONS_F, INSTRUCT_X, INSTRUCT_Y);
             } else {
                 int x1 = (S_WIDTH - TERRAIN_WIDTH - SPRITE_WIDTH - 1) + jeu->legume->pos * S_MULT;
                 int x2 = (S_WIDTH - TERRAIN_WIDTH) + (jeu->fruit->pos - 1) * S_MULT;

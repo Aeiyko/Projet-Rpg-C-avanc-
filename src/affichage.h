@@ -35,6 +35,7 @@
 #define POS_NUMBER_NEEDED MERROR "Nombre positif requis."
 #define NOT_FIGHTING MERROR "Vous n'êtes pas en combat."
 #define NOT_ENOUGH_CA MERROR "Vous n'avez pas assez de " BOLD "crédit d'action." NORMAL
+#define NOT_ENOUGH_CE MERROR "Vous n'avez pas assez de " BOLD "crédit d'équipement." NORMAL
 
 /*
  *  Constantes de positionnement.

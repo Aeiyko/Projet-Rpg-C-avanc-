@@ -479,8 +479,7 @@ void initStrats(Jeu *jeu) {
   equipementStrats(jeu);
   for(i=0;i<nbStrats;i++)printStrat(i);
   printAllStrats();
-  /*exec(jeu,mes_strats[0]);*/
-}
+  /*exec(jeu,mes_strats[0]);*}
 
 /*
 int main(){

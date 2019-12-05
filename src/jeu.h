@@ -25,6 +25,7 @@ typedef struct {
 typedef struct {
     int ce;
     int ce_used;
+    int ce_max;
     int ca_max;
     int ca;
     Champion *champ;
@@ -32,6 +33,7 @@ typedef struct {
     int pos_init;
     int pos;
     int bouclier;
+    int id_strat;
 } Joueur;
 
 typedef struct {
