@@ -19,10 +19,13 @@ typedef struct {
 
 Strat **mes_strats;
 int nbStrats;
+char **listesNomsStrats;
 
 char **motcles;
 char **motclescomp;
 char **motclesprompt;
 
 void initStrats(Jeu *jeu);
+
+void free_strats();
 #endif

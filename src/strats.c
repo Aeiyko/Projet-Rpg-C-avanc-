@@ -186,7 +186,7 @@ char **execif(Jeu *jeu,char **machaine){
   int condition = -1,test,test2,i;
   Joueur *lifetest;
   machaine++;
-  if( !strcmp(*machaine,motcles[10]) || !strcmp(*machaine,motcles[10]) ){
+  if( !strcmp(*machaine,motcles[10]) || !strcmp(*machaine,motcles[11]) ){
     if( !strcmp(*machaine,motcles[10]) ){
       lifetest = jeu->courant;
       test = lifetest->champ->pv;
@@ -331,10 +331,10 @@ Strat *creerStrat(char *nom,char *filename,char **tab){
 }
 
 Strat **creerListeStrats(char **listenoms,int n){
-  char **listesNomsStrats = calloc(sizeof(char),n);
   Strat **listesStrats = calloc(sizeof(Strat),n);
   char **tmp;
   int i,j=0;
+  listesNomsStrats = calloc(sizeof(char *),n);
   for(i = 0;i < n; i++){
     tmp = lireFile(listenoms[i]);
     if( !strcmp(tmp[0],motcles[0]) ){
@@ -362,8 +362,12 @@ Arme *findWeapon(Jeu *jeu,char *nom){
     for(j = 0;j < strlen(test);j++){
       test[j] = toupper(test[j]);
     }
-    if(!strcmp(test,nom))return jeu->armes[i];
+    if(!strcmp(test,nom)){
+      free(test);
+      return jeu->armes[i];
+    }
   }
+  free(test);
   return NULL;
 }
 
@@ -378,8 +382,12 @@ Protection *findProtec(Jeu *jeu,char *nom){
     test = replace(test,'-','_');
     for(j = 0;j < strlen(test);j++)
       test[j] = toupper(test[j]);
-    if(!strcmp(test,nom))return jeu->protects[i];
+    if(!strcmp(test,nom)){
+      free(test);
+      return jeu->protects[i];
+    }
   }
+  free(test);
   return NULL;
 }
 
@@ -394,8 +402,12 @@ Soin *findHeal(Jeu *jeu,char *nom){
     test = replace(test,'-','_');
     for(j = 0;j < strlen(test);j++)
       test[j] = toupper(test[j]);
-    if(!strcmp(test,nom))return jeu->soins[i];
+    if(!strcmp(test,nom)){
+      free(test);
+      return jeu->soins[i];
+    }
   }
+  free(test);
   return NULL;
 }
 
@@ -473,6 +485,23 @@ void remplirTab(){
   for(i = 0;i < NB_MOTS_C_C;i++)motclescomp[i]=tab3[i];
 }
 
+void free_strats(){
+  int i;
+  for(i = 0;i < nbStrats;i++){
+    free(mes_strats[i]->tab);
+    free(mes_strats[i]->equip);
+    free(mes_strats[i]);
+  }
+  free(mes_strats);
+}
+
+void freeTab(){
+  free(motcles);
+  free(motclesprompt);
+  free(motclescomp);
+}
+
+
 void initStrats(Jeu *jeu) {
   char *pouet[]={"./build/Strats/1.strat","./build/Strats/2.strat","./build/Strats/3.strat"};
   int i;
@@ -483,6 +512,11 @@ void initStrats(Jeu *jeu) {
   for(i=0;i<nbStrats;i++)printStrat(i);
   printAllStrats();
   /*exec(jeu,mes_strats[0]);*/
+
+  /*Partie FREE*/
+  free_strats();
+  freeTab();
+  free(listesNomsStrats);
 }
 
 /*
