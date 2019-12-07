@@ -89,7 +89,7 @@ Soin** initSoins()
 {
     Soin **soins = (Soin**)malloc(sizeof(Soin*) * NB_SOINS);
     soins[0] = initSoin("Humus-Neutronique", 1, 5, 4, 2, 4);
-    soins[1] = initSoin("Compost-Protonique", 5, 10, 3, 5, 8);
+    soins[1] = initSoin("Composte-Protonique", 5, 10, 3, 5, 8);
     soins[2] = initSoin("Engrais-Ionique", 7, 15, 2, 8, 12);
 
     return soins;

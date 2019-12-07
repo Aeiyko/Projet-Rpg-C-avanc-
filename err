@@ -1,0 +1,315 @@
+==19668== Memcheck, a memory error detector
+==19668== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==19668== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==19668== Command: ./build/leekwars
+==19668== 
+==19668== Invalid write of size 1
+==19668==    at 0x483BDE4: strcpy (vg_replace_strmem.c:513)
+==19668==    by 0x10AA87: findProtec (strats.c:413)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea18 is 0 bytes after a block of size 8 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10A9FC: findProtec (strats.c:408)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid write of size 1
+==19668==    at 0x483BDF6: strcpy (vg_replace_strmem.c:513)
+==19668==    by 0x10AA87: findProtec (strats.c:413)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea20 is 8 bytes after a block of size 8 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10A9FC: findProtec (strats.c:408)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid read of size 1
+==19668==    at 0x483BC94: strlen (vg_replace_strmem.c:461)
+==19668==    by 0x109348: replace (strats.c:14)
+==19668==    by 0x10AA9D: findProtec (strats.c:414)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea18 is 0 bytes after a block of size 8 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10A9FC: findProtec (strats.c:408)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid read of size 1
+==19668==    at 0x109318: replace (strats.c:15)
+==19668==    by 0x10AA9D: findProtec (strats.c:414)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea18 is 0 bytes after a block of size 8 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10A9FC: findProtec (strats.c:408)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid read of size 1
+==19668==    at 0x483BC94: strlen (vg_replace_strmem.c:461)
+==19668==    by 0x109348: replace (strats.c:14)
+==19668==    by 0x10AAB3: findProtec (strats.c:415)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea18 is 0 bytes after a block of size 8 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10A9FC: findProtec (strats.c:408)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid read of size 1
+==19668==    at 0x109318: replace (strats.c:15)
+==19668==    by 0x10AAB3: findProtec (strats.c:415)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea18 is 0 bytes after a block of size 8 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10A9FC: findProtec (strats.c:408)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid read of size 1
+==19668==    at 0x483BC94: strlen (vg_replace_strmem.c:461)
+==19668==    by 0x10AAFF: findProtec (strats.c:416)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea18 is 0 bytes after a block of size 8 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10A9FC: findProtec (strats.c:408)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid read of size 1
+==19668==    at 0x10AACA: findProtec (strats.c:417)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea18 is 0 bytes after a block of size 8 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10A9FC: findProtec (strats.c:408)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid write of size 1
+==19668==    at 0x10AAE8: findProtec (strats.c:417)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea18 is 0 bytes after a block of size 8 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10A9FC: findProtec (strats.c:408)
+==19668==    by 0x10AE4B: equipementStrats (strats.c:466)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid write of size 1
+==19668==    at 0x483BDE4: strcpy (vg_replace_strmem.c:513)
+==19668==    by 0x10AC20: findHeal (strats.c:433)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea70 is 0 bytes after a block of size 16 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10AB95: findHeal (strats.c:428)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid write of size 1
+==19668==    at 0x483BDF6: strcpy (vg_replace_strmem.c:513)
+==19668==    by 0x10AC20: findHeal (strats.c:433)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea71 is 1 bytes after a block of size 16 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10AB95: findHeal (strats.c:428)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid read of size 1
+==19668==    at 0x483BC94: strlen (vg_replace_strmem.c:461)
+==19668==    by 0x109348: replace (strats.c:14)
+==19668==    by 0x10AC36: findHeal (strats.c:434)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea70 is 0 bytes after a block of size 16 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10AB95: findHeal (strats.c:428)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid read of size 1
+==19668==    at 0x109318: replace (strats.c:15)
+==19668==    by 0x10AC36: findHeal (strats.c:434)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea70 is 0 bytes after a block of size 16 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10AB95: findHeal (strats.c:428)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid read of size 1
+==19668==    at 0x483BC94: strlen (vg_replace_strmem.c:461)
+==19668==    by 0x109348: replace (strats.c:14)
+==19668==    by 0x10AC4C: findHeal (strats.c:435)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea70 is 0 bytes after a block of size 16 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10AB95: findHeal (strats.c:428)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid read of size 1
+==19668==    at 0x109318: replace (strats.c:15)
+==19668==    by 0x10AC4C: findHeal (strats.c:435)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea70 is 0 bytes after a block of size 16 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10AB95: findHeal (strats.c:428)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid read of size 1
+==19668==    at 0x483BC94: strlen (vg_replace_strmem.c:461)
+==19668==    by 0x10AC98: findHeal (strats.c:436)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea70 is 0 bytes after a block of size 16 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10AB95: findHeal (strats.c:428)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid read of size 1
+==19668==    at 0x10AC63: findHeal (strats.c:437)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea70 is 0 bytes after a block of size 16 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10AB95: findHeal (strats.c:428)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Invalid write of size 1
+==19668==    at 0x10AC81: findHeal (strats.c:437)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Address 0x4a4ea70 is 0 bytes after a block of size 16 alloc'd
+==19668==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
+==19668==    by 0x10AB95: findHeal (strats.c:428)
+==19668==    by 0x10AEE5: equipementStrats (strats.c:471)
+==19668==    by 0x10B632: initStrats (strats.c:550)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Conditional jump or move depends on uninitialised value(s)
+==19668==    at 0x48E53CB: __vfprintf_internal (in /usr/lib/libc-2.30.so)
+==19668==    by 0x48D126E: printf (in /usr/lib/libc-2.30.so)
+==19668==    by 0x10B17D: printStrat (strats.c:496)
+==19668==    by 0x10B645: initStrats (strats.c:552)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Uninitialised value was created by a heap allocation
+==19668==    at 0x483877F: malloc (vg_replace_malloc.c:309)
+==19668==    by 0x10A647: creerStrat (strats.c:355)
+==19668==    by 0x10A7F4: creerListeStrats (strats.c:376)
+==19668==    by 0x10B61F: initStrats (strats.c:549)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Use of uninitialised value of size 8
+==19668==    at 0x48CB54B: _itoa_word (in /usr/lib/libc-2.30.so)
+==19668==    by 0x48E513B: __vfprintf_internal (in /usr/lib/libc-2.30.so)
+==19668==    by 0x48D126E: printf (in /usr/lib/libc-2.30.so)
+==19668==    by 0x10B17D: printStrat (strats.c:496)
+==19668==    by 0x10B645: initStrats (strats.c:552)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Uninitialised value was created by a heap allocation
+==19668==    at 0x483877F: malloc (vg_replace_malloc.c:309)
+==19668==    by 0x10A647: creerStrat (strats.c:355)
+==19668==    by 0x10A7F4: creerListeStrats (strats.c:376)
+==19668==    by 0x10B61F: initStrats (strats.c:549)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Conditional jump or move depends on uninitialised value(s)
+==19668==    at 0x48CB55D: _itoa_word (in /usr/lib/libc-2.30.so)
+==19668==    by 0x48E513B: __vfprintf_internal (in /usr/lib/libc-2.30.so)
+==19668==    by 0x48D126E: printf (in /usr/lib/libc-2.30.so)
+==19668==    by 0x10B17D: printStrat (strats.c:496)
+==19668==    by 0x10B645: initStrats (strats.c:552)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Uninitialised value was created by a heap allocation
+==19668==    at 0x483877F: malloc (vg_replace_malloc.c:309)
+==19668==    by 0x10A647: creerStrat (strats.c:355)
+==19668==    by 0x10A7F4: creerListeStrats (strats.c:376)
+==19668==    by 0x10B61F: initStrats (strats.c:549)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Conditional jump or move depends on uninitialised value(s)
+==19668==    at 0x48E5D00: __vfprintf_internal (in /usr/lib/libc-2.30.so)
+==19668==    by 0x48D126E: printf (in /usr/lib/libc-2.30.so)
+==19668==    by 0x10B17D: printStrat (strats.c:496)
+==19668==    by 0x10B645: initStrats (strats.c:552)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Uninitialised value was created by a heap allocation
+==19668==    at 0x483877F: malloc (vg_replace_malloc.c:309)
+==19668==    by 0x10A647: creerStrat (strats.c:355)
+==19668==    by 0x10A7F4: creerListeStrats (strats.c:376)
+==19668==    by 0x10B61F: initStrats (strats.c:549)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== Conditional jump or move depends on uninitialised value(s)
+==19668==    at 0x48E52AB: __vfprintf_internal (in /usr/lib/libc-2.30.so)
+==19668==    by 0x48D126E: printf (in /usr/lib/libc-2.30.so)
+==19668==    by 0x10B17D: printStrat (strats.c:496)
+==19668==    by 0x10B645: initStrats (strats.c:552)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668==  Uninitialised value was created by a heap allocation
+==19668==    at 0x483877F: malloc (vg_replace_malloc.c:309)
+==19668==    by 0x10A647: creerStrat (strats.c:355)
+==19668==    by 0x10A7F4: creerListeStrats (strats.c:376)
+==19668==    by 0x10B61F: initStrats (strats.c:549)
+==19668==    by 0x10D8D3: main (main.c:20)
+==19668== 
+==19668== 
+==19668== HEAP SUMMARY:
+==19668==     in use at exit: 0 bytes in 0 blocks
+==19668==   total heap usage: 242 allocs, 242 frees, 28,180 bytes allocated
+==19668== 
+==19668== All heap blocks were freed -- no leaks are possible
+==19668== 
+==19668== For lists of detected and suppressed errors, rerun with: -s
+==19668== ERROR SUMMARY: 3909 errors from 23 contexts (suppressed: 0 from 0)

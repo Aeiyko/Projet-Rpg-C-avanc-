@@ -1,7 +1,7 @@
 strategy Pouet
-choose weapon EPLUCHEUR_LASER
-choose protection WOKLIER
-choose care ENGRAIS_IONIQUE
+choose weapon COUPERET_LASER
+choose protection CASQUE_EGOUTTOIR
+choose care COMPOSTE_PROTONIQUE
 add action 10
 if life < 30%
 use protection

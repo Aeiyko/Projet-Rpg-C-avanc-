@@ -11,14 +11,13 @@
 int main(int argc, char **argv)
 {
     Jeu* jeu = initJeu(CE_START, C_MAX);
+    initStrats(jeu);
 
     if (!BETA_TESTING) {
         clear();
         print_bienvenu();
-    } else {
+    } else
         printf(BETA_TEXT);
-        initStrats(jeu);
-    }
 
     while (!(jeu->fin)) {
         maj_affichage(jeu);
@@ -27,6 +26,7 @@ int main(int argc, char **argv)
 
     if (!BETA_TESTING) clear();
     freeJeu(&jeu);
+    free_strats();
 
     printf("\nCrédits : Alexis SALVETTI && Jordan HERENG\n\n");
     /*printf("\033[33m▟\n" NORMAL);*/

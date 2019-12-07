@@ -7,7 +7,7 @@
 
 #define L_CMD 7
 #define NB_CMD 9
-#define NB_ARGS 5
+#define NB_ARGS 6
 
 typedef enum {SHOW, FIGHT, EQUIP, MOVE, USE, ADD, END, EXIT, ERROR} Commande;
 

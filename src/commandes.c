@@ -1,5 +1,6 @@
 #include "commandes.h"
 #include "affichage.h"
+#include "strats.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -63,28 +64,35 @@ void show_vars(Jeu *jeu, char *arg)
         strcat(jeu->texte, "\t--------------\n");
     }
     else if (strcmp(arg, "weapons") == 0) {
-        strcat(temp, "\t--- Weapons ---\n");
+        strcat(jeu->texte, "\t--- Weapons ---\n");
         for (i = 0; i < NB_ARMES; i++) {
             sprintf(temp, "%d -- %s\n", i, jeu->armes[i]->nom);
             strcat(jeu->texte, temp);
         }
-        strcat(temp, "\t----------------\n");
+        strcat(jeu->texte, "\t----------------\n");
     }
     else if (strcmp(arg, "protections") == 0) {
-        strcat(temp, "\t--- Protections ---\n");
+        strcat(jeu->texte, "\t--- Protections ---\n");
         for (i = 0; i < NB_PROTECTS; i++) {
             sprintf(temp, "%d -- %s\n", i, jeu->protects[i]->nom);
             strcat(jeu->texte, temp);
         }
-        strcat(temp, "\t-------------------\n");
+        strcat(jeu->texte, "\t-------------------\n");
     }
-    else {
-        strcat(temp, "\t--- Soins ---\n");
+    else if (strcmp(arg, "cares") == 0) {
+        strcat(jeu->texte, "\t--- Soins ---\n");
         for (i = 0; i < NB_SOINS; i++) {
             sprintf(temp, "%d -- %s\n", i, jeu->soins[i]->nom);
             strcat(jeu->texte, temp);
         }
-        strcat(temp, "\t-------------\n");
+        strcat(jeu->texte, "\t-------------\n");
+    } else if (strcmp(arg, "strategies") == 0) {
+        strcat(jeu->texte, "\t--- Stratégies ---\n");
+        for(i = 0; i < nbStrats; i++) {
+            sprintf(temp, "/ %d / %s\n", i, mes_strats[i]->nom);
+            strcat(jeu->texte, temp);
+        }
+        strcat(jeu->texte, "\t------------------\n");
     }
 
     if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
@@ -166,6 +174,21 @@ void show_var_i(Jeu *jeu, char *arg, int i)
                         i, s->nom, s->ce, s->ca, s->volume, s->hp_min, s->hp_max);
         if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
         sprintf(jeu->message, "Voici en haut les caractéristique du Soin n°%d.", i);
+    }
+    else if (strcmp(arg, "strategy") == 0 && i >= 0 && i < nbStrats) {
+        Strat* s = mes_strats[i];
+        sprintf(jeu->texte,
+                        "\t--- %s ---\n"
+                        "\tNom : %s\n"
+                        "\tArme : %s\n"
+                        "\tProtection : %s\n"
+                        "\tSoin : %s\n"
+                        "\tCout en Ce : %d\n"
+                        "\t----%.*s----\n",
+                        s->filename, s->nom, s->equip->arme->nom, s->equip->protect->nom, s->equip->soin->nom,
+                        s->cout, (int)strlen(s->filename), "-----------------------------------------------");
+        if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
+        sprintf(jeu->message, "Voici en haut les détails de la Stratégie n°%d.", i);
     }
     else
         sprintf(jeu->message, MERROR "Cet identifiant n'existe pas.");

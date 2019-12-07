@@ -68,8 +68,7 @@
 #define BETA_TEXT RED BOLD\
     BLINK "* * * * * * * * * * * * * * *\n"\
     "" NORMAL RED BOLD "   BETA-TEST MODE ACTIVATED  \n" BLINK\
-    BLINK "* * * * * * * * * * * * * * *\n"\
-    NORMAL
+    BLINK "* * * * * * * * * * * * * * *\n" NORMAL
 
 #define BIENVENU \
     " _     _____ _____ _  ____        ___    ____  ____\n"\

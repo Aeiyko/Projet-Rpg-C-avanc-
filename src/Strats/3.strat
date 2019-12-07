@@ -1,4 +1,4 @@
-strategy 42
+strategy Exemple
 choose weapon EPLUCHEUR_LASER
 choose protection WOKLIER
 choose care ENGRAIS_IONIQUE

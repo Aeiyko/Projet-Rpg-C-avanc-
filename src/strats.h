@@ -26,6 +26,6 @@ char **motclescomp;
 char **motclesprompt;
 
 void initStrats(Jeu *jeu);
-
 void free_strats();
+
 #endif

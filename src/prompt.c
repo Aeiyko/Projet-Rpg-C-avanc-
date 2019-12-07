@@ -32,8 +32,8 @@ void prompt_show(Jeu *jeu) {
       sprintf(jeu->message, NOT_FIGHTING);
     else {
         int i, fin = 0;
-        char *arg1[NB_ARGS] = {"vegetables", "fruits", "weapons", "protections", "cares"};
-        char *arg2[NB_ARGS] = {"vegetable", "fruit", "weapon", "protection", "care"};
+        char *arg1[NB_ARGS] = {"vegetables", "fruits", "weapons", "protections", "cares", "strategies"};
+        char *arg2[NB_ARGS] = {"vegetable", "fruit", "weapon", "protection", "care", "strategy"};
 
         for (i = 0; !fin && i < NB_ARGS; i++) {
             if (strcmp(ma_commande[1], arg1[i]) == 0) {

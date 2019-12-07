@@ -107,6 +107,16 @@ void print_show(Jeu* jeu)
     print_texte(jeu->texte, SHOW_START_X + 8, 2);
 }
 
+void print_wrongsize(int sx, int sy)
+{
+    gotoxy(1, 1);
+    printf(RED  "- AUGMENTEZ LA TAILLE DE LA FENÊTRE -\n" NORMAL);
+    sx = S_WIDTH * 2 + 3 - sx;
+    sy = S_HEIGHT + 3 - sy;
+    if (sx > 0) printf("Longueur : +%d\n", sx);
+    if (sy > 0) printf("Hauteur : +%d\n", sy);
+}
+
 void get_win_value(int *col, int *win)
 {
   struct winsize w;
@@ -147,14 +157,8 @@ void maj_affichage(Jeu* jeu)
             }
 
             gotoxy((SEP_CMD_MESS + 1) * 2, S_HEIGHT - 1);
-        } else {
-            gotoxy(1, 1);
-            printf(RED  "- AUGMENTEZ LA TAILLE DE LA FENÊTRE -\n" NORMAL);
-            sx = S_WIDTH * 2 + 3 - sx;
-            sy = S_HEIGHT + 3 - sy;
-            if (sx > 0) printf("Longueur : +%d\n", sx);
-            if (sy > 0) printf("Hauteur : +%d\n", sy);
-        }
+        } else
+            print_wrongsize(sx, sy);
     }
 
     printf("%s\n", jeu->message);
