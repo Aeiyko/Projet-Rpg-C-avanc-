@@ -11,7 +11,7 @@
 
 void replace(char *src, char c, char newc){
     int i;
-    for(i = 0;i < strlen(src);i++){
+    for(i = 0; i < strlen(src); i++){
         if(src[i] == c)
             src[i] = newc;
     }
@@ -352,7 +352,7 @@ void exec(Jeu *jeu,Strat *mastrat){
 /*FIN DE L EXECUTION DE LA STRAT*/
 
 Strat *creerStrat(char *nom, char *filename, char **tab){
-    Strat *newStrat = (Strat*)malloc(sizeof(Strat));
+    Strat *newStrat = (Strat*)calloc(sizeof(Strat), 1);
     newStrat->tab = tab;
     newStrat->nom = (char*)calloc(sizeof(char), strlen(nom) + 1);
     newStrat->filename = (char*)calloc(sizeof(char), strlen(filename) + 1);
@@ -384,33 +384,34 @@ Strat **creerListeStrats(char **listenoms,int n){
 }
 
 Arme *findWeapon(Jeu *jeu,char *nom){
-    char *test = calloc(sizeof(char),strlen(nom) + 1);
+    char* test;
     int i,j;
-    for(i = 0;i < strlen(nom);i++)
+    for(i = 0; nom[i] != '\0'; i++)
         nom[i] = toupper(nom[i]);
     for(i = 0;i < NB_ARMES;i++){
+        test = calloc(sizeof(char), strlen(jeu->armes[i]->nom) + 1);
         strcpy(test,jeu->armes[i]->nom);
         replace(test,' ','_');
         replace(test,'-','_');
-        for(j = 0;j < strlen(test);j++){
+        for(j = 0;j < strlen(test);j++)
             test[j] = toupper(test[j]);
-        }
         if(!strcmp(test,nom)){
             free(test);
             return jeu->armes[i];
         }
+        free(test);
     }
-    free(test);
     return NULL;
 }
 
-Protection *findProtec(Jeu *jeu,char *nom){
-    char *test = calloc(sizeof(char),strlen(nom) + 1);
+Protection *findProtec(Jeu *jeu, char *nom){
+    char* test;
     int i,j;
-    for(i = 0;i < strlen(nom);i++)
+    for(i = 0; nom[i] != '\0'; i++)
         nom[i] = toupper(nom[i]);
     for(i = 0;i < NB_PROTECTS;i++){
-        strcpy(test,jeu->protects[i]->nom);
+        test = calloc(sizeof(char), strlen(jeu->protects[i]->nom) + 1);
+        strcpy(test, jeu->protects[i]->nom);
         replace(test,' ','_');
         replace(test,'-','_');
         for(j = 0;j < strlen(test);j++)
@@ -419,17 +420,18 @@ Protection *findProtec(Jeu *jeu,char *nom){
             free(test);
             return jeu->protects[i];
         }
+        free(test);
     }
-    free(test);
     return NULL;
 }
 
 Soin *findHeal(Jeu *jeu,char *nom){
-    char *test = calloc(sizeof(char),strlen(nom) + 1);
+    char *test;
     int i,j;
-    for(i = 0;i < strlen(nom);i++)
+    for(i = 0; nom[i] != '\0'; i++)
         nom[i] = toupper(nom[i]);
     for(i = 0;i < NB_ARMES;i++){
+        test = calloc(sizeof(char), strlen(jeu->soins[i]->nom) + 1);
         strcpy(test,jeu->soins[i]->nom);
         replace(test,' ','_');
         replace(test,'-','_');
@@ -439,8 +441,8 @@ Soin *findHeal(Jeu *jeu,char *nom){
             free(test);
             return jeu->soins[i];
         }
+        free(test);
     }
-    free(test);
     return NULL;
 }
 
@@ -463,7 +465,7 @@ void equipementStrats(Jeu *jeu){
                 arme = 1;
             }
             else if(!strcmp(*tmp,motcles[8]) && !prot){
-                equip->protect = findProtec(jeu,*(++tmp));
+                equip->protect = findProtec(jeu, *(++tmp));
                 mes_strats[i]->cout += equip->protect->ce;
                 prot = 1;
             }
