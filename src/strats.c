@@ -313,7 +313,6 @@ char **execif(Jeu *jeu, char **machaine){
         while(*machaine != NULL && strcmp(motcles[13], *machaine) && strcmp(motcles[14], *machaine) )
             machaine = exec_condition(jeu, machaine);
 
-        /*machaine++;*/
         while(*machaine != NULL && strcmp(motcles[14],*machaine) )
             machaine = exec_else(machaine);
         /*Fin premier cas*/
@@ -346,17 +345,13 @@ void exec(Jeu *jeu,Strat *mastrat){
             machaine = execif(jeu, machaine);
         else {
             j = verifCommande(machaine);
-<<<<<<< HEAD
-            prompt_exec(jeu, machaine, j);
-            if (*machaine != NULL) machaine += j;
-=======
+
             if ( !strcmp(*machaine, "end") )
               return;
             else{
               prompt_exec(jeu, machaine, j);
               machaine += j;
             }
->>>>>>> 61f81252acbb651106e29a24438dcdc40c47a372
         }
         if (*machaine != NULL) machaine++;
     }
