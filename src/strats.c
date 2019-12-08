@@ -237,9 +237,11 @@ char** exec_condition(Jeu* jeu, char **machaine)
 {
     int i;
     if( !strcmp(motcles[1], *machaine) ){
-        execif(jeu, machaine);
-        machaine++;
-        i = verifIf(machaine);
+        machaine = execif(jeu, machaine);
+        if (*machaine != NULL) {
+            machaine++;
+            i = verifIf(machaine);
+        }
     } else {
         i = verifCommande(machaine);
 
@@ -345,9 +347,9 @@ void exec(Jeu *jeu,Strat *mastrat){
         else {
             j = verifCommande(machaine);
             prompt_exec(jeu, machaine, j);
-            machaine += j;
+            if (*machaine != NULL) machaine += j;
         }
-        machaine++;
+        if (*machaine != NULL) machaine++;
     }
 }
 

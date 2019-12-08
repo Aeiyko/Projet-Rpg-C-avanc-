@@ -25,8 +25,8 @@ int main(int argc, char **argv)
     }
 
     if (!BETA_TESTING) clear();
-    freeJeu(&jeu);
     free_strats();
+    freeJeu(&jeu);
 
     printf("\nCrédits : Alexis SALVETTI && Jordan HERENG\n\n");
     /*printf("\033[33m▟\n" NORMAL);*/

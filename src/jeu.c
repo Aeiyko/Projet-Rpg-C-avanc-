@@ -130,7 +130,7 @@ Champion** initChamps()
  */
 void freeJoueur(Joueur** joueur)
 {
-    free((*joueur)->equip);
+    if ((*joueur)->equip != NULL) free((*joueur)->equip);
     free(*joueur);
 }
 
