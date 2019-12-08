@@ -8,6 +8,9 @@ Cela a pour effet de créer un dossier build contenant le fichier éxécutable
 pour supprimer le dossier build ainsi que l'éxécutable :
   make clean
 
+Pour lancer le jeu après avoir make
+./build/leekwars
+  depuis le fichier racine du jeu (car sinon il ne trouve pas la destination des fichiers strats).
 
    ===========================
 
