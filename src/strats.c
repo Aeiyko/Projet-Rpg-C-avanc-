@@ -550,9 +550,9 @@ void free_strats()
 }
 
 void initStrats(Jeu *jeu) {
-    char *pouet[]={"./build/Strats/1.strat","./build/Strats/2.strat","./build/Strats/3.strat","./build/Strats/4.strat"};
+    char *pouet[]={"./build/Strats/1.strat","./build/Strats/2.strat","./build/Strats/3.strat","./build/Strats/4.strat","./build/Strats/5.strat"};
     /*int i;*/
-    nbStrats=4;
+    nbStrats=5;
     remplirTab();
     mes_strats = creerListeStrats(pouet, nbStrats);
     equipementStrats(jeu);
