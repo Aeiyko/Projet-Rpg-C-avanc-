@@ -8,6 +8,37 @@ Cela a pour effet de créer un dossier build contenant le fichier éxécutable
 pour supprimer le dossier build ainsi que l'éxécutable :
   make clean
 
+
+   ===========================
+
+   INFOS :
+
+   - Quand vous voulez ajouter une stratégie il faut la mettre dans le fichier src/Strats.
+   Nous avons quelque stratégie de test si vous ne souhaitez pas en créer.
+   Pour chaque stratégie ajouté il faut dans le fichier src/strats.c changer le tableau contenant
+   tous les liens vers les fichiers et modifier aussi la variable nbStrats.
+   Enfin après avoir rajouter une nouvelle stratégie veuillez make clean et make pour qu'elle soit prise
+   en compte.
+
+   - Dans le fichier affichage.h il vous est possible de changer la variable BETA_TESTING entre 0 et 1 pour activer
+   le mode developpeur du jeu ou laissez le jeu avec son affichage
+
+   ===========================
+
+   FONCTIONNALITES NON PREVU :
+
+   Pour équiper le champion, écrire la commande suivante :
+          equip [id_arme] [id_protection] [id_soin]
+
+   ===========================
+
+   PROBLEME "CONNU" :
+
+   Quand le combat entre deux bot fini notre programme essaye de refaire une boucle d execution
+   pour chacun des deux joueurs. Mais notre projet le gere et affiche tout simplement deux erreurs.
+
+  ===========================
+
 affichage.c/affichage.h :
   Création de l'affichage
 
@@ -66,18 +97,3 @@ prompt.c/prompt.h :
  - prompt(Commande,Jeu*) : Prompt général
  - rangecommand(char*) : range la commande dans la chaine de caractère buffer
  - affichePrompt(Jeu*) : affiche le prompt et demande une commande
-
- ===========================
-
- FONCTIONNALITES NON PREVU :
-
- Pour équiper le champion, écrire la commande suivante :
-        equip [id_arme] [id_protection] [id_soin]
-
- ===========================
-
- PROBLEME "CONNU" :
-
- jeu.c: ligne 157 - Le free provoque une erreur, dont nous n'avons pas réussi à trouver la source.
-                    La ligne est donc commenté. Il manque donc un free pour Valgrind.
-

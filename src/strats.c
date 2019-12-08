@@ -66,7 +66,7 @@ char **lireFile(char *filename){
         if (mot != NULL) {
             if (i == taille) {
                 taille += TAILLE;
-                tab = realloc(tab, sizeof(char *) * taille);
+                tab = (char **)realloc(tab, sizeof(char *) * taille);
             }
             tab[i] = (char*)calloc(sizeof(char), strlen(mot) + 1);
             strcpy(tab[i++], mot);
@@ -74,7 +74,7 @@ char **lireFile(char *filename){
             fin = 1;
     }
 
-    tab = realloc(tab, sizeof(char *) * (i + 1));
+    tab = (char **)realloc(tab, sizeof(char *) * (i + 1));
     tab[i] = NULL;
 
     free(myfile);
@@ -474,7 +474,7 @@ Strat *creerStrat(char *nom, char *filename, char **tab){
   */
 Strat **creerListeStrats(char **listenoms,int n){
     Strat **listesStrats = calloc(sizeof(Strat), n);
-    char **tmp;
+    char **tmp,**tab;
     int i, j = 0;
     listesNomsStrats = calloc(sizeof(char *),n);
     for(i = 0;i < n; i++){
@@ -485,7 +485,14 @@ Strat **creerListeStrats(char **listenoms,int n){
                 listesStrats[j] = creerStrat(listesNomsStrats[j],listenoms[i],tmp);
                 j++;
             }
-            else nbStrats--;
+            else{
+              nbStrats--;
+              tab = tmp;
+              while (*tab != NULL)
+                  free(*tab++);
+              free(tmp);
+            }
+
         }
         else printf("ERROR\n");
     }
