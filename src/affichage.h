@@ -151,6 +151,7 @@
  */
 
 void print_bienvenu();
+void wait(Jeu* jeu);
 void maj_affichage(Jeu* jeu);
 void print_texte(char* str, int x, int y);
 

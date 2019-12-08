@@ -213,8 +213,8 @@ void fight(Jeu *jeu, int v, int s1, int f, int s2)
                         jeu->fruit->champ = jeu->champs[f];
                         jeu->equiping = 1;
 
-                        if (s1 != -1) jeu->legume->id_strat = s1;
-                        if (s2 != -1) jeu->fruit->id_strat = s2;
+                        jeu->legume->id_strat = s1;
+                        jeu->fruit->id_strat = s2;
 
                         sprintf(jeu->message, BOLD "%s " NORMAL RED "< VERSUS >" NORMAL BOLD " %s" NORMAL,
                                 jeu->champs[v]->variete, jeu->champs[f]->variete);
@@ -331,10 +331,12 @@ void termine_combat(Jeu* jeu)
 
     jeu->legume->champ->pv = jeu->legume->champ->pv_max;
     jeu->legume->pos = jeu->legume->pos_init;
-    jeu->legume->ca = jeu->legume->ca_max;
+    jeu->legume->ca_max = jeu->legume->ca_init;
+    jeu->legume->ca = jeu->legume->ca_init;
 
     jeu->fruit->champ->pv = jeu->fruit->champ->pv_max;
     jeu->fruit->pos = jeu->fruit->pos_init;
+    jeu->fruit->ca_max = jeu->fruit->ca_init;
     jeu->fruit->ca = jeu->fruit->ca_max;
 
     jeu->courant = jeu->legume;
@@ -345,10 +347,14 @@ void termine_combat(Jeu* jeu)
     *(jeu->texte) = '\0';
     strcpy(jeu->texte, SHOW_START);
 
-    free(jeu->legume->equip);
-    free(jeu->fruit->equip);
+    if (jeu->legume->id_strat == -1) free(jeu->legume->equip);
+    if (jeu->fruit->id_strat == -1) free(jeu->fruit->equip);
+
     jeu->legume->equip = NULL;
     jeu->fruit->equip = NULL;
+
+    jeu->legume->id_strat = -1;
+    jeu->fruit->id_strat = -1;
 }
 
 /** Arrondi une nombre vers l'entier le plus proche.
@@ -410,9 +416,12 @@ void use_weapon(Jeu *jeu, int n)
             sprintf(jeu->message, "Vous infligez %d ! Il a bloqué %d de vos attaques.", somme, bloquages);
 
             if (adversaire->champ->pv <= 0) {
-                /*sprintf(jeu->message, YELLOW "Le %s a remporté le combat contre le %s!" NORMAL,
-                        jeu->courant->champ->variete, adversaire->champ->variete);*/
+                wait(jeu);
+                sprintf(jeu->message, YELLOW "Le %s a remporté le combat contre le %s!" NORMAL,
+                        jeu->courant->champ->variete, adversaire->champ->variete);
+                wait(jeu);
                 termine_combat(jeu);
+                sprintf(jeu->message, "Prêt pour le prochain duel ?");
             }
 
         }
@@ -473,7 +482,7 @@ void use_care(Jeu *jeu, int n)
                 jeu->courant->champ->pv = jeu->courant->champ->pv_max;
 
             sprintf(jeu->message, GREEN "Vous vous êtes soigné ! Vos PV sont maintenant a "
-                    BOLD "%d", jeu->courant->champ->pv);
+                    BOLD "%d" NORMAL, jeu->courant->champ->pv);
         }
     } else
         sprintf(jeu->message, NOT_FIGHTING);

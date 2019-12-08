@@ -2,12 +2,11 @@
 #include "jeu.h"
 #include "commandes.h"
 #include "affichage.h"
+#include "strats.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
-char *ma_commande[L_CMD];
 
 int is_number(const char *str)
 {
@@ -349,6 +348,29 @@ int rangecommand(char *cmd) {
     return 1;
 }
 
+void equip_bot(Jeu* jeu, Strat* s)
+{
+    jeu->courant->equip = s->equip;
+    jeu->courant->ce -= s->cout;
+    jeu->courant->ce_used += s->cout;
+
+    if (jeu->courant == jeu->legume) {
+        jeu->courant = jeu->fruit;
+        sprintf(jeu->message, "Le Légume est entrain de s'équiper.");
+        wait(jeu);
+    } else {
+        jeu->courant = jeu->legume;
+        jeu->equiping = 0;
+        jeu->combat = 1;
+
+        sprintf(jeu->message, "Le Fruit est entrain de s'équiper.");
+        wait(jeu);
+        sprintf(jeu->message, RED "Combat lancé ! " NORMAL BOLD "%s "
+                NORMAL RED "< VERSUS >" NORMAL BOLD " %s" NORMAL,
+                jeu->legume->champ->variete, jeu->fruit->champ->variete);
+    }
+}
+
 /** Permet de récuperer ce qu'a écrit l'utilisateur et de lancer l'analyse
   * Args :
   *   Jeu *jeu : instance du Jeu
@@ -358,25 +380,38 @@ int rangecommand(char *cmd) {
 void affichePrompt(Jeu *jeu) {
     char *commande = NULL;
     size_t entier = 0;
+    int bot = jeu->courant->id_strat != -1;
 
     if (!BETA_TESTING) gotoxy(3, S_HEIGHT - 1);
 
-    if (jeu->combat)
-        printf(BOLD "%s (%d)" NORMAL " > ", jeu->courant->champ->variete, jeu->courant->ca);
-    else if (jeu->equiping)
-        printf("Equipez votre " BOLD "%s" NORMAL " ! > ", jeu->courant->champ->variete);
-    else
+    if (jeu->combat) {
+        if (bot) printf("[BOT] ");
+        printf(BOLD "%s (%d)" NORMAL " ", jeu->courant->champ->variete, jeu->courant->ca);
+    } else if (jeu->equiping)
+        printf("Equipez votre " BOLD "%s" NORMAL " ! ", jeu->courant->champ->variete);
+
+    if (!bot) {
         printf("> ");
+        getline(&commande, &entier, stdin);
 
-    getline(&commande, &entier, stdin);
-
-    if (!rangecommand(commande))
-        sprintf(jeu->message, INVALID_CMD);
-    else {
-        prompt(strToCmd(), jeu);
-        if (jeu->courant->ca <= 0)
+        if (rangecommand(commande)) {
+            prompt(strToCmd(), jeu);
+            if (jeu->courant->ca <= 0) {
+                wait(jeu);
+                prompt_end(jeu);
+            }
+        } else
+            sprintf(jeu->message, INVALID_CMD);
+    } else {
+        Strat* s = mes_strats[jeu->courant->id_strat];
+        if (jeu->equiping)
+            equip_bot(jeu, s);
+        else {
+            exec(jeu, s);
             prompt_end(jeu);
+        }
     }
+
 
     free(commande);
 }

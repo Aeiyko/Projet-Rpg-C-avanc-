@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <sys/ioctl.h>
 
 /** Affiche l'écran d'introduction du jeu.
@@ -123,6 +124,19 @@ void get_win_value(int *col, int *win)
   ioctl(0, TIOCGWINSZ, &w);
   *col = w.ws_col;
   *win = w.ws_row;
+}
+
+void wait(Jeu* jeu)
+{
+    maj_affichage(jeu);
+    if (!BETA_TESTING) {
+        gotoxy(S_WIDTH - 4, S_HEIGHT + 1);
+        printf("- 2 -\n");
+        sleep(1);
+        gotoxy(S_WIDTH - 4, S_HEIGHT + 1);
+        printf("- 1 -\n");
+        sleep(1);
+    }
 }
 
 /** Met à jour l'affichage.

@@ -9,9 +9,12 @@
 #define NB_CMD 9
 #define NB_ARGS 6
 
+char *ma_commande[L_CMD];
+
 typedef enum {SHOW, FIGHT, EQUIP, MOVE, USE, ADD, END, EXIT, ERROR} Commande;
 
 void affichePrompt(Jeu* jeu);
+Commande strToCmd();
 void prompt(Commande cmd, Jeu* jeu);
 
 #endif

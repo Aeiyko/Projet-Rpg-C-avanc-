@@ -26,6 +26,7 @@ typedef struct {
     int ce;
     int ce_used;
     int ce_max;
+    int ca_init;
     int ca_max;
     int ca;
     Champion *champ;

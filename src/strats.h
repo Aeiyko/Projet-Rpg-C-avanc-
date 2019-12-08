@@ -26,6 +26,8 @@ char **motclescomp;
 char **motclesprompt;
 
 void initStrats(Jeu *jeu);
+void exec(Jeu* jeu, Strat* mastrat);
+char **execif(Jeu *jeu, char **machaine);
 void free_strats();
 
 #endif

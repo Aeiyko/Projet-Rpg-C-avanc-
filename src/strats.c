@@ -8,6 +8,7 @@
 #include <ctype.h>
 #include <math.h>
 
+void wait(Jeu* jeu);
 
 void replace(char *src, char c, char newc){
     int i;
@@ -211,139 +212,140 @@ int verifSyntaxe(char** tmp){
 
 /*DEBUT EXEC STRAT*/
 
-char **execif(Jeu *jeu,char **machaine){
-    int condition = -1,test,test2,i;
+void prompt_exec(Jeu* jeu, char** machaine, int j)
+{
+    if (j == 0) {
+        /*sprintf(jeu->message, "Commande executé : %s\n", *machaine);*/
+        ma_commande[0] = *machaine;
+    }
+    else if (j == 1) {
+        /*sprintf(jeu->message, "Commande executé : %s %s\n", *machaine, machaine[1]);*/
+        ma_commande[0] = *machaine;
+        ma_commande[1] = machaine[1];
+    } else if (j == 2) {
+        /*sprintf(jeu->message, "Commande executé : %s %s %s\n", *machaine, machaine[1], machaine[2]);*/
+        ma_commande[0] = *machaine;
+        ma_commande[1] = machaine[1];
+        ma_commande[2] = machaine[2];
+    }
+
+    prompt(strToCmd(), jeu);
+    wait(jeu);
+}
+
+char** exec_condition(Jeu* jeu, char **machaine)
+{
+    int i;
+    if( !strcmp(motcles[1], *machaine) ){
+        execif(jeu, machaine);
+        machaine++;
+        i = verifIf(machaine);
+    } else {
+        i = verifCommande(machaine);
+
+        if (strcmp(*machaine, "end") == 0)
+            while (*(++machaine) != NULL);
+        else
+            prompt_exec(jeu, machaine, i);
+    }
+    if (*machaine != NULL) machaine += i + 1;
+    return machaine;
+}
+
+char** exec_else(char **machaine)
+{
+    int i;
+    if( !strcmp(*machaine,motcles[1]) ){
+        machaine++;
+        i = verifIf(machaine);
+        machaine += i;
+    }
+    machaine++;
+    return machaine;
+}
+
+char **execif(Jeu *jeu, char **machaine){
+    int condition = -1, test, test2;
     Joueur *lifetest;
     machaine++;
+
     if( !strcmp(*machaine,motcles[10]) || !strcmp(*machaine,motcles[11]) ){
-        if( !strcmp(*machaine,motcles[10]) ){
+        if (!strcmp(*machaine, motcles[10]))
             lifetest = jeu->courant;
-            test = lifetest->champ->pv;
-        }
-        else{
-            if(jeu->courant == jeu->legume){
+        else {
+            if (jeu->courant == jeu->legume)
                 lifetest = jeu->fruit;
-                test = lifetest->champ->pv;
-            }
-            else {
+            else
                 lifetest = jeu->legume;
-                test = lifetest->champ->pv;
-            }
         }
+        test = lifetest->champ->pv;
         /*verif du comparateurs*/
         machaine++;
-        if((*(machaine+1))[strlen(*(machaine+1))] == '%') test2 = (atoi(*(machaine+1))/100)*test;
-        else test2 = atoi(*(machaine+1));
+        if (machaine[1][strlen(machaine[1]) - 1] == '%')
+            test = (test * 100) / lifetest->champ->pv_max;
+        test2 = atoi(machaine[1]);
 
         /*Verif de la condition*/
-        if( !strcmp(motclescomp[0],*machaine) ){
-            if(test < test2)condition = 0;
-            else condition = 1;
-        }
-        if( !strcmp(motclescomp[1],*machaine) ){
-            if(test <= test2)condition = 0;
-            else condition = 1;
-        }
-        if( !strcmp(motclescomp[2],*machaine) ){
-            if(test == test2)condition = 0;
-            else condition = 1;
-        }
-        if( !strcmp(motclescomp[3],*machaine) ){
-            if(test != test2)condition = 0;
-            else condition = 1;
-        }
-        if( !strcmp(motclescomp[4],*machaine) ){
-            if(test >= test2)condition = 0;
-            else condition = 1;
-        }
-        if( !strcmp(motclescomp[5],*machaine) ){
-            if(test > test2)condition = 0;
-            else condition = 1;
-        }
+        if (!strcmp(motclescomp[0], *machaine))
+            condition = !(test < test2);
+        else if (!strcmp(motclescomp[1], *machaine))
+            condition = !(test <= test2);
+        else if (!strcmp(motclescomp[2], *machaine))
+            condition = !(test == test2);
+        else if (!strcmp(motclescomp[3], *machaine))
+            condition = !(test != test2);
+        else if (!strcmp(motclescomp[4], *machaine))
+            condition = !(test >= test2);
+        else if (!strcmp(motclescomp[5],*machaine))
+            condition = !(test > test2);
         /* 0 : < - 1 : <= - 2 : = - 3 : != - 4 : >= - 5 : >*/
         machaine++;
     }
-    else{
-        if( fabs((float)(jeu->legume->pos-jeu->fruit->pos)) <= jeu->courant->equip->arme->portee )
-            condition = 0;
-        else condition = 1;
-    }
+    else
+        condition = !(fabs((float)(jeu->legume->pos - jeu->fruit->pos)) <= jeu->courant->equip->arme->portee);
+
     /*je traite le if*/
     machaine++;
     if(!condition){
         /*Exec jusqu'au else*/
-        while( strcmp(motcles[13],*machaine) && strcmp(motcles[14],*machaine) ){
-            if( !strcmp(motcles[1],*machaine) ){
-                execif(jeu,machaine);
-                machaine++;
-                i = verifIf(machaine);
-            }
-            else{
-                printf("commande %s traité\n", *machaine);
-                i = verifCommande(machaine);
-            }
-            machaine += i;
-            machaine++;
-        }
-        machaine++;
-        while( strcmp(motcles[14],*machaine) ){
-            if( !strcmp(*machaine,motcles[1]) ){
-                machaine++;
-                i = verifIf(machaine);
-                machaine += i;
-            }
-            machaine++;
-        }
+        while(*machaine != NULL && strcmp(motcles[13], *machaine) && strcmp(motcles[14], *machaine) )
+            machaine = exec_condition(jeu, machaine);
+
+        /*machaine++;*/
+        while(*machaine != NULL && strcmp(motcles[14],*machaine) )
+            machaine = exec_else(machaine);
         /*Fin premier cas*/
     }
     else{
         /*Traverser la premiere partie de if*/
-        while( strcmp(motcles[13],*machaine) && strcmp(motcles[14],*machaine) ){
-            if( !strcmp(*machaine,motcles[1]) ){
-                machaine++;
-                i = verifIf(machaine);
-                machaine += i;
-            }
-            machaine++;
-        }
+        while( strcmp(motcles[13],*machaine) && strcmp(motcles[14],*machaine) )
+            machaine = exec_else(machaine);
+
         if( !strcmp(*machaine,motcles[13]) ) machaine++;
         /*faire l exec*/
-        while( strcmp(motcles[14],*machaine) ){
-            if( !strcmp(motcles[1],*machaine) ){
-                execif(jeu,machaine);
-                machaine++;
-                i = verifIf(machaine);
-            }
-            else{
-                printf("commande %s traité\n", *machaine);
-                i = verifCommande(machaine);
-            }
-            machaine += i;
-            machaine++;
-        }
+
+        while(*machaine != NULL && strcmp(motcles[14],*machaine) )
+            machaine = exec_condition(jeu, machaine);
     }
+
     return machaine;
 }
 
 void exec(Jeu *jeu,Strat *mastrat){
     char **machaine = mastrat->tab;
     int j;
-    j=0;
-    j++;
-    while( strcmp(*machaine,motcles[1]) && strcmp(*machaine,motcles[2]) && strcmp(*machaine,motcles[3]) && strcmp(*machaine,motcles[17]) )machaine++;
-    while(machaine){
-        if( !strcmp(motcles[1],*machaine) )machaine = execif(jeu,machaine);
-        else{
+
+    while( strcmp(*machaine,motcles[1]) && strcmp(*machaine,motcles[2]) && \
+            strcmp(*machaine,motcles[3]) && strcmp(*machaine, motcles[4]) && strcmp(*machaine,motcles[17]) )
+        machaine++;
+
+    while(*machaine != NULL){
+        if (!strcmp(motcles[1], *machaine))
+            machaine = execif(jeu, machaine);
+        else {
             j = verifCommande(machaine);
-            if(j == 0)printf("Commande executé : %s\n", *machaine);
-            else if(j == 1){
-                printf("Commande executé : %s %s\n", *machaine,*(machaine+1));
-                machaine+=j;
-            }
-            else if(j == 2) {
-                printf("Commande executé : %s %s %s\n", *machaine,*(machaine+1),*(machaine+2));
-                machaine+=j;
-            }
+            prompt_exec(jeu, machaine, j);
+            machaine += j;
         }
         machaine++;
     }
@@ -535,14 +537,11 @@ void free_strats()
         free(mes_strats[i]);
     }
     free(mes_strats);
-}
-
-void freeTab(){
     free(motcles);
     free(motclesprompt);
     free(motclescomp);
+    free(listesNomsStrats);
 }
-
 
 void initStrats(Jeu *jeu) {
     char *pouet[]={"./build/Strats/1.strat","./build/Strats/2.strat","./build/Strats/3.strat"};
@@ -554,9 +553,4 @@ void initStrats(Jeu *jeu) {
     /*for (i = 0; i < nbStrats; i++)*/
         /*printStrat(i);*/
     /*printAllStrats();*/
-    /*exec(jeu,mes_strats[0]);*/
-
-    /*Partie FREE*/
-    freeTab();
-    free(listesNomsStrats);
 }

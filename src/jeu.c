@@ -48,6 +48,7 @@ Joueur* initJoueur(int ce_start, int c_max, int pos)
     joueur->ce = ce_start;
     joueur->ce_used = 0;
     joueur->ce_max = c_max;
+    joueur->ca_init = c_max;
     joueur->ca_max = c_max;
     joueur->ca = c_max;
     joueur->champ = NULL;
@@ -71,8 +72,8 @@ Jeu* initJeu(int ce_start, int c_max)
 {
     Jeu* jeu = (Jeu*)malloc(sizeof(Jeu));
 
-    jeu->legume = initJoueur(ce_start, c_max, 0);
-    jeu->fruit = initJoueur(ce_start, c_max, TERRAIN_WIDTH);
+    jeu->legume = initJoueur(ce_start, c_max, 4);
+    jeu->fruit = initJoueur(ce_start, c_max, TERRAIN_WIDTH - 4);
     jeu->courant = jeu->legume;
 
     jeu->message = (char*)calloc(L_MESSAGE, sizeof(char));
