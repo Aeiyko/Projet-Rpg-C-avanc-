@@ -7,7 +7,7 @@
 #define clear() printf("\033[H\033[J")
 #define gotoxy(x,y) printf("\033[%d;%dH", (y), (x))
 
-#define BETA_TESTING 1
+#define BETA_TESTING 0
 
 /*
  *  Caractères d'échappement.
@@ -86,7 +86,9 @@
     " \n"\
     BOLD    "▻ show [ vegetables / fruits / weapons / protections / cares ]\n" NORMAL \
     GRAY    "                       - Affiche la liste des légumes, des fruits, des armes, ...\n" NORMAL \
-    BOLD    "▻ show [ vegetable / fruit / weapon / protection / care ] [ID]\n" NORMAL \
+    BOLD    "▻ show [ vegetable / fruit / weapon / protection / care ] [ID]\n" NORMAL
+
+#define INSTRUCTIONS_F_2\
     GRAY    "                       - Affiche les caractéristiques d'un légume, d'un fruit, d'une arme, ...\n" NORMAL \
     BOLD    "▻ fight [ID légume] versus [ID fruit]\n" NORMAL \
     GRAY    "                       - Lance le combat entre un Légume et un Fruit.\n" NORMAL \
@@ -94,12 +96,14 @@
     GRAY    "                       - Permet de quitter LEEKWARS à tout moment." NORMAL
 
 #define INSTRUCTIONS_E \
-    "                              " OVER BOLD " IL EST TEMPS D'EQUIPER VOS CHAMPIONS \n" NORMAL\
+    "                              " OVER BOLD " IL EST TEMPS D'EQUIPER VOS CHAMPIONS \n" NORMAL \
     "                               ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌\n"\
     " \n"\
     BOLD    "▻ show [ vegetables / fruits / weapons / protections / cares ]\n" NORMAL \
     GRAY    "                       - Affiche la liste des légumes, des fruits, des armes, ...\n" NORMAL \
-    BOLD    "▻ show [ vegetable / fruit / weapon / protection / care ] [ID]\n" NORMAL \
+    BOLD    "▻ show [ vegetable / fruit / weapon / protection / care ] [ID]\n" NORMAL
+
+#define INSTRUCTIONS_E_2 \
     GRAY    "                       - Affiche les caractéristiques d'un légume, d'un fruit, d'une arme, ...\n" NORMAL \
     BOLD    "▻ equip [ID Arme] [ID Protection] [ID Soin]\n" NORMAL \
     GRAY    "                       - Equipe votre champion d'une arme, d'une protection et d'un soin.\n" NORMAL \
@@ -111,7 +115,7 @@
     " ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔\n"\
     " \n" BOLD\
     "          |`-._/\\_.-`|\n"\
-    "          |    ||    |\n"\
+    "          | 4  ||  2 |\n"\
     "          |___o()o___|\n"\
     "          |__((<>))__|\n"\
     "          \\   o\\/o   /\n"\

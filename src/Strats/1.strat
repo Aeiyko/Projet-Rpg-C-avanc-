@@ -6,7 +6,7 @@ choose care ENGRAIS_IONIQUE
 
 add action 10
 
-if life < 30%
+if life < 30%     TEST BUG
     use protection
 endif
 

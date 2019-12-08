@@ -344,8 +344,12 @@ void exec(Jeu *jeu,Strat *mastrat){
             machaine = execif(jeu, machaine);
         else {
             j = verifCommande(machaine);
-            prompt_exec(jeu, machaine, j);
-            machaine += j;
+            if ( !strcmp(*machaine, "end") )
+              return;
+            else{
+              prompt_exec(jeu, machaine, j);
+              machaine += j;
+            }
         }
         machaine++;
     }
@@ -544,9 +548,9 @@ void free_strats()
 }
 
 void initStrats(Jeu *jeu) {
-    char *pouet[]={"./build/Strats/1.strat","./build/Strats/2.strat","./build/Strats/3.strat"};
+    char *pouet[]={"./build/Strats/1.strat","./build/Strats/2.strat","./build/Strats/3.strat","./build/Strats/4.strat"};
     /*int i;*/
-    nbStrats=3;
+    nbStrats=4;
     remplirTab();
     mes_strats = creerListeStrats(pouet, nbStrats);
     equipementStrats(jeu);
