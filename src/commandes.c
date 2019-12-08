@@ -207,8 +207,8 @@ void fight(Jeu *jeu, int v, int s1, int f, int s2)
     if (!jeu->combat) {
         if (v >= 0 && v < NB_CHAMPS / 2) {
             if (f >= NB_CHAMPS / 2 && f < NB_CHAMPS) {
-                if (s1 >= -1 && s1 < 3) {
-                    if (s2 >= -1 && s2 < 3) {
+                if (s1 >= -1 && s1 < nbStrats) {
+                    if (s2 >= -1 && s2 < nbStrats) {
                         jeu->legume->champ = jeu->champs[v];
                         jeu->fruit->champ = jeu->champs[f];
                         jeu->equiping = 1;
@@ -411,7 +411,7 @@ void use_weapon(Jeu *jeu, int n)
                     bloquages++;
                 n--;
             }
-            
+
             adversaire->champ->pv -= somme;
             sprintf(jeu->message, "Vous infligez %d ! Il a bloqué %d de vos attaques.", somme, bloquages);
 

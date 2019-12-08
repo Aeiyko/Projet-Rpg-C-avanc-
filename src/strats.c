@@ -8,8 +8,22 @@
 #include <ctype.h>
 #include <math.h>
 
+/** Permet de sleep le jeu quelque secondes
+  * Args :
+  *   Jeu *jeu : instance du Jeu
+  * Return:
+  *   NONE
+  */
 void wait(Jeu* jeu);
 
+/** remplace des caractères dans une chaine
+  * Args :
+  *   char *src : source
+  *   char c : caractère a remplacer
+  *   char newc : nouveau caractère
+  * Return:
+  *   NONE
+  */
 void replace(char *src, char c, char newc){
     int i;
     for(i = 0; i < strlen(src); i++){
@@ -18,6 +32,12 @@ void replace(char *src, char c, char newc){
     }
 }
 
+/** lis le fichier pour le ranger dans un tableau
+  * Args :
+  *   char *filename : nom du fichier
+  * Return:
+  *   char **
+  */
 char **lireFile(char *filename){
     FILE *file = fopen(filename, "r");
     char *myfile, *mot;
@@ -61,6 +81,13 @@ char **lireFile(char *filename){
     return tab;
 }
 
+/** Test si le nombre en argument est un nombre
+  * Args :
+  *   char *tmp : chaine a analyser
+  *   int fin : nombre de carac a lire
+  * Return:
+  *   int
+  */
 int estNombre(char *tmp, int fin){
     int i;
     for(i = 0;i < fin;i++)
@@ -71,6 +98,12 @@ int estNombre(char *tmp, int fin){
 
 /**DEBUT VERIFICATION SYNTAXIQUE*/
 
+/** Verifie si la commande est syntaxiquement correcte
+  * Args :
+  *   char **tmp : Tableau de mots
+  * Return:
+  *   int
+  */
 int verifCommande(char **tmp){
     if(!strcmp(*tmp,motclesprompt[0])){
         tmp++;
@@ -100,6 +133,12 @@ int verifCommande(char **tmp){
     return -1;
 }
 
+/** Verifie si le if est syntaxiquement correct
+  * Args :
+  *   char **tmp : Tableau de mots
+  * Return:
+  *   int
+  */
 int verifIf(char **tmp){
     int inscope = 0,telse = 0,tendif = 0;
     int i,j=0,k=0;
@@ -155,6 +194,12 @@ int verifIf(char **tmp){
     return k;
 }
 
+/** Verifie si le choose est syntaxiquement correct
+  * Args :
+  *   char **tmp : Tableau de mots
+  * Return:
+  *   int
+  */
 int verifChoose(char **tmp){
     int i;
     if(!strcmp(*tmp,motcles[7]) || !strcmp(*tmp,motcles[8]) || !strcmp(*tmp,motcles[9])){
@@ -165,6 +210,12 @@ int verifChoose(char **tmp){
     return 0;
 }
 
+/** Verifie si la stratégie est syntaxiquement correcte
+  * Args :
+  *   char **tmp : Tableau de mots
+  * Return:
+  *   int
+  */
 int verifSyntaxe(char** tmp){
     int i, j, chooseweapon = 0;
 
@@ -212,6 +263,14 @@ int verifSyntaxe(char** tmp){
 
 /*DEBUT EXEC STRAT*/
 
+/** Execute la commande dans le prompt
+  * Args :
+  *   Jeu *jeu : instance du jeu
+  *   char **machaine : Tableau de mots
+  *   int j : nombre de mots dans la commande a traiter
+  * Return:
+  *   NONE
+  */
 void prompt_exec(Jeu* jeu, char** machaine, int j)
 {
     if (j == 0) {
@@ -233,6 +292,13 @@ void prompt_exec(Jeu* jeu, char** machaine, int j)
     wait(jeu);
 }
 
+/** Execute la condition valider d'un if
+  * Args :
+  *   Jeu *jeu : instance du jeu
+  *   char **machaine : Tableau de mots
+  * Return:
+  *   char **
+  */
 char** exec_condition(Jeu* jeu, char **machaine)
 {
     int i;
@@ -254,6 +320,12 @@ char** exec_condition(Jeu* jeu, char **machaine)
     return machaine;
 }
 
+/** Execute la partie inutile d'un if
+  * Args :
+  *   char **machaine : Tableau de mots
+  * Return:
+  *   char **
+  */
 char** exec_else(char **machaine)
 {
     int i;
@@ -266,6 +338,13 @@ char** exec_else(char **machaine)
     return machaine;
 }
 
+/** Execute le if
+  * Args :
+  *   Jeu *jeu : instance du jeu
+  *   char **machaine : Tableau de mots
+  * Return:
+  *   char **
+  */
 char **execif(Jeu *jeu, char **machaine){
     int condition = -1, test, test2;
     Joueur *lifetest;
@@ -332,6 +411,13 @@ char **execif(Jeu *jeu, char **machaine){
     return machaine;
 }
 
+/** Execute la stratégie en argument
+  * Args :
+  *   Jeu *jeu : instance du jeu
+  *   Strat *mastrat : stratégie que l'on execute
+  * Return:
+  *   NONE
+  */
 void exec(Jeu *jeu,Strat *mastrat){
     char **machaine = mastrat->tab;
     int j;
@@ -359,6 +445,14 @@ void exec(Jeu *jeu,Strat *mastrat){
 
 /*FIN DE L EXECUTION DE LA STRAT*/
 
+/** créé une nouvelle strat
+  * Args :
+  *   Jeu *jeu : instance du jeu
+  *   char *filename : nom du fichier lu
+  *   char **tmp : Tableau de mots
+  * Return:
+  *   Strat *
+  */
 Strat *creerStrat(char *nom, char *filename, char **tab){
     Strat *newStrat = (Strat*)calloc(sizeof(Strat), 1);
     newStrat->tab = tab;
@@ -371,6 +465,13 @@ Strat *creerStrat(char *nom, char *filename, char **tab){
     return newStrat;
 }
 
+/** creer la liste des stratégies valide
+  * Args :
+  *   char **listenoms : liste des noms de stratégies
+  *   int n : nombre de stratégies
+  * Return:
+  *   Strat **
+  */
 Strat **creerListeStrats(char **listenoms,int n){
     Strat **listesStrats = calloc(sizeof(Strat), n);
     char **tmp;
@@ -391,6 +492,13 @@ Strat **creerListeStrats(char **listenoms,int n){
     return listesStrats;
 }
 
+/** trouve l arme associé au nom
+  * Args :
+  *   Jeu *jeu : instance du jeu
+  *   char *nom : nom de l'arme
+  * Return:
+  *   Arme *
+  */
 Arme *findWeapon(Jeu *jeu,char *nom){
     char* test;
     int i,j;
@@ -412,6 +520,13 @@ Arme *findWeapon(Jeu *jeu,char *nom){
     return NULL;
 }
 
+/** trouve la protection associé au nom
+  * Args :
+  *   Jeu *jeu : instance du jeu
+  *   char *nom : nom de l'arme
+  * Return:
+  *   Protection *
+  */
 Protection *findProtec(Jeu *jeu, char *nom){
     char* test;
     int i,j;
@@ -433,6 +548,13 @@ Protection *findProtec(Jeu *jeu, char *nom){
     return NULL;
 }
 
+/** trouve le soin associé au nom
+  * Args :
+  *   Jeu *jeu : instance du jeu
+  *   char *nom : nom de l'arme
+  * Return:
+  *   Soin *
+  */
 Soin *findHeal(Jeu *jeu,char *nom){
     char *test;
     int i,j;
@@ -454,6 +576,12 @@ Soin *findHeal(Jeu *jeu,char *nom){
     return NULL;
 }
 
+/** Equipe les equipements au strats
+  * Args :
+  *   Jeu *jeu : instance du jeu
+  * Return:
+  *   NONE
+  */
 void equipementStrats(Jeu *jeu){
     char **tmp;
     Equipement *equip;
@@ -489,6 +617,12 @@ void equipementStrats(Jeu *jeu){
     }
 }
 
+/** print toutes les strats
+  * Args :
+  *   NONE
+  * Return:
+  *   NONE
+  */
 void printAllStrats(){
     int i = 0;
     printf("\t--- Strats ---\n");
@@ -497,6 +631,12 @@ void printAllStrats(){
     printf("\t-------------\n\n");
 }
 
+/** print une strat mais version detaillé
+  * Args :
+  *   int i : indice de la stratégie
+  * Return:
+  *   NONE
+  */
 void printStrat(int i){
     printf("\t--- %s ---\n", mes_strats[i]->filename);
     printf("\tNom : %s\n", mes_strats[i]->nom);
@@ -508,6 +648,12 @@ void printStrat(int i){
             "-----------------------------------------------");
 }
 
+/** rempli les tableaux
+  * Args :
+  *   NONE
+  * Return:
+  *   NONE
+  */
 void remplirTab(){
     int i;
     char *tab[] = {"use","move","add","end"};
@@ -529,6 +675,12 @@ void remplirTab(){
     for(i = 0;i < NB_MOTS_C_C;i++)motclescomp[i]=tab3[i];
 }
 
+/** free toutes les stratss
+  * Args :
+  *   NONE
+  * Return:
+  *   NONE
+  */
 void free_strats()
 {
     int i;
@@ -549,6 +701,15 @@ void free_strats()
     free(listesNomsStrats);
 }
 
+/** initialise les stratégies
+  * Args :
+  *   Jeu *jeu : instance du jeu
+  * Return:
+  *   NONE
+  *
+  * Si vous voulez modif les strats rajouter le nom dans le tableau pouet
+  * N'oubliez pas d'incrementer nbStrats
+  */
 void initStrats(Jeu *jeu) {
     char *pouet[]={"./build/Strats/1.strat","./build/Strats/2.strat","./build/Strats/3.strat","./build/Strats/4.strat","./build/Strats/5.strat"};
     /*int i;*/
