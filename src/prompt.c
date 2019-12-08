@@ -412,6 +412,5 @@ void affichePrompt(Jeu *jeu) {
         }
     }
 
-
     free(commande);
 }

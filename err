@@ -1,29 +1,14 @@
-==22292== Memcheck, a memory error detector
-==22292== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==22292== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
-==22292== Command: ./build/leekwars
-==22292== 
-==22292== Invalid free() / delete / delete[] / realloc()
-==22292==    at 0x48399AB: free (vg_replace_malloc.c:540)
-==22292==    by 0x10D997: freeJoueur (jeu.c:133)
-==22292==    by 0x10DA60: freeJeu (jeu.c:164)
-==22292==    by 0x10DB71: main (main.c:29)
-==22292==  Address 0x4a4e560 is 0 bytes inside a block of size 24 free'd
-==22292==    at 0x48399AB: free (vg_replace_malloc.c:540)
-==22292==    by 0x10B516: free_strats (strats.c:534)
-==22292==    by 0x10DB65: main (main.c:28)
-==22292==  Block was alloc'd at
-==22292==    at 0x483AB65: calloc (vg_replace_malloc.c:762)
-==22292==    by 0x10AD54: equipementStrats (strats.c:459)
-==22292==    by 0x10B652: initStrats (strats.c:552)
-==22292==    by 0x10DB0A: main (main.c:14)
-==22292== 
-==22292== 
-==22292== HEAP SUMMARY:
-==22292==     in use at exit: 0 bytes in 0 blocks
-==22292==   total heap usage: 285 allocs, 286 frees, 58,408 bytes allocated
-==22292== 
-==22292== All heap blocks were freed -- no leaks are possible
-==22292== 
-==22292== For lists of detected and suppressed errors, rerun with: -s
-==22292== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+==34316== Memcheck, a memory error detector
+==34316== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==34316== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==34316== Command: ./build/leekwars
+==34316== 
+==34316== 
+==34316== HEAP SUMMARY:
+==34316==     in use at exit: 0 bytes in 0 blocks
+==34316==   total heap usage: 390 allocs, 390 frees, 65,839 bytes allocated
+==34316== 
+==34316== All heap blocks were freed -- no leaks are possible
+==34316== 
+==34316== For lists of detected and suppressed errors, rerun with: -s
+==34316== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

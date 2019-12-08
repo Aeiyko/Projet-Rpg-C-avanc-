@@ -18,16 +18,19 @@ void show(Jeu *jeu)
         Joueur *j = jeu->courant;
         sprintf(jeu->texte,
                         "\t--- %s ---\n"
+                        "CE : %d/%d\n"
                         "Arme : %s\n"
                         "Protection : %s\n"
                         "Soin : %s\n"
+                        "PV : %d/%d\n"
                         "Position : %d\n"
                         "\t-------------\n",
                         j->champ->variete,
+                        j->ca_init - j->ce_used, j->ca_init,
                         j->equip->arme->nom,
                         j->equip->protect->nom,
                         j->equip->soin->nom,
-                        j->pos);
+                        j->champ->pv, j->champ->pv_max, j->pos);
         if (BETA_TESTING) printf(BOLD "\nOUT :" NORMAL " \n%s\n", jeu->texte);
         sprintf(jeu->message, "Voici en haut les détails du %s.", j->champ->variete);
     } else

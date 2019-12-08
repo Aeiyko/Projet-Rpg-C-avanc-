@@ -21,7 +21,8 @@ pour supprimer le dossier build ainsi que l'éxécutable :
    en compte.
 
    - Dans le fichier affichage.h il vous est possible de changer la variable BETA_TESTING entre 0 et 1 pour activer
-   le mode developpeur du jeu ou laissez le jeu avec son affichage
+   le mode developpeur du jeu (et ainsi voir les informations essentiels, sans attendre les délais implémenter
+   entre chaque action) ou laissez le jeu avec son affichage.
 
    ===========================
 
@@ -36,6 +37,7 @@ pour supprimer le dossier build ainsi que l'éxécutable :
 
    Quand le combat entre deux bot fini notre programme essaye de refaire une boucle d execution
    pour chacun des deux joueurs. Mais notre projet le gere et affiche tout simplement deux erreurs.
+   Le problème n'est donc qu'esthétique.
 
   ===========================
 
